@@ -1,0 +1,39 @@
+/*.grid {
+        border: 1px solid #CCCCCC ;
+        top: 100px;
+		left:300px;
+        cursor: pointer;
+        position: absolute;
+        z-index: 100;
+        }*/
+
+.doll{
+	position:absolute;
+	z-index:-10;
+	top: 100px;
+	left:300px;
+}
+
+#blank{
+	z-index:10;
+}
+
+#selected{
+	z-index:20;
+
+}
+
+.clip0{
+	-webkit-clip-path: inset(0px 0px 0px 0px);
+	clip-path: inset(0px 0px 0px 0px);
+}
+
+.clip1{
+	-webkit-clip-path: inset(100px 100px 100px 100px);
+	clip-path: inset(100px 100px 100px 100px);
+}
+
+.clip2{
+	-webkit-clip-path: inset(200px 200px 200px 200px);
+	clip-path: inset(200px 200px 200px 200px);
+}

@@ -1,0 +1,118 @@
+{% extends 'lab_base.html' %}
+
+{% block body %}
+<h2>Style Lab</h2>
+
+<div class="doll-area">
+	<!-- this is the base image -->
+	<img class="doll" id="blank" src="./static/green.png"/> 
+	<!-- these are the layers -->
+	{% for style in styles %}
+	<img class="doll" id="{{style.style_id}}" src="./static/{{style.img_layer}}"/>
+	{% endfor %}
+</div>
+
+<form action='/step2' method="post">
+	<div>
+		<label for="field-style">Fit: </label>
+		{% for style in styles %}
+		<input type= "radio" name="style" class="style-button" value="{{style.style_id}}"> {{style.style_name}}
+		{% endfor %}
+	</div>
+
+	<div>
+		<label for="field-size">Sizing: </label>
+		<select name="Sizing"> 	
+			{% for size in sizes %}
+		<option value="{{size.size_code}}">{{size.size}}</option>
+		{% endfor %}
+	</div>
+
+	<div>
+		<input type="submit" href="/step2" value ="Next step please!">
+	</div>
+
+</form>
+
+
+<script src="https://code.jquery.com/jquery.js"></script>
+
+<script> // Javascript and JQuery!!!! 
+//Might move this to another doc later. 
+
+ $(document).ready(function() {
+    console.log("ready!");
+
+
+    var styleButtons = $('.style-button'); 
+
+
+	for(var i=0; i<styleButtons.length; i++){
+		styleButtons[i].onchange = function(evt) {
+			alert("Style change! Woot woot!");
+
+			var oldId = $('#selected').attr('oldId');
+			$('#selected').attr('id', oldId);
+
+
+			var styleID = $(this).val(); //also could be $(evt.currentTarget).val()
+			console.log(styleID);
+			var styleSelect = $('#' + styleID);
+			console.log(styleSelect);
+
+			styleSelect.attr('oldId', styleID);
+			styleSelect.attr('id', 'selected'); //changes id attribute  to the correct url from the db
+			console.log('here is the style layer!');   
+			console.log(styleSelect);
+
+
+
+
+
+			clipArray = ['clip0', 'clip1', 'clip2']; //array of classes with different clip dimensions
+			currentIndex = 1;
+
+			$('#selected').click( function (evt) {
+				for (var i=0; i<clipArray.length; i++) {
+
+					if($(this).hasClass(clipArray[i])) {
+						$(this).removeClass(clipArray[i])
+					};
+				};
+
+				$(this).addClass(clipArray[currentIndex]);
+
+				console.log(this);
+				console.log("snip snip!");
+				console.log(evt);
+
+				if (currentIndex === 2) {
+					currentIndex=0;
+				} else {
+					currentIndex++ // replace this if statement with a % 3  
+				};
+			});
+		};
+	};
+});
+
+
+
+
+// //draws a grid over the top of the style layer
+// function createGrid(){
+// 	var dollArea = $('.doll-area');
+
+// 	//Draws the X axis.
+// 	for (var x = 0; x<=640; x+=10){
+// 		// draws the y axis.
+// 		for()
+// 	}
+// };
+
+
+
+
+</script>
+
+{% endblock %}
