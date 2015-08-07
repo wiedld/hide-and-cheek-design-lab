@@ -10,8 +10,8 @@
 .doll{
 	position:absolute;
 	z-index:-10;
-	top: 100px;
-	left:300px;
+	top: 200px;
+	left:500px;
 }
 
 #blank{
@@ -35,4 +35,9 @@
 .cut3{
 	-webkit-clip-path: inset(200px 200px 200px 200px);
 	clip-path: inset(200px 200px 200px 200px);
+}
+footer{
+	position: absolute;
+	bottom:0px;
+	left:100px;
 }

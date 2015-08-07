@@ -8,8 +8,9 @@
 	<img class="doll" id="blank" src="./static/green.png"/> 
 	<!-- these are the layers -->
 	{% for style in styles %}
-	<img class="doll" id="{{style.style_id}}" src="./static/{{style.img_layer}}"/>
+	<img class="doll" data-tooltip= "Click anywhere on the pants to adjust the length" id="{{style.style_id}}" src="./static/{{style.img_layer}}"/>
 	{% endfor %}
+	<div class="toolTip-area"></div>
 </div>
 
 <form action='/step2' method="post">
@@ -18,8 +19,12 @@
 		{% for style in styles %}
 		<input type="radio" name="style" class="style-button" value="{{style.style_id}}"> {{style.style_name}}
 		{% endfor %}
+		<br>
+		<button id="style-guide" value="Style Guide"> Style Guide </button> 
+		<!-- this button acts like a sumbit button... why? -->
+		<br>
 	</div>
-
+<br>
 	<div>
 		<label for="field-size">Sizing: </label>
 		<select name="size"> 	
@@ -44,7 +49,8 @@
 
 $(document).ready(function(){
     console.log("ready!");
-});
+
+    
 
 var styleButtons = $('.style-button'); 
 
@@ -92,6 +98,30 @@ for(var i=0; i<styleButtons.length; i++){
 		});
 	};
 };
+// this function does not work!!!
+function showTooltip(evt) {
+	console.log(evt);
+	var tooltipText = $('#selected').data('tooltip');
+	$('.toolTip-area').append('<p id="tooltip">'+ tooltipText +'</p>');
+};
+
+function hideTooltip(evt) {
+    $('#tooltip').remove();
+};
+
+$('#selected').on('mouseover', showTooltip); 
+$('#selected').on('mouseout', hideTooltip);
+
+});
+
+
+
+
+
+
+
+
+
 
 
 

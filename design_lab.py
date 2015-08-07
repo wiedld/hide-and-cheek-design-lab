@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = "ABC" 
+app.secret_key = "ommmnamasteshantishantishanti" 
 
 
 app.jinja_env.undefined = StrictUndefined
@@ -76,13 +76,34 @@ def step_two():
 def step_three():
 	"""Last form: choose fabric color"""
 
-	pass
+	session['current_design']['fabric_id'] = request.form.get('fabric')
+	fab_id = session['current_design']['fabric_id']
 
-@app.route('/myDesignLab', methods=["POST"])
+	colors = Color.query.filter(Color.fabric_id==fab_id).all()
+	return render_template("step3.html", colors=colors)
+
+
+
+@app.route('/myDesignLab', methods=["GET", "POST"])
 def myLab():
 	"""Display the finished design with options to save or purchase"""
 
-	pass
+	session['current_design']['color_id'] = request.form.get('color')
+	session['current_design']['embroidery'] = request.form.get('embroidery')
+
+	return render_template("myDesignLab.html")
+
+
+@app.route('/saved', methods=["POST"])
+def save():
+	"""Saves the current design to the database"""
+
+	
+	
+	new_design = Design(style_id=style_id,  )
+
+	flash("Your design is saved!")
+	return redirect('myDesignLab.html')
 
 @app.route('/Lookbook', methods=["GET", "POST"])
 def lookbook():

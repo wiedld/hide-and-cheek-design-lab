@@ -114,6 +114,7 @@ class Design(db.Model):
 	waist_id = db.Column(db.Integer, db.ForeignKey('waists.waist_id'), nullable=False)
 	fabric_id = db.Column(db.Integer, db.ForeignKey('fabrics.fabric_id'), nullable=False)
 	color_id = db.Column(db.Integer, db.ForeignKey('colors.color_id'), nullable=False)
+	embroidery = db.Column(db.String(50), nullable=True)
 
 	#Defines class relationships
 	style = db.relationship("Style", backref=db.backref("designs"))

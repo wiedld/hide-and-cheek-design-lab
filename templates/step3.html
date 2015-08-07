@@ -2,7 +2,7 @@
 
 {% block body %}
 <h2>Style Lab</h2>
-<h4>Step 2: Fabrics</h4>
+<h4>Step 3: Colors</h4>
 
 <div class="doll-area">
 	<!-- this is the base image -->
@@ -11,19 +11,20 @@
 	<img class="doll" id="selected"/>
 
 </div>
-<form action='/step3' id="fabric-form" method="post">
+<form action='/myDesignLab' id="color-form" method="post">
 	<div>
-		<label for="field-fabrics"> Fabrics:</label>
+		<label for="field-colors"> Colors:</label>
 	</div>
-	{% for fabric in fabrics %}
-	<div id="{{fabric.fabric_id}}">
-		<input type="radio" name="fabric" class="fabric-button" data-extra-text="{{fabric.fabric_description}}"value="{{fabric.fabric_id}}">{{fabric.fabric_name}}
+	{% for color in colors %}
+	<div id="{{color.color_id}}">
+		<input type="radio" name="color" class="color-button" value="{{color.color_id}}">{{color.color_name}}
+		<img id="{{color.color_thumbnail}}" src="./static/{{color.color_thumbnail}}"/>
 	</div>
 	{% endfor %} 
 	<div id="fabric-details">
 	</div>
 	<div> 
-		<input type="submit" href="/step3" value ="Next step please!">
+		<input type="submit" href="/myDesignLab" value ="All done!">
 	</div>
 </form>
 
@@ -51,13 +52,7 @@ $(document).ready( function(){
 
 });
 
-// show the fabric description when selected
-$('.fabric-button').on('change', function (evt){
-	$('#description').remove();
 
-	var descriptionText = $(this).data('extra-text');
-	$('#fabric-details').append('<p id="description" >' + descriptionText + '<p/>');
-});
 
 
 </script>
