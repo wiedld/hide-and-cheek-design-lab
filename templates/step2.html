@@ -1,0 +1,63 @@
+{% extends 'lab_base.html' %}
+
+{% block body %}
+<h2>Style Lab</h2>
+<h4>Step 2: Fabrics</h4>
+
+<div class="doll-area">
+	<!-- this is the base image -->
+	<img class="doll" id="blank" src="./static/green.png"/> 
+	<!-- this is the layer -->
+	<img class="doll" id="selected"/>
+
+</div>
+<form action='/step3' id="fabric-form" method="post">
+	<div>
+		<label for="field-fabrics"> Fabrics:</label>
+	</div>
+	{% for fabric in fabrics %}
+	<div id="{{fabric.fabric_id}}">
+		<input type="radio" name="fabric" class="fabric-button" data-extra-text="{{fabric.fabric_description}}"value="{{fabric.fabric_id}}">{{fabric.fabric_name}}
+	</div>
+	{% endfor %} 
+	<div id="fabric-details">
+	</div>
+	<div> 
+		<input type="submit" href="/step3" value ="Next step please!">
+	</div>
+</form>
+
+
+<script src="https://code.jquery.com/jquery.js"></script>
+
+<script> // Javascript and JQuery!!!! 
+//Might move this to another doc later. 
+
+$(document).ready( function(){
+    console.log("ready!");
+
+    $.get('/current-design.json', function (current_design) {
+	console.log(current_design);
+
+		var selected = $('#selected')
+
+		selected.addClass(current_design.style_id);
+		selected.attr('src', current_design.img_layer); 
+
+		selected.addClass(current_design.cut_css);
+	});
+});
+
+
+// show the fabric description when selected
+$('.fabric-button').on('change', function (evt){
+	$('#description').remove();
+
+	var descriptionText = $(this).data('extra-text');
+	$('#fabric-details').append('<p id="description" >' + descriptionText + '<p/>');
+});
+
+
+</script>
+
+{% endblock %}

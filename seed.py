@@ -47,8 +47,10 @@ def load_cuts(file_name):
 	for line in raw_data:
 		row = line.rstrip().split("|")
 		cut_name = row[0]
+		cut_css = row[1]
+		discontinued = row[2]
 
-		cut = Cut(cut_name=cut_name)
+		cut = Cut(cut_name=cut_name, cut_css=cut_css, discontinued=discontinued)
 
 		db.session.add(cut)
 	db.session.commit()
@@ -80,8 +82,9 @@ def load_fabrics(file_name):
 		fabric_name = row[0]
 		fabric_description = row[1]
 		fabric_thumbnail = row[2]
+		discontinued = row[3]
 
-		fabric = Fabric(fabric_name=fabric_name, fabric_description=fabric_description, fabric_thumbnail=fabric_thumbnail)
+		fabric = Fabric(fabric_name=fabric_name, fabric_description=fabric_description, fabric_thumbnail=fabric_thumbnail, discontinued=discontinued)
 
 		db.session.add(fabric)
 	db.session.commit()

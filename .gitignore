@@ -1,3 +1,5 @@
 env
 designlab.db
 seed_data
+design_lab.pyc
+model.pyc

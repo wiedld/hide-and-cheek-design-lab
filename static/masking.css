@@ -20,20 +20,19 @@
 
 #selected{
 	z-index:20;
-
 }
 
-.clip0{
+.cut1{
 	-webkit-clip-path: inset(0px 0px 0px 0px);
 	clip-path: inset(0px 0px 0px 0px);
 }
 
-.clip1{
+.cut2{
 	-webkit-clip-path: inset(100px 100px 100px 100px);
 	clip-path: inset(100px 100px 100px 100px);
 }
 
-.clip2{
+.cut3{
 	-webkit-clip-path: inset(200px 200px 200px 200px);
 	clip-path: inset(200px 200px 200px 200px);
 }

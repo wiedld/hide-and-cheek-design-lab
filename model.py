@@ -45,6 +45,7 @@ class Cut(db.Model):
 
 	cut_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	cut_name = db.Column(db.String(50), nullable=False)
+	cut_css = db.Column(db.String(50), nullable=False)
 	discontinued = db.Column(db.Boolean, default=False, nullable=False)
 
 	def __repr__(self):
