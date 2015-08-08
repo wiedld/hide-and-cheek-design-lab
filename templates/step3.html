@@ -21,7 +21,17 @@
 		<img id="{{color.color_thumbnail}}" src="./static/{{color.color_thumbnail}}"/>
 	</div>
 	{% endfor %} 
-	<div id="fabric-details">
+
+
+	<!-- svg files for pant layers to modify colors -->
+
+	<div>
+		<label for="field-embroidery">Custom Embroidery:</label>
+		<br>
+		<input type="radio" name="emb-place" value="inside waist band"> Inside Waistband (front left)<br>
+		<input type="radio" name="emb-place" value="outside waist band"> Outside Waistband (back center)<br>
+		<textarea rows="4" cols="20" name="embroidery">Add a personal message!</textarea>
+		<img name="waist-band">
 	</div>
 	<div> 
 		<input type="submit" href="/myDesignLab" value ="All done!">
@@ -49,6 +59,9 @@ $(document).ready( function(){
 
 		selected.addClass(current_design.cut_css);
 	});
+
+
+	// add limit on characters allowed in embroidery textarea
 
 });
 

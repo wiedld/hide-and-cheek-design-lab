@@ -1,5 +1,6 @@
 env
-designlab.db
+*.db
 seed_data
-design_lab.pyc
-model.pyc
+*.pyc
+.DS_Store
+secrets.sh

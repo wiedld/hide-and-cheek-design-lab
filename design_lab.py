@@ -65,6 +65,7 @@ def step_two():
 		"fabric_id": None,
 		"color_id": None,
 		"embroidery": None,
+		"embroidery_place":None
 		}
 
 
@@ -90,20 +91,29 @@ def myLab():
 
 	session['current_design']['color_id'] = request.form.get('color')
 	session['current_design']['embroidery'] = request.form.get('embroidery')
+	session['current_design']['embroidery_place'] = request.form.get('emb-place')
 
-	return render_template("myDesignLab.html")
+	print "\n\n\n"
+	print session['current_design']  
+	print "\n\n\n"
+
+	return redirect('/')
 
 
 @app.route('/saved', methods=["POST"])
 def save():
 	"""Saves the current design to the database"""
 
-	
+	style_id = session['current_design']['style_id']
 	
 	new_design = Design(style_id=style_id,  )
 
 	flash("Your design is saved!")
 	return redirect('myDesignLab.html')
+
+
+
+
 
 @app.route('/Lookbook', methods=["GET", "POST"])
 def lookbook():

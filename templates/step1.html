@@ -3,16 +3,50 @@
 {% block body %}
 <h2>Style Lab</h2>
 
+<!-- Style Guide Modal -->
+<div class="modal fade" id="styleGuide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Style Guide</h4>
+      </div>
+      	<div class="modal-body">
+      		<p>No content yet. But drunk yoga is fun...</p>
+      		<img src="http://media.giphy.com/media/W7o9UzkwWpA0o/giphy.gif"/></div>
+  	</div>
+</div>
+</div>
+
+<!-- Size Guide Modal -->
+<div class="modal fade" id="sizeGuide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Sizing Help</h4>
+      </div>
+      	<div class="modal-body">
+      		<p>Need more sizing info...</p>
+      		<img src="http://38.media.tumblr.com/2d3ee38e0f15b78187de8e51d64b495c/tumblr_n96tacfsi51ru5h8co1_500.gif"/>
+      	</div>
+  	</div>
+</div>
+</div>
+
+
+<!-- Main content starts here -->
 <div class="doll-area">
 	<!-- this is the base image -->
 	<img class="doll" id="blank" src="./static/green.png"/> 
 	<!-- these are the layers -->
 	{% for style in styles %}
-	<img class="doll" data-tooltip= "Click anywhere on the pants to adjust the length" id="{{style.style_id}}" src="./static/{{style.img_layer}}"/>
+	<img class="doll" data-toggle="tooltip" data-placement="top" title="Click anywhere on the pants to adjust the length" id="{{style.style_id}}" src="./static/{{style.img_layer}}"/>
 	{% endfor %}
 	<div class="toolTip-area"></div>
 </div>
 
+<!-- Form starts here -->
 <form action='/step2' method="post">
 	<div>
 		<label for="field-style">Fit: </label>
@@ -20,8 +54,9 @@
 		<input type="radio" name="style" class="style-button" value="{{style.style_id}}"> {{style.style_name}}
 		{% endfor %}
 		<br>
-		<button id="style-guide" value="Style Guide"> Style Guide </button> 
-		<!-- this button acts like a sumbit button... why? -->
+		<!-- Button to launch stlye guide modal window -->
+		<button type="button" data-toggle="modal" data-target="#styleGuide" id="style-guide" > Style Guide </button> 
+		
 		<br>
 	</div>
 <br>
@@ -31,21 +66,27 @@
 			{% for size in sizes %}
 		<option value="{{size.size_code}}">{{size.size}}</option>
 		{% endfor %}
+		</select>
+		<br>
+		<!-- Button to launch sizing help window -->
+		<button type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> idk what my size is! </button>
 	</div>
 
+	<!-- slider to define wiast height -->
+
+	<br>
 	<div>
 		<input type="hidden" name = "cut-css" id="cut-css" value="cut1">
 		<input type="hidden" name="img-layer" id="img-layer">
 		<input type="submit" href="/step2" value ="Next step please!">
 	</div>
-
 </form>
 
 
+<!-- Javascript and JQuery!!!! 
+Might move this to another doc later. -->
 <script src="https://code.jquery.com/jquery.js"></script>
-
-<script> // Javascript and JQuery!!!! 
-//Might move this to another doc later. 
+<script> 
 
 $(document).ready(function(){
     console.log("ready!");
@@ -98,19 +139,27 @@ for(var i=0; i<styleButtons.length; i++){
 		});
 	};
 };
-// this function does not work!!!
-function showTooltip(evt) {
-	console.log(evt);
-	var tooltipText = $('#selected').data('tooltip');
-	$('.toolTip-area').append('<p id="tooltip">'+ tooltipText +'</p>');
-};
 
-function hideTooltip(evt) {
-    $('#tooltip').remove();
-};
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+});
 
-$('#selected').on('mouseover', showTooltip); 
-$('#selected').on('mouseout', hideTooltip);
+
+
+
+// // this function does not work!!!
+// function showTooltip(evt) {
+// 	console.log(evt);
+// 	var tooltipText = $('#selected').data('tooltip');
+// 	$('.toolTip-area').append('<p id="tooltip">'+ tooltipText +'</p>');
+// };
+
+// function hideTooltip(evt) {
+//     $('#tooltip').remove();
+// };
+
+// $('#selected').on('mouseover', showTooltip); 
+// $('#selected').on('mouseout', hideTooltip);
 
 });
 
