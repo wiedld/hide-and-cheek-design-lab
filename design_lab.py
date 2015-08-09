@@ -1,9 +1,12 @@
 """The Design Lab server!"""
+import os
+import json
 
 from jinja2 import StrictUndefined
 
 from flask import Flask, render_template, redirect, request, flash, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
+from instagram import client
 
 from model import Style, Size, Cut, Waist, Fabric, Color, connect_to_db, db
 
@@ -14,9 +17,16 @@ app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ommmnamasteshantishantishanti" 
 
-
 app.jinja_env.undefined = StrictUndefined
 
+#configure the Instagram API
+instaConfig = {
+	'client_id':os.environ.get('INSTAGRAM_CLIENT_ID'),
+	'client_secret':os.environ.get('INSTAGRAM_CLIENT_SECRET'),
+	'redirect_uri':os.environ.get('REDIRECT_URI')	
+}
+
+api = client.InstagramAPI(**instaConfig)
 
 @app.route('/')
 def index():
@@ -32,7 +42,7 @@ def step_one():
 	sizes = Size.query.filter(Size.discontinued == False).all()
 	cuts = Cut.query.filter(Cut.discontinued == False).order_by(Cut.cut_id).all()
 	waists = Waist.query.filter(Waist.discontinued == False).order_by(Waist.waist_id).all()
-	# need to filter these by discontinued isnot None
+	
 	
 	return render_template("step1.html", styles=styles, sizes=sizes, cuts=cuts, waists=waists)
 
@@ -97,19 +107,19 @@ def myLab():
 	print session['current_design']  
 	print "\n\n\n"
 
-	return redirect('/')
+	return render_template("myDesignLab.html")
 
-
+#FIXME
 @app.route('/saved', methods=["POST"])
 def save():
 	"""Saves the current design to the database"""
 
 	style_id = session['current_design']['style_id']
 	
-	new_design = Design(style_id=style_id,  )
+	new_design = Design(style_id=style_id,  ) #FIXME
 
 	flash("Your design is saved!")
-	return redirect('myDesignLab.html')
+	return redirect('/myDesignLab')
 
 
 
@@ -117,11 +127,38 @@ def save():
 
 @app.route('/Lookbook', methods=["GET", "POST"])
 def lookbook():
-	"""Display most-liked Instagram images with the hideandcheek hashtag"""
-
-	pass
+	"""Display most-recent Instagram images with the hideandcheek hashtag""" #FIXME : make this the *most-liked* insta images, not just the most recent
 
 
+
+	our_recent_media, next = api.user_recent_media(user_id="1558910306", count=10)
+	for media in our_recent_media:
+		print media
+
+	print "\n\n\n\n"
+
+	tagged_media, next = api.tag_recent_media(tag_name='superfoodoffashion')
+	print tagged_media
+	for n in tagged_media:
+		print n
+
+
+	lookbookData = {
+			'our_media' : our_recent_media,
+			'tagged' : tagged_media
+	}
+
+	print lookbookData
+
+	return render_template('lookbook.html', **lookbookData )
+	
+
+
+	# if 'access_token' not in session:
+	# 	flash('Ooops! We are having problems loading data from instagram. Please check back later! \nxo \n-h&c team')
+ #        return redirect('/')
+
+    
 
 
 ##################################################

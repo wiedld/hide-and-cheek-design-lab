@@ -1,0 +1,54 @@
+{% extends 'lab_base.html' %}
+
+{% block body %}
+<div class="page-header">
+	<h1>our Lookbook</h1>
+	<h1><small>HASHTAG #SuperFoodofFashion on Instagram</small></h1>
+</div>
+<div class="row">
+<div class="col-md-12">
+
+	{% for t in tagged %}
+		<div class="col-xs-6 col-md-2">
+			<div class="thumbnail">
+			<a href="{{t.link}}">
+			<img src="{{t.images['thumbnail'].url}}" alt="{{t.caption.text}}">
+			</a>
+			<!-- <div class="caption"><p>{{t.caption.text}}</p></div> -->
+		</div>
+	</div>
+	{% endfor %}
+
+</div>
+</div>
+<script src="https://code.jquery.com/jquery.js"></script>
+
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script>
+
+
+// $(document).ready(function(){
+//     console.log("ready!");
+// // FIX ME!!! 3 hours of my life == wasted because of this shit
+//     var thumbnail = $('.thumbnail'); 
+
+//  	for(var i=0; i<thumbnail.length; i++){
+// 	thumbnail[i].onhover(showCaption(), hideCaption());
+//     };
+
+// 	function showCaption(evt){
+// 		$('.caption').removeClass('hidden');
+// 	};
+// 	function hideCaption(evt){
+// 		$('.caption').addClass('hidden');
+
+// 	};
+// });
+
+
+</script>
+
+{% endblock %}
+

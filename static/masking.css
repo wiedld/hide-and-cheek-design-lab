@@ -36,8 +36,24 @@
 	-webkit-clip-path: inset(200px 200px 200px 200px);
 	clip-path: inset(200px 200px 200px 200px);
 }
+
+#slider{
+	
+	position: left;
+	margin:100px auto;
+
+
+	-webkit-border-radius: 40px;
+	-moz-border-radius: 40px;
+	border-radius: 40px;
+}
+#slider .bar{
+	background:rgb(249, 181, 151);
+}
+
 footer{
 	position: absolute;
 	bottom:0px;
 	left:100px;
 }
+

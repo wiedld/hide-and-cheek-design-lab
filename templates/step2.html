@@ -1,8 +1,10 @@
 {% extends 'lab_base.html' %}
 
 {% block body %}
-<h2>Style Lab</h2>
-<h4>Step 2: Fabrics</h4>
+<div class="jumbotron">
+<h2>Design Lab</h2>
+<p>Step 2: Fabrics</p>
+</div>
 
 <div class="doll-area">
 	<!-- this is the base image -->
@@ -35,11 +37,11 @@
 
 $(document).ready( function(){
     console.log("ready!");
-
+// loads the previous selections via JSON
     $.get('/current-design.json', function (current_design) {
 	console.log(current_design);
 
-	
+
 
 		var selected = $('#selected')
 
@@ -51,12 +53,24 @@ $(document).ready( function(){
 
 });
 
-// show the fabric description when selected
+// shows the fabric description when selected
 $('.fabric-button').on('change', function (evt){
 	$('#description').remove();
 
 	var descriptionText = $(this).data('extra-text');
 	$('#fabric-details').append('<p id="description" >' + descriptionText + '<p/>');
+});
+
+//validates the form 
+$('#fabric-form').on('submit', function(evt){
+	var fabricSelected = $("input[name='fabric']:checked").length;
+	console.log(fabricSelected);
+	if(fabricSelected == 0) {
+	   //Is not Valid
+	   evt.preventDefault();
+	   alert("Please select your fabric!");
+	   console.log(evt);
+	}
 });
 
 

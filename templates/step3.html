@@ -17,11 +17,12 @@
 	</div>
 	{% for color in colors %}
 	<div id="{{color.color_id}}">
-		<input type="radio" name="color" class="color-button" value="{{color.color_id}}">{{color.color_name}}
+
+		<input type="radio" name="color" class="color-button" value="{{color.color_id}}">
+		<label>{{color.color_name}}</label>
 		<img id="{{color.color_thumbnail}}" src="./static/{{color.color_thumbnail}}"/>
 	</div>
 	{% endfor %} 
-
 
 	<!-- svg files for pant layers to modify colors -->
 
@@ -30,7 +31,9 @@
 		<br>
 		<input type="radio" name="emb-place" value="inside waist band"> Inside Waistband (front left)<br>
 		<input type="radio" name="emb-place" value="outside waist band"> Outside Waistband (back center)<br>
-		<textarea rows="4" cols="20" name="embroidery">Add a personal message!</textarea>
+		<label>Embroidery Text <i>max 50 chars.</i></label>
+		<br>
+		<textarea rows="4" cols="20" name="embroidery" id="embroidery-text" placeholder="Add a personal message!"></textarea>
 		<img name="waist-band">
 	</div>
 	<div> 
@@ -47,10 +50,9 @@
 $(document).ready( function(){
     console.log("ready!");
 
+// loads selections from previous pages via JSON
     $.get('/current-design.json', function (current_design) {
 	console.log(current_design);
-
-	
 
 		var selected = $('#selected')
 
@@ -61,7 +63,29 @@ $(document).ready( function(){
 	});
 
 
-	// add limit on characters allowed in embroidery textarea
+// checks limit on characters allowed in embroidery textarea
+	$('#embroidery-text').on('blur', function(evt) {
+		var textCount = $('#embroidery-text').val().length;
+		if(textCount > 50){
+			alert('Embroidery text must be 50 characters or less');
+		}
+
+	});
+
+// form validation
+	$('#color-form').on('submit', function(evt){
+
+	var textCount = $('#embroidery-text').val().length;
+	if(textCount > 50){
+		evt.preventDefault();
+		alert('Embroidery text must be 50 characters or less');
+	};
+	var colorSelected = $("input[name='color']:checked").length;
+	if(colorSelected == 0) {
+	   evt.preventDefault();
+	   alert("Please select a color!");
+	}
+});
 
 });
 

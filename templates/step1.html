@@ -1,7 +1,11 @@
 {% extends 'lab_base.html' %}
 
 {% block body %}
-<h2>Style Lab</h2>
+<div class="page-header">
+<h1>Design Lab </h1> 
+</div>
+
+
 
 <!-- Style Guide Modal -->
 <div class="modal fade" id="styleGuide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -47,8 +51,9 @@
 </div>
 
 <!-- Form starts here -->
-<form action='/step2' method="post">
-	<div>
+<form action='/step2' method="post" id="step1-form">
+<div class="row">
+	<div class="well col-md-4">
 		<label for="field-style">Fit: </label>
 		{% for style in styles %}
 		<input type="radio" name="style" class="style-button" value="{{style.style_id}}"> {{style.style_name}}
@@ -59,8 +64,10 @@
 		
 		<br>
 	</div>
-<br>
-	<div>
+</div>
+<div class="row">
+
+	<div class="well col-md-4">
 		<label for="field-size">Sizing: </label>
 		<select name="size"> 	
 			{% for size in sizes %}
@@ -71,10 +78,21 @@
 		<!-- Button to launch sizing help window -->
 		<button type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> idk what my size is! </button>
 	</div>
+</div>
 
-	<!-- slider to define wiast height -->
+	<!-- slider to define waist height -->
+	<!-- FIXME got to make the values associate with the waist options-->
+	<div class="row">
 
-	<br>
+	<div class="col-md-4 well" id="slider">
+		<label>Waist height:</label>
+		<br>
+		<input class="bar" name="waist" type="range" min="0" max="2" step="1" value="0">
+	</div>
+</div>
+
+	
+	<!-- Sumbit button and hidden fields -->
 	<div>
 		<input type="hidden" name = "cut-css" id="cut-css" value="cut1">
 		<input type="hidden" name="img-layer" id="img-layer">
@@ -86,19 +104,20 @@
 <!-- Javascript and JQuery!!!! 
 Might move this to another doc later. -->
 <script src="https://code.jquery.com/jquery.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.js"></script>
 <script> 
 
 $(document).ready(function(){
     console.log("ready!");
 
-    
+
 
 var styleButtons = $('.style-button'); 
 
 
 for(var i=0; i<styleButtons.length; i++){
 	styleButtons[i].onchange = function(evt) {
-		alert("Style change! Woot woot!");
+		// alert("Style change! Woot woot!");
 
 		var oldId = $('#selected').attr('oldId');
 		$('#selected').attr('id', oldId);
@@ -134,11 +153,22 @@ for(var i=0; i<styleButtons.length; i++){
 			if (currentIndex === 2) {
 				currentIndex=0;
 			} else {
-				currentIndex++ // replace this if statement with a % 3  
+				currentIndex++ // FIXME replace this if statement with a % 3  
 			};
 		});
 	};
 };
+// Form validation 
+$('#step1-form').on('submit', function(evt){
+	var styleSelected = $("input[name='style']:checked").length;
+	console.log(styleSelected);
+	if(styleSelected == 0) {
+	   //Is not Valid
+	   evt.preventDefault();
+	   alert("Please select a style!");
+	   console.log(evt);
+	}
+});
 
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
@@ -147,45 +177,9 @@ $(function () {
 
 
 
-// // this function does not work!!!
-// function showTooltip(evt) {
-// 	console.log(evt);
-// 	var tooltipText = $('#selected').data('tooltip');
-// 	$('.toolTip-area').append('<p id="tooltip">'+ tooltipText +'</p>');
-// };
-
-// function hideTooltip(evt) {
-//     $('#tooltip').remove();
-// };
-
-// $('#selected').on('mouseover', showTooltip); 
-// $('#selected').on('mouseout', hideTooltip);
-
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// //draws a grid over the top of the style layer
-// function createGrid(){
-// 	var dollArea = $('.doll-area');
-
-// 	//Draws the X axis.
-// 	for (var x = 0; x<=640; x+=10){
-// 		// draws the y axis.
-// 		for()
-// 	}
-// };
 
 
 

@@ -1,0 +1,42 @@
+{% extends 'lab_base.html' %}
+
+{% block body %}
+<div class="center">
+	<h1>my design lab</h1>
+</div>
+<div class="row">
+<div class="col-md-12">
+<p>
+	{{session['current_design']}}
+</p>
+</div>
+<div class="col-md-12">
+<p>
+Style: {{session['current_design']['style_id']}}
+Size: {{session['current_design']['size_code']}}
+Cut:{{session['current_design']['cut_id']}}
+Waist:{{session['current_design']['waist_id']}}
+Fabric:{{session['current_design']['fabric_id']}}
+Color:{{session['current_design']['color_id']}}
+Embroidery:{{session['current_design']['embroidery']}}
+Embroidery Location:{{session['current_design']['embroidery_place']}}
+</p>
+</div>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<button>Buy Now</button>
+	</div>
+	<div class="col-md-6">
+		<button>Save for later!</button>
+	</div>
+</div>
+<script src="https://code.jquery.com/jquery.js"></script>
+
+
+<script>
+
+
+</script>
+
+{% endblock %}
