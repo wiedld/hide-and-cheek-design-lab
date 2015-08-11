@@ -15,8 +15,9 @@ def load_styles(file_name):
 		style_name = row[0]
 		style_description = row[1]
 		style_svg = row[2]
+		discontinued = row[3]
 
-		style = Style(style_name=style_name, style_description=style_description, style_svg=style_svg)
+		style = Style(style_name=style_name, style_description=style_description, style_svg=style_svg, discontinued=discontinued)
 
 		db.session.add(style)
 	db.session.commit()

@@ -34,7 +34,7 @@ def index():
 
 	session['current_design'] = {
 		"style_id": None,
-		"style_svg": "/static/svg/model.svg",
+		"style_svg": "model.svg",
 		"size_code": None,
 		"cut_css": None,
 		"cut_id": None,
@@ -51,7 +51,7 @@ def index():
 def step_one():
 	"""Form to choose style, size, cut, waist"""
 
-	styles = Style.query.filter(Style.discontinued == False).order_by(Style.style_name).all()
+	styles = Style.query.filter(Style.discontinued == False).order_by(Style.style_id).all()
 	sizes = Size.query.filter(Size.discontinued == False).all()
 	cuts = Cut.query.filter(Cut.discontinued == False).order_by(Cut.cut_id).all()
 	waists = Waist.query.filter(Waist.discontinued == False).order_by(Waist.waist_id).all()
@@ -60,23 +60,23 @@ def step_one():
 	return render_template("step1.html", styles=styles, sizes=sizes, cuts=cuts, waists=waists)
 
 
-@app.route('/style.json', methods=["POST"])
-def this_style():
-	"""Queries the db for the requested style and returns via JSON"""
+# @app.route('/style.json', methods=["POST"])
+# def this_style():
+# 	"""Queries the db for the requested style and returns via JSON"""
 
-	style_id = request.form.get("style_id")
-	style_svg = db.session.query(Style.style_svg).filter(Style.style_id==style_id).one()
+# 	style_id = request.form.get("style_id")
+# 	style_svg = db.session.query(Style.style_svg).filter(Style.style_id==style_id).one()
 
-	return jsonify({"styleSvg": style_svg[0]})
+# 	return jsonify({"styleSvg": style_svg[0]})
 
 
-@app.route('/cut.json')
+@app.route('/styles.json')
 def this_cut():
-	"""Returns cut options from db via JSON"""
+	"""Returns style options from db via JSON"""
 
-	cuts = db.session.query(Style.style_svg, Style.style_id).all()
+	styles = db.session.query(Style.style_svg, Style.style_id).all()
 
-	return jsonify({"cuts": cuts})
+	return jsonify({"styles": styles})
 
 
 @app.route('/current-design.json')
@@ -139,7 +139,7 @@ def new():
 
 	session['current_design'] = {
 		"style_id": None,
-		"style_svg": "/static/svg/model.svg",
+		"style_svg": "model.svg",
 		"size_code": None,
 		"cut_css": None,
 		"cut_id": None,
