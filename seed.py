@@ -14,9 +14,9 @@ def load_styles(file_name):
 		row = line.rstrip().lstrip().split("|")
 		style_name = row[0]
 		style_description = row[1]
-		img_layer = row[2]
+		style_svg = row[2]
 
-		style = Style(style_name=style_name, style_description=style_description, img_layer=img_layer)
+		style = Style(style_name=style_name, style_description=style_description, style_svg=style_svg)
 
 		db.session.add(style)
 	db.session.commit()
@@ -48,9 +48,10 @@ def load_cuts(file_name):
 		row = line.rstrip().split("|")
 		cut_name = row[0]
 		cut_css = row[1]
-		discontinued = row[2]
+		cut_svg = row[2]
+		discontinued = row[3]
 
-		cut = Cut(cut_name=cut_name, cut_css=cut_css, discontinued=discontinued)
+		cut = Cut(cut_name=cut_name, cut_css=cut_css, cut_svg=cut_svg, discontinued=discontinued)
 
 		db.session.add(cut)
 	db.session.commit()

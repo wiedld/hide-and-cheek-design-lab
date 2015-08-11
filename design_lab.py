@@ -31,6 +31,19 @@ api = client.InstagramAPI(**instaConfig)
 @app.route('/')
 def index():
 	"""Landing page"""
+
+	session['current_design'] = {
+		"style_id": None,
+		"style_svg": "/static/svg/model.svg",
+		"size_code": None,
+		"cut_css": None,
+		"cut_id": None,
+		"waist_id": None,
+		"fabric_id": None,
+		"color_id": None,
+		"embroidery": None,
+		"embroidery_place":None
+		}
 	return render_template("landing_page.html")
 
 
@@ -45,6 +58,25 @@ def step_one():
 	
 	
 	return render_template("step1.html", styles=styles, sizes=sizes, cuts=cuts, waists=waists)
+
+
+@app.route('/style.json', methods=["POST"])
+def this_style():
+	"""Queries the db for the requested style and returns via JSON"""
+
+	style_id = request.form.get("style_id")
+	style_svg = db.session.query(Style.style_svg).filter(Style.style_id==style_id).one()
+
+	return jsonify({"styleSvg": style_svg[0]})
+
+
+@app.route('/cut.json')
+def this_cut():
+	"""Returns cut options from db via JSON"""
+
+	cuts = db.session.query(Cut.cut_svg).all()
+
+	return jsonify({"cuts": cuts})
 
 
 @app.route('/current-design.json')
@@ -65,19 +97,12 @@ def step_two():
 	cut_id = cut.cut_id
 
 
-	session['current_design'] = {
-		"style_id": request.form.get('style'),
-		"img_layer": request.form.get('img-layer'),
-		"size_code": request.form.get('size'),
-		"cut_css": request.form.get('cut-css'),
-		"cut_id": cut.cut_id,
-		"waist_id": None,
-		"fabric_id": None,
-		"color_id": None,
-		"embroidery": None,
-		"embroidery_place":None
-		}
-
+	session['current_design']['style_id'] = request.form.get('style')
+	session['current_design']['size_code'] = request.form.get('size')
+	session['current_design']['style_svg'] = request.form.get('style-svg')
+	session['current_design']['cut_css'] = request.form.get('cut-css')
+	session['current_design']['cut_id'] = cut.cut_id
+	
 
 	fabrics = Fabric.query.filter(Fabric.discontinued == False).all()
 	return render_template("step2.html", fabrics=fabrics)
@@ -109,6 +134,24 @@ def myLab():
 
 	return render_template("myDesignLab.html")
 
+@app.route('/newDesign')
+def new():
+
+	session['current_design'] = {
+		"style_id": None,
+		"style_svg": "/static/svg/model.svg",
+		"size_code": None,
+		"cut_css": None,
+		"cut_id": None,
+		"waist_id": None,
+		"fabric_id": None,
+		"color_id": None,
+		"embroidery": None,
+		"embroidery_place":None
+		}
+
+	return redirect('/step1')
+
 #FIXME
 @app.route('/saved', methods=["POST"])
 def save():
@@ -120,9 +163,6 @@ def save():
 
 	flash("Your design is saved!")
 	return redirect('/myDesignLab')
-
-
-
 
 
 @app.route('/Lookbook', methods=["GET", "POST"])

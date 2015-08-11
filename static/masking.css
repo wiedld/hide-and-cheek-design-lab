@@ -1,21 +1,11 @@
-/*.grid {
-        border: 1px solid #CCCCCC ;
-        top: 100px;
-		left:300px;
-        cursor: pointer;
-        position: absolute;
-        z-index: 100;
-        }*/
+body{
+	padding-bottom:70px;
+}
 
 .doll{
 	position:absolute;
-	z-index:-10;
 	top: 200px;
 	left:500px;
-}
-
-#blank{
-	z-index:10;
 }
 
 #selected{
@@ -51,9 +41,5 @@
 	background:rgb(249, 181, 151);
 }
 
-footer{
-	position: absolute;
-	bottom:0px;
-	left:100px;
-}
+
 

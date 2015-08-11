@@ -15,7 +15,7 @@ class Style(db.Model):
 	style_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	style_name = db.Column(db.String(50), nullable=False)
 	style_description = db.Column(db.String(200), nullable=False)
-	img_layer = db.Column(db.String(200), nullable=False)
+	style_svg = db.Column(db.String(200), nullable=False)
 	discontinued = db.Column(db.Boolean, default=False, nullable=False)
 
 	def __repr__(self):
@@ -46,6 +46,7 @@ class Cut(db.Model):
 	cut_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	cut_name = db.Column(db.String(50), nullable=False)
 	cut_css = db.Column(db.String(50), nullable=False)
+	cut_svg = db.Column(db.String(50), nullable=False)
 	discontinued = db.Column(db.Boolean, default=False, nullable=False)
 
 	def __repr__(self):

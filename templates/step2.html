@@ -7,12 +7,11 @@
 </div>
 
 <div class="doll-area">
-	<!-- this is the base image -->
-	<img class="doll" id="blank" src="./static/green.png"/> 
-	<!-- this is the layer -->
-	<img class="doll" id="selected"/>
-
+	<img class="doll" id="style-img" src="{{session['current_design']['style_svg']}}" alt="current design model"></img> 
+	<div class="toolTip-area"></div>
 </div>
+
+
 <form action='/step3' id="fabric-form" method="post">
 	<div>
 		<label for="field-fabrics"> Fabrics:</label>
@@ -43,12 +42,12 @@ $(document).ready( function(){
 
 
 
-		var selected = $('#selected')
+		// var selected = $('#selected')
 
-		selected.addClass(current_design.style_id);
-		selected.attr('src', current_design.img_layer); 
+		// selected.addClass(current_design.style_id);
+		// selected.attr('src', current_design.img_layer); 
 
-		selected.addClass(current_design.cut_css);
+		// selected.addClass(current_design.cut_css);
 	});
 
 });

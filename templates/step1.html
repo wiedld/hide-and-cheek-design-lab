@@ -42,11 +42,7 @@
 <!-- Main content starts here -->
 <div class="doll-area">
 	<!-- this is the base image -->
-	<img class="doll" id="blank" src="./static/green.png"/> 
-	<!-- these are the layers -->
-	{% for style in styles %}
-	<img class="doll" data-toggle="tooltip" data-placement="top" title="Click anywhere on the pants to adjust the length" id="{{style.style_id}}" src="./static/{{style.img_layer}}"/>
-	{% endfor %}
+	<img class="doll" data-toggle="tooltip" data-placement="top" title="Click anywhere on the pants to adjust the length" id="design-img" src="{{session['current_design']['style_svg']}}" alt="blank model"></img> 
 	<div class="toolTip-area"></div>
 </div>
 
@@ -59,7 +55,7 @@
 		<input type="radio" name="style" class="style-button" value="{{style.style_id}}"> {{style.style_name}}
 		{% endfor %}
 		<br>
-		<!-- Button to launch stlye guide modal window -->
+		<!-- Button to launch style guide modal window -->
 		<button type="button" data-toggle="modal" data-target="#styleGuide" id="style-guide" > Style Guide </button> 
 		
 		<br>
@@ -87,7 +83,7 @@
 	<div class="col-md-4 well" id="slider">
 		<label>Waist height:</label>
 		<br>
-		<input class="bar" name="waist" type="range" min="0" max="2" step="1" value="0">
+		<input class="bar" name="waist" type="range" min="0" max="1" step="1" value="0">
 	</div>
 </div>
 
@@ -95,7 +91,7 @@
 	<!-- Sumbit button and hidden fields -->
 	<div>
 		<input type="hidden" name = "cut-css" id="cut-css" value="cut1">
-		<input type="hidden" name="img-layer" id="img-layer">
+		<input type="hidden" name="style-svg" id="style-svg">
 		<input type="submit" href="/step2" value ="Next step please!">
 	</div>
 </form>
@@ -116,48 +112,55 @@ var styleButtons = $('.style-button');
 
 
 for(var i=0; i<styleButtons.length; i++){
-	styleButtons[i].onchange = function(evt) {
-		// alert("Style change! Woot woot!");
+	$(styleButtons[i]).on('click', function(evt) {
+		alert("Style change! Woot woot!");
 
-		var oldId = $('#selected').attr('oldId');
-		$('#selected').attr('id', oldId);
+// new code to get the correct svg from the db
+		var styleId = $(this).val();
+		
+		$.post('/style.json', {style_id : styleId}, function(data) {
+			console.log(data);
+			var styleImg= $('#design-img');
+			styleImg.attr('src', '/static/svg/'+ data.styleSvg);
+			var currentSvg = styleImg.attr('src')
+			$('#style-svg').attr('value', currentSvg);
 
-
-
-		var styleID = $(this).val(); //also could be $(evt.currentTarget).val()
-		var styleSelect = $('#' + styleID);
-		var imgLayer = styleSelect.attr('src')
-		$('#img-layer').attr('value', imgLayer);
-
-		styleSelect.attr('oldId', styleID);
-		styleSelect.attr('id', 'selected'); //changes id attribute  to the correct url from the db 
-		console.log(styleSelect);
-
-
-		cutArray = ['cut1', 'cut2', 'cut3']; 
-		//array of classes with different clip dimensions according the cut
-		currentIndex = 1;
-
-		$('#selected').click( function (evt) {
-			for (var i=0; i<cutArray.length; i++) {
-
-				if($(this).hasClass(cutArray[i])) {
-					$(this).removeClass(cutArray[i]);
-				};
-			};
-
-			$(this).addClass(cutArray[currentIndex]);
-			$('#cut-css').attr('value', cutArray[currentIndex]);
-
-
-			if (currentIndex === 2) {
-				currentIndex=0;
-			} else {
-				currentIndex++ // FIXME replace this if statement with a % 3  
-			};
 		});
+	});
 	};
-};
+
+	$('#design-img').click( function(evt){
+		console.log(evt);
+		$.get('/cut.json', function(data){
+			console.log(data);
+
+			});
+		});
+
+	// 	cutArray = ['cut1', 'cut2', 'cut3']; 
+	// 	//array of classes with different clip dimensions according the cut
+	// 	currentIndex = 1;
+
+	// 	$('#selected').click( function (evt) {
+	// 		for (var i=0; i<cutArray.length; i++) {
+
+	// 			if($(this).hasClass(cutArray[i])) {
+	// 				$(this).removeClass(cutArray[i]);
+	// 			};
+	// 		};
+
+	// 		$(this).addClass(cutArray[currentIndex]);
+	// 		$('#cut-css').attr('value', cutArray[currentIndex]);
+
+
+	// 		if (currentIndex === 2) {
+	// 			currentIndex=0;
+	// 		} else {
+	// 			currentIndex++ // FIXME replace this if statement with a % 3  
+	// 		};
+	// 	});
+	// });
+
 // Form validation 
 $('#step1-form').on('submit', function(evt){
 	var styleSelected = $("input[name='style']:checked").length;
@@ -173,11 +176,12 @@ $('#step1-form').on('submit', function(evt){
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 });
-
-
-
-
 });
+
+
+
+
+
 
 
 
