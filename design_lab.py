@@ -74,7 +74,7 @@ def this_style():
 def this_cut():
 	"""Returns cut options from db via JSON"""
 
-	cuts = db.session.query(Cut.cut_svg).all()
+	cuts = db.session.query(Style.style_svg, Style.style_id).all()
 
 	return jsonify({"cuts": cuts})
 

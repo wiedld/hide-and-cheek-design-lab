@@ -103,39 +103,84 @@ Might move this to another doc later. -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.js"></script>
 <script> 
 
+// define variables
+var index;
+var style_data;
+var svg_path;
+
+
+//define functions
+var change_svg = function (style_data, index) {
+	svg_path = style_data.cuts[index].style_svg;
+	$('#design-img').attr('src', '/static/svg/'+svg_path);
+};
+
+var change_radio = function(style_data, index){
+
+
+};
+
+
+
 $(document).ready(function(){
     console.log("ready!");
-
-
-
-var styleButtons = $('.style-button'); 
-
-
-for(var i=0; i<styleButtons.length; i++){
-	$(styleButtons[i]).on('click', function(evt) {
-		alert("Style change! Woot woot!");
-
-// new code to get the correct svg from the db
-		var styleId = $(this).val();
-		
-		$.post('/style.json', {style_id : styleId}, function(data) {
-			console.log(data);
-			var styleImg= $('#design-img');
-			styleImg.attr('src', '/static/svg/'+ data.styleSvg);
-			var currentSvg = styleImg.attr('src')
-			$('#style-svg').attr('value', currentSvg);
-
+    ////////GET DATA FROM SERVER////////
+	$.get('/cut.json', function(data){
+				console.log(data.cuts);
+				style_data = data.cuts;
+				index = 0;
 		});
-	});
-	};
 
-	$('#design-img').click( function(evt){
-		console.log(evt);
-		$.get('/cut.json', function(data){
-			console.log(data);
+	///////EVENT HANDLERS////////
+	var styleButtons = $('.style-button'); 
+
+	for(var i=0; i<styleButtons.length; i++){
+		$(styleButtons[i]).on('click', function(evt) {
+			alert("Style change! Woot woot!");
+			index = i;
+			change_svg(index, style_data);
+			change_radio();
+
+
+
+	// new code to get the correct svg from the db
+			var styleId = $(this).val();
+			
+			$.post('/style.json', {style_id : styleId}, function(data) {
+				console.log(data);
+				var styleImg= $('#design-img');
+				styleImg.attr('src', '/static/svg/'+ data.styleSvg);
+				var currentSvg = styleImg.attr('src')
+				$('#style-svg').attr('value', currentSvg);
 
 			});
 		});
+	};
+
+
+	$('#design-img').click( function(evt){
+
+
+			change_svg();
+			chnage_radio();
+		});
+
+
+
+	$('#design-img').click( function(evt){
+		console.log(evt);
+
+
+		
+			for (var i=0; i<style_data.length; i++){
+				var svg = data.cuts[i].style_svg;
+				console.log(svg); //this logs BOTH the svgs, not just for the one at index i 
+				$(this).attr('src', '/static/svg/'+svg);//FIXME
+				// add code here to select the corresponding radio button
+
+			};
+	});
+		
 
 	// 	cutArray = ['cut1', 'cut2', 'cut3']; 
 	// 	//array of classes with different clip dimensions according the cut
@@ -162,28 +207,21 @@ for(var i=0; i<styleButtons.length; i++){
 	// });
 
 // Form validation 
-$('#step1-form').on('submit', function(evt){
-	var styleSelected = $("input[name='style']:checked").length;
-	console.log(styleSelected);
-	if(styleSelected == 0) {
-	   //Is not Valid
-	   evt.preventDefault();
-	   alert("Please select a style!");
-	   console.log(evt);
-	}
+	$('#step1-form').on('submit', function(evt){
+		var styleSelected = $("input[name='style']:checked").length;
+		console.log(styleSelected);
+		if(styleSelected == 0) {
+		   //Is not Valid
+		   evt.preventDefault();
+		   alert("Please select a style!");
+		   console.log(evt);
+		}
+	});
+
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	});
 });
-
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-});
-});
-
-
-
-
-
-
-
 
 
 
