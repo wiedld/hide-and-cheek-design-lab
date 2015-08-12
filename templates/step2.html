@@ -7,7 +7,7 @@
 </div>
 
 <div class="doll-area">
-	<img class="doll" id="style-img" src="{{session['current_design']['style_svg']}}" alt="current design model"></img> 
+	<img class="doll" id="style-img" src="/static/svg/{{session['current_design']['style_svg']}}" alt="current design model"></img> 
 	<div class="toolTip-area"></div>
 </div>
 
@@ -40,14 +40,6 @@ $(document).ready( function(){
     $.get('/current-design.json', function (current_design) {
 	console.log(current_design);
 
-
-
-		// var selected = $('#selected')
-
-		// selected.addClass(current_design.style_id);
-		// selected.attr('src', current_design.img_layer); 
-
-		// selected.addClass(current_design.cut_css);
 	});
 
 });

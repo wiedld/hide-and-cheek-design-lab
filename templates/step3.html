@@ -5,7 +5,7 @@
 <h4>Step 3: Colors</h4>
 
 <div class="doll-area">
-	<img class="doll" id="style-img" src="{{session['current_design']['style_svg']}}" alt="current design model"></img> 
+	<img class="doll" id="design-img" svg="{session['current_design']['style_svg']}}" src="/static/svg/{{session['current_design']['style_svg']}}" alt="current design model"></img> 
 	<div class="toolTip-area"></div>
 </div>
 
@@ -17,7 +17,7 @@
 	{% for color in colors %}
 	<div id="{{color.color_id}}">
 
-		<input type="radio" name="color" class="color-button" value="{{color.color_id}}">
+		<input type="radio" name="color" class="color-button" hex="{{color.color_rgb}}" value="{{color.color_id}}">
 		<label>{{color.color_name}}</label>
 		<img id="{{color.color_thumbnail}}" src="./static/{{color.color_thumbnail}}"/>
 	</div>
@@ -43,22 +43,26 @@
 <script src="https://code.jquery.com/jquery.js"></script>
 
 <script> // Javascript and JQuery!!!! 
-//Might move this to another doc later. 
+
+///////DEFINE VARIABLES/////
+
+
+///////DEFINE FUNCTIONS////////
+var fillSvg = function () {
+	var svg = $('#design-img').find('svg');
+	console.log(svg);
+	svg.attr('.....fill', 'the hex code for the color that was selected' )
+};
 
 $(document).ready( function(){
     console.log("ready!");
 
-// loads selections from previous pages via JSON
-    $.get('/current-design.json', function (current_design) {
-	console.log(current_design);
 
-		// var selected = $('#selected')
-
-		// selected.addClass(current_design.style_id);
-		// selected.attr('src', current_design.img_layer); 
-
-		// selected.addClass(current_design.cut_css);
 	});
+
+
+///////EVENT HANDLERS////////
+
 
 
 // checks limit on characters allowed in embroidery textarea

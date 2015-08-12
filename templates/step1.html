@@ -42,14 +42,14 @@
 <!-- Main content starts here -->
 <div class="doll-area">
 	<!-- this is the base image -->
-	<img class="doll" data-toggle="tooltip" data-placement="top" title="Click anywhere on the pants to adjust the length" id="design-img" src="static/svg/{{session['current_design']['style_svg']}}" alt="blank model"></img> 
+	<img class="doll" data-toggle="tooltip" data-placement="top" title="Click anywhere on the pants to adjust the length" id="design-img" src="/static/svg/{{session['current_design']['style_svg']}}" alt="blank model"></img> 
 	<div class="toolTip-area"></div>
 </div>
 
 <!-- Form starts here -->
 <form action='/step2' method="post" id="step1-form">
 <div class="row">
-	<div class="well col-md-4">
+	<div class="well col-md-3">
 		<label for="field-style">Fit: </label>
 		{% for style in styles %}
 		<br>
@@ -64,7 +64,7 @@
 </div>
 <div class="row">
 
-	<div class="well col-md-4">
+	<div class="well col-md-3">
 		<label for="field-size">Sizing: </label>
 		<select name="size"> 	
 			{% for size in sizes %}
@@ -76,15 +76,13 @@
 		<button type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> idk what my size is! </button>
 	</div>
 </div>
-
 	<!-- slider to define waist height -->
 	<!-- FIXME got to make the values associate with the waist options-->
 	<div class="row">
 
-	<div class="col-md-4 well" id="slider">
+	<div class="col-md-3 well" id="slider">
 		<label>Waist height:</label>
-		<br>
-		<input class="bar" name="waist" type="range" min="0" max="1" step="1" value="0">
+		<input class="bar" name="waist" orient="vertical" type="range" min="0" max="1" step="1" value="0">
 	</div>
 </div>
 
@@ -153,7 +151,7 @@ var setUpPage = function(){
 
 	$(styleButtons).each( function(idx) {
 		$(this).on('click', function(evt) {
-			alert("Style change! Woot woot!");
+			// alert("Style change! Woot woot!");
 			index = $(this).val() -1;
 			console.log("INDEX");
 			console.log(index)
