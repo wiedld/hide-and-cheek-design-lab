@@ -1,11 +1,13 @@
 {% extends 'lab_base.html' %}
 
 {% block body %}
-<h2>Style Lab</h2>
-<h4>Step 3: Colors</h4>
+<div class="page-header">
+<h1>Design Lab 
+<small>Step 3: Colors</small></h1>
+</div>
 
 <div class="doll-area">
-	<img class="doll" id="design-img" svg="{session['current_design']['style_svg']}}" src="/static/svg/{{session['current_design']['style_svg']}}" alt="current design model"></img> 
+	<img class="doll" id="design-img" svg="{{session['current_design']['style_svg']}}" src="/static/svg/{{session['current_design']['style_svg']}}" alt="current design model"></img> 
 	<div class="toolTip-area"></div>
 </div>
 
@@ -14,25 +16,31 @@
 	<div>
 		<label for="field-colors"> Colors:</label>
 	</div>
+	<ul>
 	{% for color in colors %}
-	<div id="{{color.color_id}}">
-
-		<input type="radio" name="color" class="color-button" hex="{{color.color_rgb}}" value="{{color.color_id}}">
-		<label>{{color.color_name}}</label>
-		<img id="{{color.color_thumbnail}}" src="./static/{{color.color_thumbnail}}"/>
-	</div>
+		<li>
+			<input type="radio" name="color" id="{{color.color_id}}" class="color-button" hex="{{color.color_rgb}}" value="{{color.color_id}}">
+			<label>{{color.color_name}}</label>
+			<img id="{{color.color_thumbnail}}" src="./static/{{color.color_thumbnail}}"/>
+		</li>
 	{% endfor %} 
-
+	</ul>
 
 	<div>
 		<label for="field-embroidery">Custom Embroidery:</label>
 		<br>
-		<input type="radio" name="emb-place" value="inside waist band"> Inside Waistband (front left)<br>
-		<input type="radio" name="emb-place" value="outside waist band"> Outside Waistband (back center)<br>
+		{{% for e in embroidery %}}
+		<input type="radio" name="emb-place" value="{{e.embroidery_location}}"> {{e.embroidery_location}}<br>
+		{{% endfor %}}
 		<label>Embroidery Text <i>max 50 chars.</i></label>
 		<br>
 		<textarea rows="4" cols="20" name="embroidery" id="embroidery-text" placeholder="Add a personal message!"></textarea>
-		<img name="waist-band">
+		<img name="waist-band"><br>
+		<label for="field-stitch">Choose your stitching:</label>
+		{{% for s in stitch %}}
+		<input type="radio" name="stitch" value="{{s.stitching_style}}"> {{s.stitching_style}}
+		{{% endfor %}}
+
 	</div>
 	<div> 
 		<input type="submit" href="/myDesignLab" value ="All done!">
@@ -48,48 +56,63 @@
 
 
 ///////DEFINE FUNCTIONS////////
-var fillSvg = function () {
-	var svg = $('#design-img').find('svg');
+var fillSvg = function(hex) {
+	var svg = $('#design-img').attr('svg');
 	console.log(svg);
-	svg.attr('.....fill', 'the hex code for the color that was selected' )
+	// $(svg svg g #high-waist path).attr('fill', hex); //FIXME! selector path is wrong! 
 };
+
+
 
 $(document).ready( function(){
     console.log("ready!");
-
+    setUpPage();
 
 	});
 
 
 ///////EVENT HANDLERS////////
 
+var setUpPage = function(){
+	var svg = $('#design-img').attr('svg');
+	console.log(svg);
 
+	var colorButtons = $('.color_button');
 
-// checks limit on characters allowed in embroidery textarea
-	$('#embroidery-text').on('blur', function(evt) {
-		var textCount = $('#embroidery-text').val().length;
-		if(textCount > 50){
-			alert('Embroidery text must be 50 characters or less');
-		}
-
+	// changes the color of the pants on click 
+	$(colorButtons).each( function(){
+		$(this).on('click', function() {
+			var hex = $(this).attr('hex');
+			fillSvg(hex);
+		console.log(evt);
+		});
 	});
 
-// form validation
-	$('#color-form').on('submit', function(evt){
+	// checks limit on characters allowed in embroidery textarea
+		$('#embroidery-text').on('blur', function(evt) {
+			var textCount = $('#embroidery-text').val().length;
+			if(textCount > 50){
+				alert('Embroidery text must be 50 characters or less');
+			};
 
-	var textCount = $('#embroidery-text').val().length;
-	if(textCount > 50){
-		evt.preventDefault();
-		alert('Embroidery text must be 50 characters or less');
-	};
-	var colorSelected = $("input[name='color']:checked").length;
-	if(colorSelected == 0) {
-	   evt.preventDefault();
-	   alert("Please select a color!");
-	}
-});
+		});
 
-});
+	// form validation
+		$('#color-form').on('submit', function(evt){
+
+		var textCount = $('#embroidery-text').val().length;
+		if(textCount > 50){
+			evt.preventDefault();
+			alert('Embroidery text must be 50 characters or less');
+		};
+		var colorSelected = $("input[name='color']:checked").length;
+		if(colorSelected == 0) {
+		   evt.preventDefault();
+		   alert("Please select a color!");
+		}
+	});
+
+};
 
 
 

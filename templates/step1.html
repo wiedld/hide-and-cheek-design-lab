@@ -81,15 +81,16 @@
 	<div class="row">
 
 	<div class="col-md-3 well" id="slider">
-		<label>Waist height:</label>
-		<input class="bar" name="waist" orient="vertical" type="range" min="0" max="1" step="1" value="0">
+		<label for="waist" >Waist height:</label>
+		<br>
+		High-Waist<input class="bar" name="waist" id="waist" orient="vertical" type="range" min="0" max="1" step="1" value="0">Low-waist
+		<p id="result"></p>
 	</div>
 </div>
 
 	
 	<!-- Sumbit button and hidden fields -->
 	<div>
-		<input type="hidden" name = "cut-css" id="cut-css" value="cut1">
 		<input type="hidden" name="style-svg" id="style-svg">
 		<input type="submit" href="/step2" value ="Next step please!">
 	</div>
@@ -125,6 +126,14 @@ var change_radio = function(style_data, index){
 	$(selector_str).prop("checked", true);
 };
 
+// var change_waist = function(){
+// 	svg_path = $('#style_svg').val();
+// 	if ($('waist').val() === 0);
+// 		$(svg_path.path[id="high-waist"]).attr('stroke', '#FFFFFF'); //FIXME:selector from svg file
+// 	else;
+// 		$(svg_path.path[id="low-waist"]).attr('stroke', '#FFFFFF'); //FIXME: selector from svg file
+
+// };
 
 
 $(document).ready(function(){
@@ -148,10 +157,9 @@ var setUpPage = function(){
 
 	var styleButtons = $('.style-button'); 
 
-
+	// click the button to change the style
 	$(styleButtons).each( function(idx) {
 		$(this).on('click', function(evt) {
-			// alert("Style change! Woot woot!");
 			index = $(this).val() -1;
 			console.log("INDEX");
 			console.log(index)
@@ -160,7 +168,7 @@ var setUpPage = function(){
 	});
 			 
 
-
+	// click the image to change the style 
 	$('#design-img').click( function(evt){
 			index++;
 			if (index === style_data.length) {
@@ -189,56 +197,6 @@ var setUpPage = function(){
 		
 };
 
-
-	// // new code to get the correct svg from the db
-	// 		var styleId = $(this).val();
-			
-	// 		$.post('/style.json', {style_id : styleId}, function(data) {
-	// 			console.log(data);
-	// 			var styleImg= $('#design-img');
-	// 			styleImg.attr('src', '/static/svg/'+ data.styleSvg);
-	// 			var currentSvg = styleImg.attr('src')
-	// 			$('#style-svg').attr('value', currentSvg);
-
-	// 		});
-	// 	});
-	
-
-
-	
-
-
-	// $('#design-img').click( function(evt){
-	// 	console.log(evt);
-
-
-		
-	// 		for (var i=0; i<style_data.length; i++){
-	// 			var svg = data.cuts[i].style_svg;
-	// 			console.log(svg); //this logs BOTH the svgs, not just for the one at index i 
-	// 			$(this).attr('src', '/static/svg/'+svg);//FIXME
-	// 			// add code here to select the corresponding radio button
-
-	// 		};
-	// });
-		
-
-// // Form validation 
-// 	$('#step1-form').on('submit', function(evt){
-// 		var styleSelected = $("input[name='style']:checked").length;
-// 		console.log(styleSelected);
-// 		if(styleSelected == 0) {
-// 		   //Is not Valid
-// 		   evt.preventDefault();
-// 		   alert("Please select a style!");
-// 		   console.log(evt);
-// 		}
-// 	});
-
-// 	$(function () {
-// 	  $('[data-toggle="tooltip"]').tooltip()
-// 	});
-// });
 
 
 

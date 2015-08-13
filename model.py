@@ -38,22 +38,6 @@ class Size(db.Model):
 		return "<Size: size_code = %s>" % self.size_code
 
 
-class Cut(db.Model):
-	"""Crop length options"""
-
-	__tablename__ = "cuts"
-
-	cut_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-	cut_name = db.Column(db.String(50), nullable=False)
-	cut_css = db.Column(db.String(50), nullable=False)
-	cut_svg = db.Column(db.String(50), nullable=False)
-	discontinued = db.Column(db.Boolean, default=False, nullable=False)
-
-	def __repr__(self):
-		"""Quick reference when the object is printed"""
-		return "<Cut: cut_id = %s cut = %s>" % (self.cut_id, self.cut_name)
-
-
 class Waist(db.Model):
 	"""Waist height options"""
 
@@ -92,7 +76,7 @@ class Color(db.Model):
 	color_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	color_name = db.Column(db.String(50), nullable=False)
 	fabric_id = db.Column(db.Integer, db.ForeignKey('fabrics.fabric_id'), nullable=False)
-	color_rgb = db.Column(db.String(20), nullable=False)
+	color_hex = db.Column(db.String(20), nullable=False)
 	color_thumbnail = db.Column(db.String(200), nullable=False)
 	discontinued = db.Column(db.Boolean, default=False, nullable=False)
 
@@ -103,6 +87,32 @@ class Color(db.Model):
 		"""Quick reference when printed"""
 		return "<Color: color_id = %s color_name = %s fabric_id = %s>" % (self.color_id, self.color_name, self.fabric_id)
 
+class Embroidery(db.Model):
+	"""Embroidery options"""
+
+	__tablename__ = "embroidery"
+
+	embroidery_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	embroidery_location = db.Column(db.String(50), nullable=False)
+	discontinued = db.Column(db.Boolean, default=False, nullable=False)
+
+	def __repr__(self):
+		"""Quick reference when the object is printed"""
+		return "<Embroidery: embroidery_id = %s embroidery_location = %s >" % (self.embroidery_id, self.embroidery_location)
+
+class Stitching(db.Model):
+	"""Stitching options"""
+
+	__tablename__ = "stitching"
+
+	stitching_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	stitching_style = db.Column(db.String(50), nullable=False)
+	thumbnail = db.Column(db.String(200), nullable=True)
+	discontinued = db.Column(db.Boolean, default=False, nullable=False)
+
+	def __repr__(self):
+		"""Quick reference when the object is printed"""
+		return "<Stitching: stitching_id = %s stitching_style = %s >" % (self.stitching_id, self.stitching_style)
 
 class Design(db.Model):
 	"""User generated designs"""
@@ -111,20 +121,20 @@ class Design(db.Model):
 	design_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	style_id = db.Column(db.Integer, db.ForeignKey('styles.style_id'), nullable=False)
 	size_code = db.Column(db.String(2), db.ForeignKey('sizes.size_code'), nullable=False)
-	cut_id = db.Column(db.Integer, db.ForeignKey('cuts.cut_id'), nullable=False)
 	waist_id = db.Column(db.Integer, db.ForeignKey('waists.waist_id'), nullable=False)
 	fabric_id = db.Column(db.Integer, db.ForeignKey('fabrics.fabric_id'), nullable=False)
 	color_id = db.Column(db.Integer, db.ForeignKey('colors.color_id'), nullable=False)
-	embroidery = db.Column(db.String(50), nullable=True)
+	embroidery_id = db.Column(db.Integer, db.ForeignKey('embroidery.embroidery_id'), nullable=True)
+	stitching_id = db.Column(db.Integer, db.ForeignKey('stitching.stitching_id'), nullable=True)
 
 	#Defines class relationships
 	style = db.relationship("Style", backref=db.backref("designs"))
 	size = db.relationship("Size", backref=db.backref("designs"))
-	cut = db.relationship("Cut", backref=db.backref("designs"))
 	waist = db.relationship("Waist", backref=db.backref("designs"))
 	fabric = db.relationship("Fabric", backref=db.backref("designs"))
 	color = db.relationship("Color", backref=db.backref("designs"))
-
+	embroidery = db.relationship("Embroidery", backref=db.backref("designs"))
+	stitching = db.relationship("Stitching", backref=db.backref("designs"))
 
 class Order(db.Model):
 	"""Order information for fulfillment portal"""

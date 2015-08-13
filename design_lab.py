@@ -8,7 +8,7 @@ from flask import Flask, render_template, redirect, request, flash, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from instagram import client
 
-from model import Style, Size, Cut, Waist, Fabric, Color, connect_to_db, db
+from model import Style, Size, Waist, Fabric, Color, Embroidery, Stitching, connect_to_db, db
 
 
 app = Flask(__name__)
@@ -36,8 +36,6 @@ def index():
 		"style_id": None,
 		"style_svg": "model.svg",
 		"size_code": None,
-		"cut_css": None,
-		"cut_id": None,
 		"waist_id": None,
 		"fabric_id": None,
 		"color_id": None,
@@ -53,21 +51,10 @@ def step_one():
 
 	styles = Style.query.filter(Style.discontinued == False).order_by(Style.style_id).all()
 	sizes = Size.query.filter(Size.discontinued == False).all()
-	cuts = Cut.query.filter(Cut.discontinued == False).order_by(Cut.cut_id).all()
 	waists = Waist.query.filter(Waist.discontinued == False).order_by(Waist.waist_id).all()
 	
 	
-	return render_template("step1.html", styles=styles, sizes=sizes, cuts=cuts, waists=waists)
-
-
-# @app.route('/style.json', methods=["POST"])
-# def this_style():
-# 	"""Queries the db for the requested style and returns via JSON"""
-
-# 	style_id = request.form.get("style_id")
-# 	style_svg = db.session.query(Style.style_svg).filter(Style.style_id==style_id).one()
-
-# 	return jsonify({"styleSvg": style_svg[0]})
+	return render_template("step1.html", styles=styles, sizes=sizes, waists=waists)
 
 
 @app.route('/styles.json')
@@ -92,16 +79,10 @@ def step_two():
 	"""Form to choose fabric"""
 
 
-	cut_css = request.form.get('cut-css')
-	cut = Cut.query.filter(Cut.cut_css == cut_css).one()
-	cut_id = cut.cut_id
-
-
 	session['current_design']['style_id'] = request.form.get('style')
 	session['current_design']['size_code'] = request.form.get('size')
 	session['current_design']['style_svg'] = request.form.get('style-svg')
-	session['current_design']['cut_css'] = request.form.get('cut-css')
-	session['current_design']['cut_id'] = cut.cut_id
+	session['current_design']['waist_id'] = request.form.get('waist')
 	
 
 	fabrics = Fabric.query.filter(Fabric.discontinued == False).all()
@@ -110,13 +91,16 @@ def step_two():
 
 @app.route('/step3', methods=["POST"])
 def step_three():
-	"""Last form: choose fabric color"""
+	"""Last form: choose fabric color and custom embroidery"""
 
 	session['current_design']['fabric_id'] = request.form.get('fabric')
 	fab_id = session['current_design']['fabric_id']
 
 	colors = Color.query.filter(Color.fabric_id==fab_id).all()
-	return render_template("step3.html", colors=colors)
+	embroidery = Embroidery.query(Embroidery.discontinued == False).all()
+	stitch = Stitching.query(Stitching.discontinued == False).all()
+
+	return render_template("step3.html", colors=colors, embroidery=embroidery, stitch=stitch)
 
 
 
@@ -125,8 +109,9 @@ def myLab():
 	"""Display the finished design with options to save or purchase"""
 
 	session['current_design']['color_id'] = request.form.get('color')
-	session['current_design']['embroidery'] = request.form.get('embroidery')
+	session['current_design']['embroidery_text'] = request.form.get('embroidery')
 	session['current_design']['embroidery_place'] = request.form.get('emb-place')
+	session['current_design']['stitching_style'] = request.form.get('stitch')
 
 	print "\n\n\n"
 	print session['current_design']  
@@ -141,13 +126,12 @@ def new():
 		"style_id": None,
 		"style_svg": "model.svg",
 		"size_code": None,
-		"cut_css": None,
-		"cut_id": None,
 		"waist_id": None,
 		"fabric_id": None,
 		"color_id": None,
-		"embroidery": None,
-		"embroidery_place":None
+		"embroidery text": None,
+		"embroidery_place":None,
+		"stitching_style":None
 		}
 
 	return redirect('/step1')
@@ -177,7 +161,7 @@ def lookbook():
 
 	print "\n\n\n\n"
 
-	tagged_media, next = api.tag_recent_media(tag_name='superfoodoffashion')
+	tagged_media, next = api.tag_recent_media(count=60, tag_name='superfoodoffashion')
 	print tagged_media
 	for n in tagged_media:
 		print n

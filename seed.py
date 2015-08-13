@@ -1,6 +1,6 @@
 """File to seed design database from raw data in seed_data/"""
 
-from model import Style, Size, Cut, Waist, Fabric, Color, connect_to_db, db
+from model import Style, Size, Waist, Fabric, Color, Embroidery, Stitching, connect_to_db, db
 
 from design_lab import app
 
@@ -37,24 +37,6 @@ def load_sizes(file_name):
 		size = Size(size_code=size_code, size=size, size_description=size_description)
 
 		db.session.add(size)
-	db.session.commit()
-
-
-def load_cuts(file_name):
-	"""Loads crop length info from raw.cuts into the database"""
-
-	raw_data = open(file_name)
-
-	for line in raw_data:
-		row = line.rstrip().split("|")
-		cut_name = row[0]
-		cut_css = row[1]
-		cut_svg = row[2]
-		discontinued = row[3]
-
-		cut = Cut(cut_name=cut_name, cut_css=cut_css, cut_svg=cut_svg, discontinued=discontinued)
-
-		db.session.add(cut)
 	db.session.commit()
 
 
@@ -100,15 +82,43 @@ def load_colors(file_name):
 	for line in raw_data:
 		row = line.rstrip().lstrip().split("|")
 		color_name = row[0]
-		color_rgb = row[1]
+		color_hex = row[1]
 		color_thumbnail = row[2]
 		fabric_id = row[3]
 
-		color = Color(color_name=color_name, color_rgb=color_rgb, color_thumbnail=color_thumbnail, fabric_id=fabric_id)
+		color = Color(color_name=color_name, color_hex=color_hex, color_thumbnail=color_thumbnail, fabric_id=fabric_id)
 
 		db.session.add(color)
 	db.session.commit()
 
+def load_embroidery(file_name):
+	"""Loads embroidery information from raw.embroidery into the database"""
+
+	raw_data = open(file_name)
+
+	for line in raw_data:
+		row = line.rstrip().lstrip().split("|")
+		embroidery_location = row[0]
+
+		embroidery = Embroidery(embroidery_location=embroidery_location)
+
+		db.session.add(embroidery)
+	db.session.commit()
+
+def load_stitching(file_name):
+	"""Loads stitching information from raw.stitching into the database"""
+
+	raw_data = open(file_name)
+
+	for line in raw_data:
+		row = line.rstrip().lstrip().split("|")
+		stitching_style = row[0]
+		thumbnail = row[1]
+
+		stitching = Stitching(stitching_style=stitching_style, thumbnail=thumbnail)
+
+		db.session.add(stitching)
+	db.session.commit()
 #################################
 
 if __name__ == "__main__":
@@ -116,7 +126,9 @@ if __name__ == "__main__":
 
 	load_styles("seed_data/raw.styles")
 	load_sizes("seed_data/raw.sizes")
-	load_cuts("seed_data/raw.cuts")
 	load_waists("seed_data/raw.waists")
 	load_fabrics("seed_data/raw.fabrics")
 	load_colors("seed_data/raw.colors")
+	load_embroidery("seed_data/raw.embroidery")
+	load_stitching("seed_data/raw.stitching")
+
