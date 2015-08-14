@@ -7,7 +7,7 @@
 </div>
 
 <div class="doll-area">
-	<object class="doll" id="design-object" svg="{{session['current_design']['style_svg']}}" data="/static/svg/{{session['current_design']['style_svg']}}" alt="current design model"></object> 
+	<object class="doll" id="design-object" svg="{{session['current_design']['style_svg']}}" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object> 
 	<div class="toolTip-area"></div>
 </div>
 
@@ -78,21 +78,22 @@ $(document).ready( function(){
 	// setUpPage();
     $.get('/current-design.json', function (current_design) {
 		console.log(current_design);
+		$(window).load(function (){
+			var obj = document.getElementById("design-object");
+			var objData = obj.contentDocument;
+			var highWaist = objData.getElementById("highWaist");
+			console.log(highWaist);
+			var lowWaist = objData.getElementById("lowWaist");
+			console.log(current_design.waist_id);
 
-		var obj = document.getElementById("design-object");
-		var objData = obj.contentDocument;
-		var highWaist = objData.getElementById("highWaist");
-		console.log(highWaist);
-		var lowWaist = objData.getElementById("lowWaist");
-		console.log(current_design.waist_id);
-
-		if(current_design.waist_id == 0){
-			highWaist.setAttribute('visibility', 'hidden');
-			lowWaist.setAttribute('visibility', 'visible');
-		} else {
-			highWaist.setAttribute('visibility', 'visible');
-			lowWaist.setAttribute('visibility', 'hidden');
-		};
+			if(current_design.waist_id == 0){
+				highWaist.setAttribute('visibility', 'hidden');
+				lowWaist.setAttribute('visibility', 'visible');
+			} else {
+				highWaist.setAttribute('visibility', 'visible');
+				lowWaist.setAttribute('visibility', 'hidden');
+			};
+		});
 	});
 });
 
@@ -104,9 +105,6 @@ $(document).ready( function(){
 ///////EVENT HANDLERS////////
 
 // var setUpPage = function(){
-	// $('.color-button').on('click', function(){
-	// 	alert('this is a freaking button');
-	// });
 
 	var colorButtons = $('.color-button');
 

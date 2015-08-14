@@ -1,6 +1,7 @@
 """The Design Lab server!"""
 import os
 import json
+from time import time
 
 from jinja2 import StrictUndefined
 
@@ -18,6 +19,7 @@ app = Flask(__name__)
 app.secret_key = "ommmnamasteshantishantishanti" 
 
 app.jinja_env.undefined = StrictUndefined
+app.jinja_env.globals.update(time=time)
 
 #configure the Instagram API
 instaConfig = {

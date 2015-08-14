@@ -193,6 +193,31 @@ $(document).ready(function(){
 		
 
 		///////EVENT HANDLERS////////
+
+	// // click the image to change the style 
+	console.log(index);
+	var obj = document.getElementById("design-object");
+	console.log(obj);
+	obj.addEventListener('load', function(){
+		var obj = document.getElementById("design-object");
+		var objData = obj.contentDocument;
+
+		var el = objData.getElementById("doll");
+		console.log(el);
+		el.addEventListener("click", function(evt){
+
+			console.log("clicked!");
+			console.log(evt);
+			index++;
+			if (index === style_data.length) {
+				index = 0;
+			}
+			console.log(index);
+			change_svg(style_data, index);
+			change_radio(style_data, index);
+			});
+	});
+
 var setUpPage = function(){
 	console.log("Page is set up now!");
 
@@ -201,27 +226,35 @@ var setUpPage = function(){
 	// click the button to change the style
 	$(styleButtons).each( function(idx) {
 		$(this).on('click', function(evt) {
-			index = $(this).val() -1;
+			index = $(this).val() - 1;
 			console.log("INDEX");
 			console.log(index)
 			change_svg(style_data, index);
 		});	
 	});
 			 
+	// $(window).load(function(){
+	// 	console.log(index);
+	// 	var obj = document.getElementById("design-object");
+	// 	var objData = obj.contentDocument;
+	// 	var el = objData.getElementById("doll");
+	// 	console.log(el);
+	// 	el.addEventListener("click", function(evt){
 
-	// click the image to change the style 
-	$('#design-object').on('click', 'svg', function(evt){
-			console.log("clicked!");
-			console.log(evt);
-			index++;
-			if (index === style_data.length) {
-				index = 0;
-			}
-			console.log(evt);
-			console.log(index);
-			change_svg(style_data, index);
-			change_radio(style_data, index);
-	});
+	// 			alert('hey');
+	// 	// // click the image to change the style 
+	// 			console.log("clicked!");
+	// 			console.log(evt);
+	// 			index++;
+	// 			if (index === style_data.length) {
+	// 				index = 0;
+	// 			}
+	// 			console.log(index);
+	// 			change_svg(style_data, index);
+	// 			change_radio(style_data, index);
+	// 			}, false);
+	// 	});
+	
 
 	// change the slider bar to select waist style
 	$('#waist').click( function(evt){
