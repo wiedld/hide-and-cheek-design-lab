@@ -7,7 +7,7 @@
 </div>
 
 <div class="doll-area">
-	<img class="doll" id="style-img" src="/static/svg/{{session['current_design']['style_svg']}}" alt="current design model"></img> 
+	<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}" alt="current design model"></object> 
 	<div class="toolTip-area"></div>
 </div>
 
@@ -34,15 +34,34 @@
 <script> // Javascript and JQuery!!!! 
 //Might move this to another doc later. 
 
+
+
 $(document).ready( function(){
     console.log("ready!");
-// loads the previous selections via JSON
+    ////////GET DATA FROM SERVER////////
+	// loads the previous selections via JSON
     $.get('/current-design.json', function (current_design) {
-	console.log(current_design);
+		console.log(current_design);
 
+		var obj = document.getElementById("design-object");
+		var objData = obj.contentDocument;
+		var highWaist = objData.getElementById("highWaist");
+		console.log(highWaist);
+		var lowWaist = objData.getElementById("lowWaist");
+		console.log(current_design.waist_id);
+
+		if(current_design.waist_id == 0){
+			highWaist.setAttribute('visibility', 'hidden');
+			lowWaist.setAttribute('visibility', 'visible');
+		} else {
+			highWaist.setAttribute('visibility', 'visible');
+			lowWaist.setAttribute('visibility', 'hidden');
+		};
 	});
+	console.log("ready!");
 
 });
+///////////////EVENT HANDLERS///////////////
 
 // shows the fabric description when selected
 $('.fabric-button').on('change', function (evt){

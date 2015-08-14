@@ -39,8 +39,9 @@ def index():
 		"waist_id": None,
 		"fabric_id": None,
 		"color_id": None,
-		"embroidery": None,
-		"embroidery_place":None
+		"embroidery_text": None,
+		"embroidery_place":None,
+		"stitching_style": None
 		}
 	return render_template("landing_page.html")
 
@@ -129,7 +130,7 @@ def new():
 		"waist_id": None,
 		"fabric_id": None,
 		"color_id": None,
-		"embroidery text": None,
+		"embroidery_text": None,
 		"embroidery_place":None,
 		"stitching_style":None
 		}
