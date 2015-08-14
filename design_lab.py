@@ -97,8 +97,8 @@ def step_three():
 	fab_id = session['current_design']['fabric_id']
 
 	colors = Color.query.filter(Color.fabric_id==fab_id).all()
-	embroidery = Embroidery.query(Embroidery.discontinued == False).all()
-	stitch = Stitching.query(Stitching.discontinued == False).all()
+	embroidery = Embroidery.query.filter(Embroidery.discontinued == False).all()
+	stitch = Stitching.query.filter(Stitching.discontinued == False).all()
 
 	return render_template("step3.html", colors=colors, embroidery=embroidery, stitch=stitch)
 

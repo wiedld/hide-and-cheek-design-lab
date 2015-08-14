@@ -19,7 +19,7 @@
 	<ul>
 	{% for color in colors %}
 		<li>
-			<input type="radio" name="color" id="{{color.color_id}}" class="color-button" hex="{{color.color_rgb}}" value="{{color.color_id}}">
+			<input type="radio" name="color" id="{{color.color_id}}" class="color-button" hex="{{color.color_hex}}" value="{{color.color_id}}">
 			<label>{{color.color_name}}</label>
 			<img id="{{color.color_thumbnail}}" src="./static/{{color.color_thumbnail}}"/>
 		</li>
@@ -29,17 +29,17 @@
 	<div>
 		<label for="field-embroidery">Custom Embroidery:</label>
 		<br>
-		{{% for e in embroidery %}}
+		{% for e in embroidery %}
 		<input type="radio" name="emb-place" value="{{e.embroidery_location}}"> {{e.embroidery_location}}<br>
-		{{% endfor %}}
+		{% endfor %}
 		<label>Embroidery Text <i>max 50 chars.</i></label>
 		<br>
 		<textarea rows="4" cols="20" name="embroidery" id="embroidery-text" placeholder="Add a personal message!"></textarea>
 		<img name="waist-band"><br>
 		<label for="field-stitch">Choose your stitching:</label>
-		{{% for s in stitch %}}
-		<input type="radio" name="stitch" value="{{s.stitching_style}}"> {{s.stitching_style}}
-		{{% endfor %}}
+		{% for s in stitch %}
+			<input type="radio" name="stitch" value="{{s.stitching_style}}">{{s.stitching_style}}
+		{% endfor %}
 
 	</div>
 	<div> 

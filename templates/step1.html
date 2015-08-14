@@ -16,7 +16,7 @@
         <h4 class="modal-title" id="myModalLabel">Style Guide</h4>
       </div>
       	<div class="modal-body">
-      		<p>No content yet. But drunk yoga is fun...</p>
+      		<p>No content yet. But drunk yoga seems like fun...</p>
       		<img src="http://media.giphy.com/media/W7o9UzkwWpA0o/giphy.gif"/></div>
   	</div>
 </div>
@@ -40,10 +40,11 @@
 
 
 <!-- Main content starts here -->
-<div class="doll-area">
+<div class="doll-area" id="design-div" data-toggle="tooltip" data-placement="top" title="Click anywhere on the pants to adjust the length">
 	<!-- this is the base image -->
-	<img class="doll" data-toggle="tooltip" data-placement="top" title="Click anywhere on the pants to adjust the length" id="design-img" src="/static/svg/{{session['current_design']['style_svg']}}" alt="blank model"></img> 
 	<div class="toolTip-area"></div>
+	<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}" alt="blank model"></object> 
+	
 </div>
 
 <!-- Form starts here -->
@@ -78,12 +79,36 @@
 </div>
 	<!-- slider to define waist height -->
 	<!-- FIXME got to make the values associate with the waist options-->
+	<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	 <script>
+	  $(function() {
+	    $( "#slider" ).slider({
+	      value:100,
+	      min: 0,
+	      max: 500,
+	      step: 50,
+	      slide: function( event, ui ) {
+	        $( "#waist" ).val(ui.value );
+	      }
+	    });
+	    $( "#waist" ).val($( "#slider" ).slider( "value" ) );
+	  });
+  	</script>
+ -->
+
 	<div class="row">
 
 	<div class="col-md-3 well" id="slider">
+<!-- 
+		<p>
+		  <label for="waist">Select a high or low-rise waist</label>
+		  <input type="text" id="waist" readonly style="border:0; color:#f6931f; font-weight:bold;">
+		</p>
+		<div id="slider"></div> -->
 		<label for="waist" >Waist height:</label>
 		<br>
-		High-Waist<input class="bar" name="waist" id="waist" orient="vertical" type="range" min="0" max="1" step="1" value="0">Low-waist
+		High-Waist<input class="bar" name="waist" id="waist" orient="vertical" type="range" min="0" max="1" step="1" value="1">Low-waist
 		<p id="result"></p>
 	</div>
 </div>
@@ -114,8 +139,9 @@ var change_svg = function (style_data, index) {
 	svg_path = style_data[index].style_svg;
 	console.log("This is the svg_path:")
 	console.log(svg_path);
-	$('#design-img').attr('src', '/static/svg/'+svg_path); //changes the src of the img 
-	$('#style-svg').attr('value', svg_path); //svg path can be added to session
+	$('#design-object').attr('data', '/static/svg/'+svg_path); //changes the src of the img 
+	$('#style-svg').attr('value', svg_path);
+	console.log($('#style-svg').val()); //svg path can be added to session
 };
 
 var change_radio = function(style_data, index){
@@ -126,14 +152,29 @@ var change_radio = function(style_data, index){
 	$(selector_str).prop("checked", true);
 };
 
-// var change_waist = function(){
-// 	svg_path = $('#style_svg').val();
-// 	if ($('waist').val() === 0);
-// 		$(svg_path.path[id="high-waist"]).attr('stroke', '#FFFFFF'); //FIXME:selector from svg file
-// 	else;
-// 		$(svg_path.path[id="low-waist"]).attr('stroke', '#FFFFFF'); //FIXME: selector from svg file
+var change_waist = function(){
 
-// };
+	var waist = $('#waist').val();
+	
+	var obj = document.getElementById("design-object");
+	var objData = obj.contentDocument;
+	var highWaist = objData.getElementById("highWaist");
+	var lowWaist = objData.getElementById("lowWaist");
+	console.log(waist);
+
+
+	if (waist == 0) {
+		highWaist.setAttribute('visibility', 'hidden');
+		console.log(highWaist);
+		lowWaist.setAttribute('visibility', 'visible');
+		console.log(lowWaist);
+	} else {
+		highWaist.setAttribute('visibility', 'visible');
+		console.log(highWaist);
+		lowWaist.setAttribute('visibility', 'hidden');
+		console.log(lowWaist);
+	};
+};
 
 
 $(document).ready(function(){
@@ -154,6 +195,7 @@ $(document).ready(function(){
 
 		///////EVENT HANDLERS////////
 var setUpPage = function(){
+	console.log("Page is set up now!");
 
 	var styleButtons = $('.style-button'); 
 
@@ -169,7 +211,9 @@ var setUpPage = function(){
 			 
 
 	// click the image to change the style 
-	$('#design-img').click( function(evt){
+	$('#design-object').on('click', 'svg', function(evt){
+			console.log("clicked!");
+			console.log(evt);
 			index++;
 			if (index === style_data.length) {
 				index = 0;
@@ -180,6 +224,12 @@ var setUpPage = function(){
 			change_radio(style_data, index);
 	});
 
+	// change the slider bar to select waist style
+	$('#waist').click( function(evt){
+		console.log(evt);
+		change_waist();
+
+	});
 
 	// Form validation 
 	$('#step1-form').on('submit', function(evt){
