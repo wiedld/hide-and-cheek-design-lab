@@ -8,14 +8,13 @@ body {
     background-size: 50%;
     background-repeat: no-repeat;
 
-    color: black;
-    text-align: left;
 }
 
 /* site-wrapper and site-wrapper-inner are to vertically center content using
    table/table-cell vertical centering. */
 
 .site-wrapper {
+
     display: table;
     width: 100%;
     height: 100%;
@@ -24,6 +23,51 @@ body {
 .site-wrapper-inner {
     display: table-cell;
     vertical-align: middle;
+    background: #333 url("/static/background.jpg");
+    background-size: 50%;
+    background-repeat: no-repeat;    
+}
+.home-link{
+    text-align: center;
+    color: #666666;
+}
+
+h1.editorial{
+    font-size: 36px;
+    line-height: 1;
+    display: block;
+    letter-spacing: 0;
+    -webkit-margin-before: 0.67em;
+    -webkit-margin-after: 0.67em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+
+}
+
+h2.editorial{
+     font-size: 1em;  
+     display: block;
+     text-transform: uppercase;
+}
+
+.btn-editorial {
+    color: #666666;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 43px;
+    height: 44px;
+    padding: 0 30px;
+    background: transparent;
+    border: 1px solid currentColor;
+    text-transform: uppercase;
+
 }
 
 /* The footer always appears at the bottom of the browser window. */
@@ -32,4 +76,8 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;  /* required because fixed position */
+}
+
+#copy{
+    text-align: right;
 }

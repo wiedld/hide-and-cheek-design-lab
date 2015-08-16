@@ -41,6 +41,7 @@ def index():
 		"waist_id": None,
 		"fabric_id": None,
 		"color_id": None,
+		"color_hex": None,
 		"embroidery_text": None,
 		"embroidery_place":None,
 		"stitching_style": None
@@ -60,21 +61,20 @@ def step_one():
 	return render_template("step1.html", styles=styles, sizes=sizes, waists=waists)
 
 
+@app.route('/current-design.json')
+def current_design():
+	"""JSON information about the current user's design"""
+
+	return jsonify(session['current_design'])
+
+
 @app.route('/styles.json')
-def this_cut():
+def styles():
 	"""Returns style options from db via JSON"""
 
 	styles = db.session.query(Style.style_svg, Style.style_id).all()
 
 	return jsonify({"styles": styles})
-
-
-@app.route('/current-design.json')
-def this_design():
-	"""JSON information about the current user's design"""
-
-	return jsonify(session['current_design'])
-
 
 
 @app.route('/step2', methods=["POST"])
@@ -108,10 +108,11 @@ def step_three():
 
 
 @app.route('/myDesignLab', methods=["GET", "POST"])
-def myLab():
+def my_design():
 	"""Display the finished design with options to save or purchase"""
 
 	session['current_design']['color_id'] = request.form.get('color')
+	session['current_design']['color_hex'] = request.form.get('hex')
 	session['current_design']['embroidery_text'] = request.form.get('embroidery')
 	session['current_design']['embroidery_place'] = request.form.get('emb-place')
 	session['current_design']['stitching_style'] = request.form.get('stitch')
@@ -132,12 +133,49 @@ def new():
 		"waist_id": None,
 		"fabric_id": None,
 		"color_id": None,
+		"color_hex":None,
 		"embroidery_text": None,
-		"embroidery_place":None,
-		"stitching_style":None
+		"embroidery_place": None,
+		"stitching_style": None
 		}
 
 	return redirect('/step1')
+
+@app.route('/selections.json')
+def selections():
+	"""Returns design details from db via JSON"""
+
+	style_sesh = session['current_design']['style_id']
+	style = db.session.query(Style.style_name).filter(Style.style_id==style_sesh).one()
+	
+	size_sesh = session['current_design']['size_code']
+	size = db.session.query(Size.size).filter(Size.size_code==size_sesh).one()
+
+	# waist_sesh = session['current_design']['waist_id']
+	# waist = db.session.query(Waist.waist_name).filter(Waist.waist_id==waist_sesh).one()
+
+	fab_sesh = session['current_design']['fabric_id']
+	fabric = db.session.query(Fabric.fabric_name).filter(Fabric.fabric_id==fab_sesh).one()
+
+	color_sesh = session['current_design']['color_id']
+	color = db.session.query(Color.color_name).filter(Color.color_id==color_sesh).one()
+
+	place_sesh = session['current_design']['embroidery_place']
+	# placement = db.session.query(Embroidery.embroidery_location).filter(Embroidery.embroidery_id==place_sesh).one()
+	stitch_sesh = session['current_design']['stitching_style']
+	text_sesh = session['current_design']['embroidery_text']
+
+	return jsonify({"selections": {"style": style[0], 
+								   "size": size[0],
+								   # "waist":waist[0],
+								   "fabric":fabric[0],
+								   "color":color[0],
+								   "placement": place_sesh,
+								   "stitch": stitch_sesh,
+								   "text": text_sesh
+								   }
+					})
+
 
 #FIXME
 @app.route('/saved', methods=["POST"])
@@ -179,13 +217,6 @@ def lookbook():
 
 	return render_template('lookbook.html', **lookbookData )
 	
-
-
-	# if 'access_token' not in session:
-	# 	flash('Ooops! We are having problems loading data from instagram. Please check back later! \nxo \n-h&c team')
- #        return redirect('/')
-
-    
 
 
 ##################################################

@@ -6,27 +6,55 @@
 <small>Step 2: Fabrics</small></h1>
 </div>
 
+
+
 <div class="doll-area">
 	<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object> 
 	<div class="toolTip-area"></div>
 </div>
 
+<!-- modal window content doest work!-->
+<div class="modal fade" id="fabInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>
+      	<div class="modal-body">
+      		<p>Some more information about our ahhhh-mazing fabrics!</p>
+      		<img src="http://38.media.tumblr.com/2d3ee38e0f15b78187de8e51d64b495c/tumblr_n96tacfsi51ru5h8co1_500.gif"/>
+      	</div>
+  	</div>
+</div>
+</div>
 
 <form action='/step3' id="fabric-form" method="post">
-	<div>
+<div class="row">
+	<div class="well col-md-3">
 		<label for="field-fabrics"> Fabrics:</label>
+		<ul class="list-group">
+			{% for fabric in fabrics %}
+			<li class="list-group-item" id="{{fabric.fabric_id}}">
+				<input type="radio" name="fabric" class="fabric-button" data-extra-text="{{fabric.fabric_description}}"value="{{fabric.fabric_id}}"> {{fabric.fabric_name}}
+			</li>
+			{% endfor %} 
+		</ul>
+		<div id="fabric-details"></div>
 	</div>
-	{% for fabric in fabrics %}
-	<div id="{{fabric.fabric_id}}">
-		<input type="radio" name="fabric" class="fabric-button" data-extra-text="{{fabric.fabric_description}}"value="{{fabric.fabric_id}}">{{fabric.fabric_name}}
-	</div>
-	{% endfor %} 
-	<div id="fabric-details">
-	</div>
+</div>
+<div class="row">
+	<div class"col-md-3 well">
+		<!-- fixme -->
+		<!-- button to launch fabrics modal window -->
+	<button type="button" data-toggle="modal" data-target="#fabInfo" id="fab-info"> The Fabric of Hide and Cheek</button>
+</div>
 	<div> 
 		<input type="submit" href="/step3" value ="Next step please!">
 	</div>
 </form>
+</div>
+
 
 
 <script src="https://code.jquery.com/jquery.js"></script>

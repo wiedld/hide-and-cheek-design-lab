@@ -4,38 +4,83 @@
 <div class="center">
 	<h1>my design lab</h1>
 </div>
-<div class="row">
-<div class="col-md-12">
-<p>
-	{{session['current_design']}}
-</p>
-</div>
-<div class="col-md-12 well">
-<span>
 
-Style: {{session['current_design']['style_id']}}<br>
-Size: {{session['current_design']['size_code']}}
-Waist:{{session['current_design']['waist_id']}}
-Fabric:{{session['current_design']['fabric_id']}}
-Color:{{session['current_design']['color_id']}}
-Embroidery:{{session['current_design']['embroidery_text']}}
-Embroidery Location:{{session['current_design']['embroidery_place']}}
-</span>
-</div>
-</div>
+
+
 <div class="row">
 	<div class="col-md-6">
-		<button>Buy Now</button>
+		<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object>
 	</div>
-	<div class="col-md-6">
-		<button>Save for later!</button>
+	<div class="col-md-4 well">
+		<ul class="list-group">
+			<li id="style" class="list-group-item"> <b>STYLE: </b>  </li>
+			<li id= "size" class="list-group-item"> <b>SIZE:</b> </li>
+			<li id ="waist" class="list-group-item"> <b>WAIST:</b> </li>
+			<li id ="fabric" class="list-group-item"> <b>FABRIC:</b> </li>
+			<li id ="color" class="list-group-item"> <b>COLOR:</b> </li>
+			<li id ="placement" class="list-group-item"> <b>PLACEMENT:</b> </li>
+			<li id ="stitch" class="list-group-item"> <b>STITCHING STYLE:</b> </li>
+			<li id ="text" class="list-group-item"> <b>TEXT:</b> </li>
+		</ul>
+
 	</div>
 </div>
+
+<div class="row">
+	<div class="col-md-6">
+		<button> add to shopping cart </button>
+		<button> let's do it again! </button>
+	</div>
+</div>
+
 <script src="https://code.jquery.com/jquery.js"></script>
-
-
 <script>
+$(document).ready( function(){
+    console.log("ready!");
+    ////////GET DATA FROM SERVER////////
+	// loads selections via JSON
+	$.get('/current-design.json', function (current_design) {
+		console.log(current_design);
+		$(window).load(function (){
+			var obj = document.getElementById("design-object");
+			var objData = obj.contentDocument;
+			// makes the image smaller
+			var doll = objData.getElementById("doll");
+			doll.setAttribute('width','400px');
+			doll.setAttribute('height','450px');
+			// edits the waist height
+			var highWaist = objData.getElementById("highWaist");
+			console.log(highWaist);
+			var lowWaist = objData.getElementById("lowWaist");
+			console.log(current_design.waist_id);
+			if(current_design.waist_id == 0){
+				highWaist.setAttribute('visibility', 'hidden');
+				lowWaist.setAttribute('visibility', 'visible');
+			} else {
+				highWaist.setAttribute('visibility', 'visible');
+				lowWaist.setAttribute('visibility', 'hidden');
+			};
+			// edits the pant color
+			highWaist.setAttribute('fill', current_design.color_hex);
+			lowWaist.setAttribute('fill', current_design.color_hex);
+		});
+	});
+    $.get('/selections.json', function (selections) {
+		console.log(selections.selections.size);
 
+
+		$('#style').append(selections.selections.style);
+		$('#size').append(selections.selections.size);
+		$('#waist').append(selections.selections.waist);
+		$('#fabric').append(selections.selections.fabric);
+		$('#color').append(selections.selections.color);
+		$('#placement').append(selections.selections.placement);
+		$('#stitch').append(selections.selections.stitch);
+		$('#text').append(selections.selections.text);
+
+
+	});
+});
 
 </script>
 

@@ -13,36 +13,43 @@
 
 
 <form action='/myDesignLab' id="color-form" method="post">
-	<div>
-		<label for="field-colors"> Colors:</label>
+	<div class="row">
+		<div class="col-md-3 well">
+			<label for="field-colors"> Colors:</label>
+			<ul class="list-group">
+			{% for color in colors %}
+				<li class="list-group-item">
+					<input type="radio" name="color" id="{{color.color_id}}" class="color-button" hex="{{color.color_hex}}" value="{{color.color_id}}"> {{color.color_name}}
+					<img id="{{color.color_thumbnail}}" src="./static/{{color.color_thumbnail}}"/>
+				</li>
+			{% endfor %} 
+			</ul>
+		</div>
 	</div>
-	<ul>
-	{% for color in colors %}
-		<li>
-			<input type="radio" name="color" id="{{color.color_id}}" class="color-button" hex="{{color.color_hex}}" value="{{color.color_id}}">
-			<label>{{color.color_name}}</label>
-			<img id="{{color.color_thumbnail}}" src="./static/{{color.color_thumbnail}}"/>
-		</li>
-	{% endfor %} 
-	</ul>
 
-	<div>
-		<label for="field-embroidery">Custom Embroidery:</label>
-		<br>
-		{% for e in embroidery %}
-		<input type="radio" name="emb-place" value="{{e.embroidery_location}}"> {{e.embroidery_location}}<br>
-		{% endfor %}
-		<label>Embroidery Text <i>max 50 chars.</i></label>
-		<br>
-		<textarea rows="4" cols="20" name="embroidery" id="embroidery-text" placeholder="Add a personal message!"></textarea>
-		<img name="waist-band"><br>
-		<label for="field-stitch">Choose your stitching:</label>
-		{% for s in stitch %}
-			<input type="radio" name="stitch" value="{{s.stitching_style}}">{{s.stitching_style}}
-		{% endfor %}
+	<div class="row">
+		<div class="col-md-3 well">
 
+			<label for="field-embroidery">Custom Embroidery:</label>
+				<ul class="list-group">
+				{% for e in embroidery %}
+					<li class="list-group-item"><input type="radio" name="emb-place" value="{{e.embroidery_location}}"> {{e.embroidery_location}}</li>
+				{% endfor %}
+				</ul>
+			<label>Embroidery Text <i>max 50 chars.</i></label>
+				<br>
+			<textarea rows="4" cols="20" name="embroidery" id="embroidery-text" placeholder="Add a personal message!"></textarea>
+			<img name="waist-band"><br>
+			<label for="field-stitch">Choose your stitching:</label>
+			<ul class="list-group">
+				{% for s in stitch %}
+					<li class="list-group-item"><input type="radio" name="stitch" value="{{s.stitching_style}}"> {{s.stitching_style}}</li>
+				{% endfor %}
+			</ul>
+		</div>
 	</div>
 	<div> 
+		<input type="hidden" name="hex" id="color-hex">
 		<input type="submit" href="/myDesignLab" value ="All done!">
 	</div>
 </form>
@@ -68,6 +75,7 @@ var fillSvg = function(hex) {
 	var lowWaist = objData.getElementById("lowWaist");
 	highWaist.setAttribute('fill', hex);
 	lowWaist.setAttribute('fill', hex);
+	$('#color-hex').attr('value', hex);
 };
 
 
