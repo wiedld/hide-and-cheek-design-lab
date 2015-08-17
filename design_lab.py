@@ -151,8 +151,8 @@ def selections():
 	size_sesh = session['current_design']['size_code']
 	size = db.session.query(Size.size).filter(Size.size_code==size_sesh).one()
 
-	# waist_sesh = session['current_design']['waist_id']
-	# waist = db.session.query(Waist.waist_name).filter(Waist.waist_id==waist_sesh).one()
+	waist_sesh = session['current_design']['waist_id']
+	waist = db.session.query(Waist.waist_name).filter(Waist.waist_id==waist_sesh).all()
 
 	fab_sesh = session['current_design']['fabric_id']
 	fabric = db.session.query(Fabric.fabric_name).filter(Fabric.fabric_id==fab_sesh).one()

@@ -1,16 +1,11 @@
 {% extends 'lab_base.html' %}
 
 {% block body %}
-<div class="page-header">
-<h1>Design Lab 
-<small>Step 2: Fabrics</small></h1>
-</div>
 
 
 
 <div class="doll-area">
 	<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object> 
-	<div class="toolTip-area"></div>
 </div>
 
 <!-- modal window content doest work!-->
@@ -23,37 +18,36 @@
       </div>
       	<div class="modal-body">
       		<p>Some more information about our ahhhh-mazing fabrics!</p>
-      		<img src="http://38.media.tumblr.com/2d3ee38e0f15b78187de8e51d64b495c/tumblr_n96tacfsi51ru5h8co1_500.gif"/>
+      		<img src="http://38.media.tumblr.com/60d1ffa2d858c6bf69e1f3982169be50/tumblr_nndo2qTxB61uq175to3_500.gif"/>
       	</div>
   	</div>
 </div>
 </div>
 
 <form action='/step3' id="fabric-form" method="post">
-<div class="row">
-	<div class="well col-md-3">
-		<label for="field-fabrics"> Fabrics:</label>
-		<ul class="list-group">
-			{% for fabric in fabrics %}
-			<li class="list-group-item" id="{{fabric.fabric_id}}">
-				<input type="radio" name="fabric" class="fabric-button" data-extra-text="{{fabric.fabric_description}}"value="{{fabric.fabric_id}}"> {{fabric.fabric_name}}
-			</li>
-			{% endfor %} 
-		</ul>
-		<div id="fabric-details"></div>
+	<div class="row">
+		<div class="well col-md-3">
+			<label for="field-fabrics"> Fabrics:</label>
+			<ul class="list-group">
+				{% for fabric in fabrics %}
+				<li class="list-group-item" id="{{fabric.fabric_id}}">
+					<input type="radio" name="fabric" class="fabric-button" data-extra-text="{{fabric.fabric_description}}"value="{{fabric.fabric_id}}"> {{fabric.fabric_name}}
+				</li>
+				{% endfor %} 
+			</ul>
+			<div id="fabric-details"></div>
+			
+			<!-- button to launch fabrics modal window -->
+			<!-- <button class="btn-modal" type="button" data-toggle="modal" data-target="#fabInfo" id="fab-info"> The Fabric of Hide&ampCheek</button> -->
+		</div>
+
 	</div>
-</div>
-<div class="row">
-	<div class"col-md-3 well">
-		<!-- fixme -->
-		<!-- button to launch fabrics modal window -->
-	<button type="button" data-toggle="modal" data-target="#fabInfo" id="fab-info"> The Fabric of Hide and Cheek</button>
-</div>
-	<div> 
-		<input type="submit" href="/step3" value ="Next step please!">
+	<div class="row">
+		<div class="col-md-3">
+		<input type="submit" class ="btn-editorial" href="/step3" value="Next step please!"/>
+	</div>
 	</div>
 </form>
-</div>
 
 
 
@@ -89,6 +83,8 @@ $(document).ready( function(){
 		});
 	});
 	console.log("ready!");
+	$('#styles-tab').removeClass('selected');
+	$('#fabrics-tab').addClass('selected');
 
 });
 ///////////////EVENT HANDLERS///////////////
@@ -103,6 +99,8 @@ $('.fabric-button').on('change', function (evt){
 
 //validates the form 
 $('#fabric-form').on('submit', function(evt){
+	console.log("inside fabric-form js");
+	console.log(evt);
 	var fabricSelected = $("input[name='fabric']:checked").length;
 	console.log(fabricSelected);
 	if(fabricSelected == 0) {

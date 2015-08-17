@@ -1,15 +1,19 @@
 {% extends 'lab_base.html' %}
 
 {% block body %}
-<div class="center">
+<div class="page-header">
 	<h1>my design lab</h1>
 </div>
 
-
-
 <div class="row">
 	<div class="col-md-6">
-		<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object>
+		<a class="btn-modal" href="/newDesign"> &lt; let's try a new design </a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-7 design">
+		<object class="design" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object>
+		
 	</div>
 	<div class="col-md-4 well">
 		<ul class="list-group">
@@ -22,16 +26,17 @@
 			<li id ="stitch" class="list-group-item"> <b>STITCHING STYLE:</b> </li>
 			<li id ="text" class="list-group-item"> <b>TEXT:</b> </li>
 		</ul>
-
+		<button class="btn-editorial"> add to shopping cart ! </button>
 	</div>
-</div>
 
-<div class="row">
-	<div class="col-md-6">
-		<button> add to shopping cart </button>
-		<button> let's do it again! </button>
+	<div class="row">
+		<div class="col-md-6">
+		<!-- <button class="btn-modal" href="/newDesign"> &lt; let's try a new design </button> -->
 	</div>
-</div>
+		<div class="col-md-6">
+			<!-- <button class="btn-editorial"> add to shopping cart </button> -->
+		</div>
+
 
 <script src="https://code.jquery.com/jquery.js"></script>
 <script>
@@ -80,6 +85,7 @@ $(document).ready( function(){
 
 
 	});
+	$('.tabs').hide();
 });
 
 </script>

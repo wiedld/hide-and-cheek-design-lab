@@ -1,11 +1,6 @@
 {% extends 'lab_base.html' %}
 
 {% block body %}
-<div class="page-header">
-<h1>Design Lab </h1> 
-</div>
-
-
 
 <!-- Style Guide Modal -->
 <div class="modal fade" id="styleGuide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -58,7 +53,7 @@
 		{% endfor %}
 		</ul>
 		<!-- Button to launch style guide modal window -->
-		<button type="button" data-toggle="modal" data-target="#styleGuide" id="style-guide"> Style Guide </button> 
+		<button class="btn-modal" type="button" data-toggle="modal" data-target="#styleGuide" id="style-guide"> Style Guide </button> 
 		
 		<br>
 	</div>
@@ -74,24 +69,19 @@
 		</select>
 		<br>
 		<!-- Button to launch sizing help window -->
-		<button type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> idk what my size is! </button>
+		<button class="btn-modal" type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> idk what my size is! </button>
 	</div>
 </div>
 
 <div class="row">
-	<div class="col-md-3 well" id="slider">
+	<div class="well col-md-3" id="slider">
 		<label for="waist" >Waist height:</label>
 		<br>
 		High-Waist<input class="bar" name="waist" id="waist" orient="vertical" type="range" min="0" max="1" step="1" value="1">Low-waist
 	</div>
-</div>
-
-	
-	<!-- Sumbit button and hidden fields -->
-	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-1 col-md-offset-7">
 		<input type="hidden" name="style-svg" id="style-svg">
-		<input type="submit" href="/step2" value ="Next step please!">
+		<input class="btn-editorial" type="submit" href="/step2" value ="Next step please!">
 	</div>
 	</div>
 </form>
@@ -161,9 +151,11 @@ $(document).ready(function(){
 				setUpPage();
 	});
 
-	$(function () {
-	  $('[data-toggle="tooltip"]').tooltip()
-	});
+	$('#styles-tab').addClass('selected');
+
+	// $(function () {
+	//   $('[data-toggle="tooltip"]').tooltip()
+	// });
 });
 		
 

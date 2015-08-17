@@ -6,27 +6,26 @@
 
 <body>
 
-<div class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+<div class="header">
+    <!-- <div class="container"> -->
 
-        <div class="navbar-header">
+       <!--  <div class="navbar-header"> -->
             
             <a class="navbar-brand" href="http://www.hide-cheek.com/"><img src="./static/transparent-logo.png">
             </a>
-        </div>
+        
 
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-left">
+            <ul class="nav navbar-nav navbar-right">
               <li>
-                    <a href="/newDesign"> Create a new Design</a></li>
+                    <a class="links" href="/newDesign"> Create a new Design</a></li>
                 <li>
-                    <a href="/myDesignLab"> MyDesigns</a></li>
+                    <a class="links" href="/myDesignLab"> MyDesigns</a></li>
                 <li>
-                  <a href="/Lookbook"> Lookbook</a></li>
+                  <a class="links" href="/Lookbook"> Lookbook</a></li>
             </ul>
         </div>
 
-    </div>
 </div>
 
 <div class="container">
@@ -38,6 +37,16 @@
       {% endfor %}
   {% endwith %}
 
+    <div class="tabs">
+
+          <br>
+          <ul id="main-tabs">
+            <li id="styles-tab">STYLES</li>
+            <li id="fabrics-tab">FABRICS</li>
+            <li class="last" id="colors-tab">COLORS</li>
+          </ul>
+
+    </div>
   <!-- This is where the main content goes. -->
   {% block body %}
       BODY OF PAGE GOES HERE VIA INHERITANCE

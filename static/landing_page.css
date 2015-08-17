@@ -2,16 +2,32 @@
 
 /* The body has an image that spans the entire size of the page.
    Everything is centered and in white. */
-
-body {
+/*
+body{
     background: #333 url("/static/background.jpg");
     background-size: 50%;
     background-repeat: no-repeat;
+    background-position: center;
+}*/
+
+html{
+    background: url("/static/background.jpg") no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
 
 }
 
-/* site-wrapper and site-wrapper-inner are to vertically center content using
-   table/table-cell vertical centering. */
+body {
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.9);
+}
+.panel-transparent {
+    background: none;
+    text-align: center;
+    padding-top: 30px;
+    }
 
 .site-wrapper {
 
@@ -20,19 +36,16 @@ body {
     height: 100%;
 }
 
-.site-wrapper-inner {
-    display: table-cell;
-    vertical-align: middle;
-    background: #333 url("/static/background.jpg");
-    background-size: 50%;
-    background-repeat: no-repeat;    
-}
+
 .home-link{
-    text-align: center;
-    color: #666666;
+    padding-top: 60px;
+    width:50%;
+    text-align: center;   
+
 }
 
 h1.editorial{
+    color: #525252;
     font-size: 36px;
     line-height: 1;
     display: block;
@@ -45,13 +58,14 @@ h1.editorial{
 }
 
 h2.editorial{
+    color: #525252;
      font-size: 1em;  
      display: block;
      text-transform: uppercase;
 }
 
 .btn-editorial {
-    color: #666666;
+    color: #525252;
     cursor: pointer;
     display: inline-block;
     text-align: center;
@@ -64,8 +78,10 @@ h2.editorial{
     line-height: 43px;
     height: 44px;
     padding: 0 30px;
-    background: transparent;
-    border: 1px solid currentColor;
+    /*background: transparent;*/
+    background: #fff; /* fallback color for old browsers */
+    background: rgba(255, 255, 255, 0.3);
+    border: 1.5px solid currentColor;
     text-transform: uppercase;
 
 }

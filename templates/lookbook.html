@@ -11,12 +11,12 @@
 	{% for t in tagged %}
 		<div class="col-xs-6 col-md-2">
 			<div class="thumbnail">
-			<a href="{{t.link}}">
-			<img src="{{t.images['thumbnail'].url}}" alt="{{t.caption.text}}">
-			</a>
-			<!-- <div class="caption"><p>{{t.caption.text}}</p></div> -->
+				<a href="{{t.link}}">
+				<img src="{{t.images['thumbnail'].url}}" alt="{{t.caption.text}}">
+				</a>
+				<!-- <div class="caption"><p>{{t.caption.text}}</p></div> -->
+			</div>
 		</div>
-	</div>
 	{% endfor %}
 
 </div>
@@ -28,7 +28,7 @@
 
 <script>
 
-
+	$('.tabs').hide();
 // $(document).ready(function(){
 //     console.log("ready!");
 // // FIX ME!!! 3 hours of my life == wasted because of this shit
