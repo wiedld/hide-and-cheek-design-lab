@@ -8,10 +8,10 @@
 </div>
 
 <form action='/myDesignLab' id="color-form" method="post">
-	<div class="row">
+	<div class="row form-group">
 		<div class="col-md-3 well">
-			<label for="field-colors"> Colors:</label>
-			<ul class="list-group">
+			<p class="section">Colors</p>
+			<ul class="colors list-group">
 			{% for color in colors %}
 				<li class="list-group-item">
 					<input type="radio" name="color" id="{{color.color_id}}" class="color-button" hex="{{color.color_hex}}" value="{{color.color_id}}"> {{color.color_name}}
@@ -22,21 +22,25 @@
 		</div>
 	</div>
 
-	<div class="row">
+	<div class="row form-group">
 		<div class="col-md-3 well">
-
-			<label for="field-embroidery">Custom Embroidery:</label>
+			<p class="section">Embroidery</p>
+			<div id="tag-field">
+				<label>Custom Tag: <i>max 50 chars.</i></label>
+					<br>
+				<textarea rows="3" cols="25" name="embroidery" id="embroidery-text" placeholder="Add a personal message!"></textarea>
+			</div>
+			<br>
+			<label for="field-embroidery">Placement:</label><br>
 				<ul class="list-group">
 				{% for e in embroidery %}
 					<li class="list-group-item"><input type="radio" name="emb-place" value="{{e.embroidery_location}}"> {{e.embroidery_location}}</li>
 				{% endfor %}
 				</ul>
-			<label>Embroidery Text <i>max 50 chars.</i></label>
-				<br>
-			<textarea rows="4" cols="20" name="embroidery" id="embroidery-text" placeholder="Add a personal message!"></textarea>
+			
 			<img name="waist-band"><br>
-			<label for="field-stitch">Choose your stitching:</label>
-			<ul class="list-group">
+			<label for="field-stitch">Font:</label>
+			<ul class="list-group fonts">
 				{% for s in stitch %}
 					<li class="list-group-item"><input type="radio" name="stitch" value="{{s.stitching_style}}"> {{s.stitching_style}}</li>
 				{% endfor %}
@@ -89,7 +93,7 @@ $(document).ready( function(){
 			var lowWaist = objData.getElementById("lowWaist");
 			console.log(current_design.waist_id);
 
-			if(current_design.waist_id == 0){
+			if(current_design.waist_id == 1){
 				highWaist.setAttribute('visibility', 'hidden');
 				lowWaist.setAttribute('visibility', 'visible');
 			} else {
@@ -116,6 +120,7 @@ $(document).ready( function(){
 	// changes the color of the pants on click 
 	$(colorButtons).each( function(){
 		$(this).on('click', function(evt) {
+			$('.colors').removeClass('nope');
 			console.log(evt);
 			hex = $(this).attr('hex');
 			console.log(hex);
@@ -127,7 +132,9 @@ $(document).ready( function(){
 		$('#embroidery-text').on('blur', function(evt) {
 			var textCount = $('#embroidery-text').val().length;
 			if(textCount > 50){
-				alert('Embroidery text must be 50 characters or less');
+				$('#embroidery-text').addClass('nope');
+			} else{
+				$('#embroidery-text').removeClass('nope');
 			};
 
 		});
@@ -138,13 +145,20 @@ $(document).ready( function(){
 		var textCount = $('#embroidery-text').val().length;
 		if(textCount > 50){
 			evt.preventDefault();
-			alert('Embroidery text must be 50 characters or less');
+			$('#embroidery-text').addClass('nope');
 		};
 		var colorSelected = $("input[name='color']:checked").length;
 		if(colorSelected == 0) {
 		   evt.preventDefault();
-		   alert("Please select a color!");
-		}
+		   $('.colors').addClass('nope');
+		};
+		if ($("input[name='emb-place']:checked").length != 0){
+			var fontSelected = $("input[name='stitch']:checked").length;
+			if(fontSelected == 0) {
+			   evt.preventDefault();
+			   $('.fonts').addClass('nope');
+			};
+		};	
 	});
 
 // };

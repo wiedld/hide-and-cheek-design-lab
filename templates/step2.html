@@ -1,13 +1,6 @@
 {% extends 'lab_base.html' %}
 
 {% block body %}
-
-
-
-<div class="doll-area">
-	<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object> 
-</div>
-
 <!-- modal window content doest work!-->
 <div class="modal fade" id="fabInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -24,11 +17,18 @@
 </div>
 </div>
 
+
+<div class="doll-area">
+	<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object> 
+</div>
+
+
+
 <form action='/step3' id="fabric-form" method="post">
 	<div class="row">
 		<div class="well col-md-3">
-			<label for="field-fabrics"> Fabrics:</label>
-			<ul class="list-group">
+			<p class="section"> Fabrics</p>
+			<ul class="list-group fabrics">
 				{% for fabric in fabrics %}
 				<li class="list-group-item" id="{{fabric.fabric_id}}">
 					<input type="radio" name="fabric" class="fabric-button" data-extra-text="{{fabric.fabric_description}}"value="{{fabric.fabric_id}}"> {{fabric.fabric_name}}
@@ -73,7 +73,7 @@ $(document).ready( function(){
 			var lowWaist = objData.getElementById("lowWaist");
 			console.log(current_design.waist_id);
 
-			if(current_design.waist_id == 0){
+			if(current_design.waist_id == 1){
 				highWaist.setAttribute('visibility', 'hidden');
 				lowWaist.setAttribute('visibility', 'visible');
 			} else {
@@ -92,6 +92,7 @@ $(document).ready( function(){
 // shows the fabric description when selected
 $('.fabric-button').on('change', function (evt){
 	$('#description').remove();
+	$('.fabrics').removeClass('nope');
 
 	var descriptionText = $(this).data('extra-text');
 	$('#fabric-details').append('<p id="description" >' + descriptionText + '<p/>');
@@ -106,7 +107,8 @@ $('#fabric-form').on('submit', function(evt){
 	if(fabricSelected == 0) {
 	   //Is not Valid
 	   evt.preventDefault();
-	   alert("Please select your fabric!");
+	   // alert("Please select your fabric!");
+	   $('.fabrics').addClass('nope');
 	   console.log(evt);
 	}
 });

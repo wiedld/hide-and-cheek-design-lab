@@ -46,10 +46,10 @@
 <form action='/step2' method="post" id="step1-form">
 <div class="row">
 	<div class="well col-md-3">
-		<label for="field-style">Fit: </label>
-		<ul class="list-group">
+		<p class="section"> Style </p>
+		<ul class="list-group styles">
 		{% for style in styles %}
-		<li class="list-group-item"> <input type="radio" name="style" class="style-button" value="{{style.style_id}}"> {{style.style_name}}</li>
+		<li class="list-group-item"> <input type="radio" name="style" class="style-button" value="{{style.style_id}}"  data-validate="required"> {{style.style_name}}</li>
 		{% endfor %}
 		</ul>
 		<!-- Button to launch style guide modal window -->
@@ -61,27 +61,28 @@
 <div class="row">
 
 	<div class="well col-md-3">
-		<label for="field-size">Sizing: </label>
+		<p class="section">Size </p>
 		<select name="size"> 	
 			{% for size in sizes %}
 		<option value="{{size.size_code}}">{{size.size}}</option>
 		{% endfor %}
 		</select>
 		<br>
+		<br>
 		<!-- Button to launch sizing help window -->
-		<button class="btn-modal" type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> idk what my size is! </button>
+		<button class="btn-modal" type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> I don't know my size</button>
 	</div>
 </div>
 
 <div class="row">
 	<div class="well col-md-3" id="slider">
-		<label for="waist" >Waist height:</label>
+		<p class="section" >Waist height </p>
 		<br>
-		High-Waist<input class="bar" name="waist" id="waist" orient="vertical" type="range" min="0" max="1" step="1" value="1">Low-waist
+		<p class="label">High-Waist</p><input class="bar" name="waist" id="waist" orient="vertical" type="range" min="1" max="2" step="1" value="2"> <p class"label">Low-waist</p>
 	</div>
 		<div class="col-md-1 col-md-offset-7">
 		<input type="hidden" name="style-svg" id="style-svg">
-		<input class="btn-editorial" type="submit" href="/step2" value ="Next step please!">
+		<input class="btn-editorial submit" type="submit" href="/step2" value ="Next step please!">
 	</div>
 	</div>
 </form>
@@ -106,6 +107,7 @@ var change_svg = function (style_data, index) {
 	$('#design-object').attr('data', '/static/svg/'+svg_path); //changes the src of the img 
 	$('#style-svg').attr('value', svg_path);
 	console.log($('#style-svg').val()); //svg path can be added to session
+	$('.styles').removeClass('nope');
 };
 
 var change_radio = function(style_data, index){
@@ -127,7 +129,7 @@ var change_waist = function(){
 	console.log(waist);
 
 
-	if (waist == 0) {
+	if (waist == 1) {
 		highWaist.setAttribute('visibility', 'hidden');
 		console.log(highWaist);
 		lowWaist.setAttribute('visibility', 'visible');
@@ -153,9 +155,6 @@ $(document).ready(function(){
 
 	$('#styles-tab').addClass('selected');
 
-	// $(function () {
-	//   $('[data-toggle="tooltip"]').tooltip()
-	// });
 });
 		
 
@@ -200,28 +199,6 @@ var setUpPage = function(){
 		});	
 	});
 			 
-	// $(window).load(function(){
-	// 	console.log(index);
-	// 	var obj = document.getElementById("design-object");
-	// 	var objData = obj.contentDocument;
-	// 	var el = objData.getElementById("doll");
-	// 	console.log(el);
-	// 	el.addEventListener("click", function(evt){
-
-	// 			alert('hey');
-	// 	// // click the image to change the style 
-	// 			console.log("clicked!");
-	// 			console.log(evt);
-	// 			index++;
-	// 			if (index === style_data.length) {
-	// 				index = 0;
-	// 			}
-	// 			console.log(index);
-	// 			change_svg(style_data, index);
-	// 			change_radio(style_data, index);
-	// 			}, false);
-	// 	});
-	
 
 	// change the slider bar to select waist style
 	$('#waist').click( function(evt){
@@ -237,12 +214,11 @@ var setUpPage = function(){
 		if(styleSelected == 0) {
 		   //Is not Valid
 		   evt.preventDefault();
-		   alert("Please select a style!");
+		   // alert("Please select a style!");
+		   $('.styles').addClass('nope');
 		   console.log(evt);
 		}
 	});
-
-
 		
 };
 

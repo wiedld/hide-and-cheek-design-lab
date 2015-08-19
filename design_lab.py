@@ -3,22 +3,33 @@ import os
 import json
 from time import time
 
-from jinja2 import StrictUndefined
+from jinja2 import StrictUndefined 
 
 from flask import Flask, render_template, redirect, request, flash, session, jsonify
+
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+# import flask_wtf
+
 from flask_debugtoolbar import DebugToolbarExtension
 from instagram import client
 
-from model import Style, Size, Waist, Fabric, Color, Embroidery, Stitching, connect_to_db, db
+from model import Style, Size, Waist, Fabric, Color, Embroidery, Stitching, connect_to_db, db, StyleAdmin, SizeAdmin, WaistAdmin, FabricAdmin, ColorAdmin, EmbroideryAdmin, StitchingAdmin
 
 
 app = Flask(__name__)
 
+#Create admin
+#Add more administrative views here
+
 
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ommmnamasteshantishantishanti" 
+# app.config["MAPBOX_MAP_ID"] = "mapboxid"
+# app.config['CSRF_ENABLED'] = False
+# flask_wtf.CsrfProtect(app)
 
-app.jinja_env.undefined = StrictUndefined
+# app.jinja_env.undefined = StrictUndefined #remove this when deploying/ working in admin section!!!!!!!!!!!!!!!
 app.jinja_env.globals.update(time=time)
 
 #configure the Instagram API
@@ -72,7 +83,7 @@ def current_design():
 def styles():
 	"""Returns style options from db via JSON"""
 
-	styles = db.session.query(Style.style_svg, Style.style_id).all()
+	styles = db.session.query(Style.style_svg, Style.style_id).order_by(Style.style_id).all()
 
 	return jsonify({"styles": styles})
 
@@ -86,6 +97,10 @@ def step_two():
 	session['current_design']['size_code'] = request.form.get('size')
 	session['current_design']['style_svg'] = request.form.get('style-svg')
 	session['current_design']['waist_id'] = request.form.get('waist')
+
+	print "\n\n\n"
+	print session['current_design']['waist_id']  
+	print "\n\n\n"
 	
 
 	fabrics = Fabric.query.filter(Fabric.discontinued == False).all()
@@ -99,7 +114,7 @@ def step_three():
 	session['current_design']['fabric_id'] = request.form.get('fabric')
 	fab_id = session['current_design']['fabric_id']
 
-	colors = Color.query.filter(Color.fabric_id==fab_id).all()
+	colors = Color.query.filter(Color.fabric_id==fab_id, Color.discontinued == False).all()
 	embroidery = Embroidery.query.filter(Embroidery.discontinued == False).all()
 	stitch = Stitching.query.filter(Stitching.discontinued == False).all()
 
@@ -152,7 +167,7 @@ def selections():
 	size = db.session.query(Size.size).filter(Size.size_code==size_sesh).one()
 
 	waist_sesh = session['current_design']['waist_id']
-	waist = db.session.query(Waist.waist_name).filter(Waist.waist_id==waist_sesh).all()
+	waist = db.session.query(Waist.waist_name).filter(Waist.waist_id==waist_sesh).one()
 
 	fab_sesh = session['current_design']['fabric_id']
 	fabric = db.session.query(Fabric.fabric_name).filter(Fabric.fabric_id==fab_sesh).one()
@@ -167,7 +182,7 @@ def selections():
 
 	return jsonify({"selections": {"style": style[0], 
 								   "size": size[0],
-								   # "waist":waist[0],
+								   "waist":waist[0],
 								   "fabric":fabric[0],
 								   "color":color[0],
 								   "placement": place_sesh,
@@ -227,7 +242,17 @@ if __name__ == "__main__":
 
     connect_to_db(app)
 
+    admin = Admin(app, name='designlab', template_mode='bootstrap3')
+    admin.add_view(StyleAdmin(Style, db.session))
+    admin.add_view(SizeAdmin(Size, db.session))
+    admin.add_view(WaistAdmin(Waist, db.session))
+    admin.add_view(FabricAdmin(Fabric, db.session))
+    admin.add_view(ColorAdmin(Color, db.session))
+    admin.add_view(EmbroideryAdmin(Embroidery, db.session))
+    admin.add_view(StitchingAdmin(Stitching, db.session))
+
+
     # Use the DebugToolbar
-    DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
     print "\n\n\nYO\n\n\n"
     app.run()

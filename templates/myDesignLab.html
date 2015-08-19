@@ -58,7 +58,7 @@ $(document).ready( function(){
 			console.log(highWaist);
 			var lowWaist = objData.getElementById("lowWaist");
 			console.log(current_design.waist_id);
-			if(current_design.waist_id == 0){
+			if(current_design.waist_id == 1){
 				highWaist.setAttribute('visibility', 'hidden');
 				lowWaist.setAttribute('visibility', 'visible');
 			} else {
@@ -71,7 +71,7 @@ $(document).ready( function(){
 		});
 	});
     $.get('/selections.json', function (selections) {
-		console.log(selections.selections.size);
+		console.log(selections.selections.waist);
 
 
 		$('#style').append(selections.selections.style);

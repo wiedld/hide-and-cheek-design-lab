@@ -2,6 +2,9 @@
 
 from flask_sqlalchemy import SQLAlchemy 
 
+from flask_admin.contrib import sqla
+from flask_admin.contrib.sqla import ModelView
+
 db = SQLAlchemy()
 
 ######################################
@@ -23,6 +26,11 @@ class Style(db.Model):
 		return "<Style: style_id = %s style_name = %s>" % (self.style_id, self.style_name)
 
 
+class StyleAdmin(sqla.ModelView):
+	column_display_pk = True
+	form_columns = ['style_id', 'style_name', 'style_description', 'style_svg', 'discontinued']
+
+
 class Size(db.Model):
 	"""Size options"""
 
@@ -36,6 +44,11 @@ class Size(db.Model):
 	def __repr__(self):
 		"""Quick reference when the object is printed"""
 		return "<Size: size_code = %s>" % self.size_code
+
+class SizeAdmin(sqla.ModelView):
+	column_display_pk = True
+	form_columns = ['size_code', 'size', 'size_description', 'discontinued']
+
 
 
 class Waist(db.Model):
@@ -52,6 +65,10 @@ class Waist(db.Model):
 		"""Quick reference when the object is printed"""
 		return "<Waist: waist_id = %s waist_name = %s>" % (self.waist_id, self.waist_name)
 
+class WaistAdmin(sqla.ModelView):
+	column_display_pk = True
+	form_columns = ['waist_id', 'waist_name', 'waist_description', 'discontinued']
+
 
 class Fabric(db.Model):
 	"""Fabric options"""
@@ -67,6 +84,10 @@ class Fabric(db.Model):
 	def __repr__(self):
 		"""Quick reference when the object is printed"""
 		return "<Fabric: fabric_id = %s fabric_name = %s >" % (self.fabric_id, self.fabric_name)
+
+class FabricAdmin(sqla.ModelView):
+	column_display_pk = True
+	form_columns = ['fabric_id', 'fabric_name', 'fabric_description', 'fabric_thumbnail', 'discontinued']
 
 
 class Color(db.Model):
@@ -87,6 +108,11 @@ class Color(db.Model):
 		"""Quick reference when printed"""
 		return "<Color: color_id = %s color_name = %s fabric_id = %s>" % (self.color_id, self.color_name, self.fabric_id)
 
+class ColorAdmin(sqla.ModelView):
+	column_display_pk = True
+	form_columns = ['color_id', 'color_name', 'color_hex', 'color_thumbnail', 'discontinued']
+
+
 class Embroidery(db.Model):
 	"""Embroidery options"""
 
@@ -99,6 +125,10 @@ class Embroidery(db.Model):
 	def __repr__(self):
 		"""Quick reference when the object is printed"""
 		return "<Embroidery: embroidery_id = %s embroidery_location = %s >" % (self.embroidery_id, self.embroidery_location)
+
+class EmbroideryAdmin(sqla.ModelView):
+	column_display_pk = True
+	form_columns = ['embroidery_id', 'embroidery_location', 'discontinued']
 
 class Stitching(db.Model):
 	"""Stitching options"""
@@ -113,6 +143,11 @@ class Stitching(db.Model):
 	def __repr__(self):
 		"""Quick reference when the object is printed"""
 		return "<Stitching: stitching_id = %s stitching_style = %s >" % (self.stitching_id, self.stitching_style)
+
+class StitchingAdmin(sqla.ModelView):
+	column_display_pk = True
+	form_columns = ['stitching_id', 'stitching_style', 'thumbnail', 'discontinued']
+
 
 class Design(db.Model):
 	"""User generated designs"""
@@ -151,10 +186,6 @@ class Order(db.Model):
 
 	design = db.relationship("Design", backref=db.backref("orders"))
 
-# class Measurement(db.Model):
-# 	"""Design-specific sizing and measurement information"""
-# 	__tablename__ = "measurements"
-
 
 #######################################
 #Helper functions
@@ -162,7 +193,7 @@ class Order(db.Model):
 def connect_to_db(app):
 	"""Connects db to flask app."""
 
-	app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///designlab.db'
+	app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://georgia@localhost/designlab'
 	db.app = app
 	db.init_app(app)
 
