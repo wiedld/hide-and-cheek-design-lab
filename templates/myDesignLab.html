@@ -70,19 +70,22 @@ $(document).ready( function(){
 			lowWaist.setAttribute('fill', current_design.color_hex);
 		});
 	});
-    $.get('/selections.json', function (selections) {
-		console.log(selections.selections.waist);
+    $.get('/selections.json', function (data) {
 
+		$('#style').append(data.selections.style);
+		$('#size').append(data.selections.size);
+		$('#waist').append(data.selections.waist);
+		$('#fabric').append(data.selections.fabric);
+		$('#color').append(data.selections.color);
+		$('#placement').append(data.selections.placement);
+		$('#stitch').append(data.selections.stitch);
+		$('#text').append(data.selections.text);
 
-		$('#style').append(selections.selections.style);
-		$('#size').append(selections.selections.size);
-		$('#waist').append(selections.selections.waist);
-		$('#fabric').append(selections.selections.fabric);
-		$('#color').append(selections.selections.color);
-		$('#placement').append(selections.selections.placement);
-		$('#stitch').append(selections.selections.stitch);
-		$('#text').append(selections.selections.text);
-
+		var suggestions = data.selections.suggestions;
+		console.log(suggestions);
+		if( suggestions != 'None'){
+			$('#size').append(' + suggestions: ' + suggestions);
+		};
 
 	});
 	$('.tabs').hide();

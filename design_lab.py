@@ -55,12 +55,13 @@ def index():
 		"color_hex": None,
 		"embroidery_text": None,
 		"embroidery_place":None,
-		"stitching_style": None
+		"stitching_style": None,
+		"suggestions": None
 		}
 	return render_template("landing_page.html")
 
 
-@app.route('/step1')
+@app.route('/step1', methods=["GET", "POST"])
 def step_one():
 	"""Form to choose style, size, cut, waist"""
 
@@ -88,6 +89,19 @@ def styles():
 	return jsonify({"styles": styles})
 
 
+@app.route('/suggestions', methods=["POST"])
+def suggestions():
+	"""Adds custom sizing suggestions to session"""
+
+	session['current_design']['suggestions']= request.form.get('size-suggestions')
+
+	print "\n\n\n"
+	print session['current_design']['suggestions'] 
+	print "\n\n\n"
+
+	return redirect('/step1')
+
+
 @app.route('/step2', methods=["POST"])
 def step_two():
 	"""Form to choose fabric"""
@@ -99,7 +113,7 @@ def step_two():
 	session['current_design']['waist_id'] = request.form.get('waist')
 
 	print "\n\n\n"
-	print session['current_design']['waist_id']  
+	print session['current_design']['waist_id'] 
 	print "\n\n\n"
 	
 
@@ -151,7 +165,8 @@ def new():
 		"color_hex":None,
 		"embroidery_text": None,
 		"embroidery_place": None,
-		"stitching_style": None
+		"stitching_style": None,
+		"suggestions": None
 		}
 
 	return redirect('/step1')
@@ -187,7 +202,8 @@ def selections():
 								   "color":color[0],
 								   "placement": place_sesh,
 								   "stitch": stitch_sesh,
-								   "text": text_sesh
+								   "text": text_sesh,
+								   "suggestions": session['current_design']['suggestions']
 								   }
 					})
 

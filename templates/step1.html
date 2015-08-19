@@ -26,8 +26,16 @@
         <h4 class="modal-title" id="myModalLabel">Sizing Help</h4>
       </div>
       	<div class="modal-body">
-      		<p>Need more sizing info...</p>
-      		<img src="http://38.media.tumblr.com/2d3ee38e0f15b78187de8e51d64b495c/tumblr_n96tacfsi51ru5h8co1_500.gif"/>
+      		<form class="form-group" action='/suggestions' method="post">
+	      		<p> Tell us about your body shape and measurements and we'll make sure your pants fit just right. </p>
+	      		<textarea rows="10" cols="50" name="size-suggestions" id="size-suggestions" placeholder="Sizing suggestions...."></textarea>
+	      		<br>
+	      		<input type="submit" class="btn-editorial submit" value="Save my suggestions">
+      		</form>
+      		<div class="modal-footer">
+        		<button type="button" class="btn-editorial" data-dismiss="modal">Close</button>
+      		</div>
+      		<!-- <img src="http://38.media.tumblr.com/2d3ee38e0f15b78187de8e51d64b495c/tumblr_n96tacfsi51ru5h8co1_500.gif"/> -->
       	</div>
   	</div>
 </div>
@@ -199,12 +207,10 @@ var setUpPage = function(){
 		});	
 	});
 			 
-
 	// change the slider bar to select waist style
 	$('#waist').click( function(evt){
 		console.log(evt);
 		change_waist();
-
 	});
 
 	// Form validation 
