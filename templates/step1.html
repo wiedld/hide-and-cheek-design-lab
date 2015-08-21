@@ -33,65 +33,64 @@
 	      		<input type="submit" class="btn-editorial submit" value="Save my suggestions">
       		</form>
       		<div class="modal-footer">
-        		<button type="button" class="btn-editorial" data-dismiss="modal">Close</button>
+        		<button type="button" class="btn-modal" data-dismiss="modal">Close</button>
       		</div>
-      		<!-- <img src="http://38.media.tumblr.com/2d3ee38e0f15b78187de8e51d64b495c/tumblr_n96tacfsi51ru5h8co1_500.gif"/> -->
       	</div>
   	</div>
 </div>
 </div>
-
-
 <!-- Main content starts here -->
-<div class="doll-area" id="design-div" data-toggle="tooltip" data-placement="top" title="Click anywhere on the pants to adjust the length">
-	<!-- this is the base image -->
-	<div class="toolTip-area"></div>
-	<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}" alt="blank model"></object> 
-	
-</div>
+
 
 <!-- Form starts here -->
-<form action='/step2' method="post" id="step1-form">
-<div class="row">
-	<div class="well col-md-3">
-		<p class="section"> Style </p>
-		<ul class="list-group styles">
-		{% for style in styles %}
-		<li class="list-group-item"> <input type="radio" name="style" class="style-button" value="{{style.style_id}}"  data-validate="required"> {{style.style_name}}</li>
-		{% endfor %}
-		</ul>
-		<!-- Button to launch style guide modal window -->
-		<button class="btn-modal" type="button" data-toggle="modal" data-target="#styleGuide" id="style-guide"> Style Guide </button> 
-		
-		<br>
-	</div>
-</div>
-<div class="row">
+<form action='/step2' method="post" id="step1-form">	
+	<div class="row">
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-3 form-group">
+			<div class="well">
+				<p class="section"> Style </p>
+				<ul class="list-group styles">
+					{% for style in styles %}
+					<li class="list-group-item"> <input type="radio" name="style" class="style-button" value="{{style.style_id}}" data-validate="required"> {{style.style_name}}</li>
+					{% endfor %}
+				</ul>
+				<!-- Button to launch style guide modal window -->
+				<button class="btn-modal" type="button" data-toggle="modal" data-target="#styleGuide" id="style-guide"> Style Guide </button> 
+			</div>
 
-	<div class="well col-md-3">
-		<p class="section">Size </p>
-		<select name="size"> 	
-			{% for size in sizes %}
-		<option value="{{size.size_code}}">{{size.size}}</option>
-		{% endfor %}
-		</select>
-		<br>
-		<br>
-		<!-- Button to launch sizing help window -->
-		<button class="btn-modal" type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> I don't know my size</button>
-	</div>
-</div>
+			<div class="well">
+				<p class="section">Size </p>
+				<select class="size"name="size"> 	
+					{% for size in sizes %}
+					<option class="size" value="{{size.size_code}}">{{size.size}}</option>
+					{% endfor %}
+				</select>
+				<br>
+				<br>
+				<!-- Button to launch sizing help window -->
+				<button class="btn-modal" type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> I don't know my size</button>
+			</div>
+		</div>
+	
 
-<div class="row">
-	<div class="well col-md-3" id="slider">
-		<p class="section" >Waist height </p>
-		<br>
-		<p class="label">High-Waist</p><input class="bar" name="waist" id="waist" orient="vertical" type="range" min="1" max="2" step="1" value="2"> <p class"label">Low-waist</p>
-	</div>
-		<div class="col-md-1 col-md-offset-7">
-		<input type="hidden" name="style-svg" id="style-svg">
-		<input class="btn-editorial submit" type="submit" href="/step2" value ="Next step please!">
-	</div>
+		<div class="col-md-4 col-md-offset-1" id="design-div">
+		<!-- this is the base image -->
+		<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}" alt="blank model"></object> 
+		</div>
+
+		<div class="col-md-2">
+			<div class="well" id="slider">
+				<p class="section" >Waist height </p>
+				<br>
+				<p class="label">High-Waist</p><input class="bar" name="waist" id="waist" orient="vertical" type="range" min="1" max="2" step="1" value="{{session['current_design']['waist_id']}}"> <p class="label">Low-waist</p>
+			</div>
+	
+			<div>
+				<input type="hidden" name="style-svg" id="style-svg">
+				<input class="btn-editorial submit" type="submit" href="/step2" value ="Next step please!">
+			</div>
+		</div>
 	</div>
 </form>
 
@@ -159,6 +158,7 @@ $(document).ready(function(){
 				style_data = data.styles;
 				index = -1;
 				setUpPage();
+				change_waist();
 	});
 
 	$('#styles-tab').addClass('selected');
@@ -189,6 +189,7 @@ $(document).ready(function(){
 			console.log(index);
 			change_svg(style_data, index);
 			change_radio(style_data, index);
+			$('input[name=waist').val('2');
 			});
 	});
 
@@ -202,7 +203,8 @@ var setUpPage = function(){
 		$(this).on('click', function(evt) {
 			index = $(this).val() - 1;
 			console.log("INDEX");
-			console.log(index)
+			console.log(index);
+			$('input[name=waist').val('2');
 			change_svg(style_data, index);
 		});	
 	});
@@ -220,7 +222,6 @@ var setUpPage = function(){
 		if(styleSelected == 0) {
 		   //Is not Valid
 		   evt.preventDefault();
-		   // alert("Please select a style!");
 		   $('.styles').addClass('nope');
 		   console.log(evt);
 		}

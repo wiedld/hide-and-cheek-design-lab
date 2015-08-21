@@ -9,7 +9,6 @@ from flask import Flask, render_template, redirect, request, flash, session, jso
 
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-# import flask_wtf
 
 from flask_debugtoolbar import DebugToolbarExtension
 from instagram import client
@@ -19,15 +18,9 @@ from model import Style, Size, Waist, Fabric, Color, Embroidery, Stitching, conn
 
 app = Flask(__name__)
 
-#Create admin
-#Add more administrative views here
-
 
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ommmnamasteshantishantishanti" 
-# app.config["MAPBOX_MAP_ID"] = "mapboxid"
-# app.config['CSRF_ENABLED'] = False
-# flask_wtf.CsrfProtect(app)
 
 # app.jinja_env.undefined = StrictUndefined #remove this when deploying/ working in admin section!!!!!!!!!!!!!!!
 app.jinja_env.globals.update(time=time)
@@ -41,6 +34,12 @@ instaConfig = {
 
 api = client.InstagramAPI(**instaConfig)
 
+@app.after_request
+def after_request(response):
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    return response
+
 @app.route('/')
 def index():
 	"""Landing page"""
@@ -49,7 +48,7 @@ def index():
 		"style_id": None,
 		"style_svg": "model.svg",
 		"size_code": None,
-		"waist_id": None,
+		"waist_id": "2",
 		"fabric_id": None,
 		"color_id": None,
 		"color_hex": None,
@@ -102,7 +101,7 @@ def suggestions():
 	return redirect('/step1')
 
 
-@app.route('/step2', methods=["POST"])
+@app.route('/step2', methods=["GET", "POST"])
 def step_two():
 	"""Form to choose fabric"""
 
@@ -121,7 +120,7 @@ def step_two():
 	return render_template("step2.html", fabrics=fabrics)
 
 
-@app.route('/step3', methods=["POST"])
+@app.route('/step3', methods=["GET", "POST"])
 def step_three():
 	"""Last form: choose fabric color and custom embroidery"""
 
@@ -159,10 +158,10 @@ def new():
 		"style_id": None,
 		"style_svg": "model.svg",
 		"size_code": None,
-		"waist_id": None,
+		"waist_id": "2",
 		"fabric_id": None,
 		"color_id": None,
-		"color_hex":None,
+		"color_hex": None,
 		"embroidery_text": None,
 		"embroidery_place": None,
 		"stitching_style": None,
@@ -191,8 +190,9 @@ def selections():
 	color = db.session.query(Color.color_name).filter(Color.color_id==color_sesh).one()
 
 	place_sesh = session['current_design']['embroidery_place']
-	# placement = db.session.query(Embroidery.embroidery_location).filter(Embroidery.embroidery_id==place_sesh).one()
+
 	stitch_sesh = session['current_design']['stitching_style']
+
 	text_sesh = session['current_design']['embroidery_text']
 
 	return jsonify({"selections": {"style": style[0], 
@@ -206,19 +206,6 @@ def selections():
 								   "suggestions": session['current_design']['suggestions']
 								   }
 					})
-
-
-#FIXME
-@app.route('/saved', methods=["POST"])
-def save():
-	"""Saves the current design to the database"""
-
-	style_id = session['current_design']['style_id']
-	
-	new_design = Design(style_id=style_id,  ) #FIXME
-
-	flash("Your design is saved!")
-	return redirect('/myDesignLab')
 
 
 @app.route('/Lookbook', methods=["GET", "POST"])
@@ -258,6 +245,8 @@ if __name__ == "__main__":
 
     connect_to_db(app)
 
+    #Create admin
+	#Add more administrative views here
     admin = Admin(app, name='designlab', template_mode='bootstrap3')
     admin.add_view(StyleAdmin(Style, db.session))
     admin.add_view(SizeAdmin(Size, db.session))

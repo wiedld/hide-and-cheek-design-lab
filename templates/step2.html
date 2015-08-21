@@ -18,35 +18,37 @@
 </div>
 
 
-<div class="doll-area">
-	<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object> 
-</div>
 
-
-
-<form action='/step3' id="fabric-form" method="post">
 	<div class="row">
-		<div class="well col-md-3">
-			<p class="section"> Fabrics</p>
-			<ul class="list-group fabrics">
-				{% for fabric in fabrics %}
-				<li class="list-group-item" id="{{fabric.fabric_id}}">
-					<input type="radio" name="fabric" class="fabric-button" data-extra-text="{{fabric.fabric_description}}"value="{{fabric.fabric_id}}"> {{fabric.fabric_name}}
-				</li>
-				{% endfor %} 
-			</ul>
-			<div id="fabric-details"></div>
-			
-			<!-- button to launch fabrics modal window -->
-			<!-- <button class="btn-modal" type="button" data-toggle="modal" data-target="#fabInfo" id="fab-info"> The Fabric of Hide&ampCheek</button> -->
+		<div class="col-md-1">
+			<a class="btn-modal" href="javascript:history.back()"> &lt; Step 1 </a>
 		</div>
+		<form action='/step3' id="fabric-form" method="post">
+		<div class="col-md-3">
+			<div class="well">
+				<p class="section"> Fabrics</p>
+				<ul class="list-group fabrics">
+					{% for fabric in fabrics %}
+					<li class="list-group-item" id="{{fabric.fabric_id}}">
+						<input type="radio" name="fabric" class="fabric-button" data-extra-text="{{fabric.fabric_description}}" value="{{fabric.fabric_id}}"> {{fabric.fabric_name}}
+					</li>
+					{% endfor %} 
+				</ul>
+				<div id="fabric-details"></div>
+			</div>
+			
+			
+		</div>
+		<div class="col-md-4 col-md-offset-1">
+			<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object> 
+		</div>
+		<div class="col-md-1">
+<!-- 		<div class="col-md-3 col-md-offset-2"> -->
+				<input type="submit" class ="btn-editorial" href="/step3" value="Next step please!"/>
+			</div>
 
 	</div>
-	<div class="row">
-		<div class="col-md-3">
-		<input type="submit" class ="btn-editorial" href="/step3" value="Next step please!"/>
-	</div>
-	</div>
+	
 </form>
 
 
@@ -79,6 +81,10 @@ $(document).ready( function(){
 			} else {
 				highWaist.setAttribute('visibility', 'visible');
 				lowWaist.setAttribute('visibility', 'hidden');
+			};
+
+			if (current_design.fabric_id != null){
+				$("input[name='fabric']").attr('checked', 'current_design.fabric_id');
 			};
 		});
 	});

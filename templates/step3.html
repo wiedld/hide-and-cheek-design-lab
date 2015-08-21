@@ -2,51 +2,53 @@
 
 {% block body %}
 
-<div class="doll-area">
-	<object class="doll" id="design-object" svg="{{session['current_design']['style_svg']}}" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object> 
-	<div class="toolTip-area"></div>
-</div>
 
 <form action='/myDesignLab' id="color-form" method="post">
-	<div class="row form-group">
-		<div class="col-md-3 well">
-			<p class="section">Colors</p>
-			<ul class="colors list-group">
-			{% for color in colors %}
-				<li class="list-group-item">
-					<input type="radio" name="color" id="{{color.color_id}}" class="color-button" hex="{{color.color_hex}}" value="{{color.color_id}}"> {{color.color_name}}
-					<img id="{{color.color_thumbnail}}" src="./static/{{color.color_thumbnail}}"/>
-				</li>
-			{% endfor %} 
-			</ul>
+	<div class="row">
+		<div class="col-md-2">
+			<a class="btn-modal" href="javascript:history.back()"> &lt; Step 2 </a>
 		</div>
-	</div>
-
-	<div class="row form-group">
-		<div class="col-md-3 well">
-			<p class="section">Embroidery</p>
-			<div id="tag-field">
-				<label>Custom Tag: <i>max 50 chars.</i></label>
-					<br>
-				<textarea rows="3" cols="25" name="embroidery" id="embroidery-text" placeholder="Add a personal message!"></textarea>
-			</div>
-			<br>
-			<label for="field-embroidery">Placement:</label><br>
-				<ul class="list-group">
-				{% for e in embroidery %}
-					<li class="list-group-item"><input type="radio" name="emb-place" value="{{e.embroidery_location}}"> {{e.embroidery_location}}</li>
-				{% endfor %}
+		<div class="col-md-3">
+			<div class="well">
+				<p class="section">Colors</p>
+				<ul class="colors list-group">
+					{% for color in colors %}
+					<li class="list-group-item">
+						<input type="radio" name="color" id="{{color.color_id}}" class="color-button" hex="{{color.color_hex}}" value="{{color.color_id}}"> {{color.color_name}}
+						<img id="{{color.color_thumbnail}}" src="./static/{{color.color_thumbnail}}"/>
+					</li>
+					{% endfor %} 
 				</ul>
+			</div>
+
+			<div class="well form-group">
+				<p class="section">Embroidery</p>
+				<div id="tag-field">
+					<label>Custom Tag : <i>max 50 chars.</i></label>
+						<br>
+					<textarea rows="3" cols="25" name="embroidery" id="embroidery-text" placeholder="Add a personal message!"></textarea>
+				</div>
+				<br>
+				<label for="field-embroidery">Placement:</label><br>
+					<ul class="list-group">
+					{% for e in embroidery %}
+						<li class="list-group-item"><input type="radio" name="emb-place" value="{{e.embroidery_location}}"> {{e.embroidery_location}}</li>
+					{% endfor %}
+					</ul>
 			
-			<img name="waist-band"><br>
-			<label for="field-stitch">Font:</label>
-			<ul class="list-group fonts">
-				{% for s in stitch %}
-					<li class="list-group-item"><input type="radio" name="stitch" value="{{s.stitching_style}}"> {{s.stitching_style}}</li>
-				{% endfor %}
-			</ul>
+				<img name="waist-band"><br>
+				<label for="field-stitch">Font:</label>
+				<ul class="list-group fonts">
+					{% for s in stitch %}
+						<li class="list-group-item"><input type="radio" name="stitch" value="{{s.stitching_style}}"> {{s.stitching_style}}</li>
+					{% endfor %}
+				</ul>
+			</div>
 		</div>
-		<div class="col-md-1 col-md-offset-7"> 
+		<div class="col-md-4 col-md-offset-1">
+		<object class="doll" id="design-object" svg="{{session['current_design']['style_svg']}}" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object> 
+		</div>
+		<div class="col-md-1"> 
 			<input type="hidden" name="hex" id="color-hex">
 			<input type="submit" class="btn-editorial" href="/myDesignLab" value ="All done!">
 		</div>
@@ -66,15 +68,15 @@ var objData;
 
 ///////DEFINE FUNCTIONS////////
 var fillSvg = function(hex) {
-	obj = document.getElementById("design-object");
-	objData = obj.contentDocument;
-	console.log(objData);	
-	var highWaist = objData.getElementById("highWaist");
-	console.log(highWaist);
-	var lowWaist = objData.getElementById("lowWaist");
-	highWaist.setAttribute('fill', hex);
-	lowWaist.setAttribute('fill', hex);
-	$('#color-hex').attr('value', hex);
+		obj = document.getElementById("design-object");
+		objData = obj.contentDocument;
+		console.log(objData);	
+		var highWaist = objData.getElementById("highWaist");
+		console.log(highWaist);
+		var lowWaist = objData.getElementById("lowWaist");
+		highWaist.setAttribute('fill', hex);
+		lowWaist.setAttribute('fill', hex);
+		$('#color-hex').attr('value', hex);
 };
 
 
@@ -100,10 +102,24 @@ $(document).ready( function(){
 				highWaist.setAttribute('visibility', 'visible');
 				lowWaist.setAttribute('visibility', 'hidden');
 			};
+
+			console.log(current_design.color_hex);
+			if (current_design.color_id != null && current_design.color_hex != null){
+				$("input[name='color']").attr('checked', 'current_design.color_id');
+				fillSvg(current_design.color_hex);
+			};
+			if (current_design.stitching_style != null){
+				$("input[name='stitch']").attr('checked', 'current_design.stitching_style');
+			};
+			if (current_design.embroidery_place != null){
+				$("input[name='emb-place']").attr('checked', 'current_design.embroidery_place');
+			};
 		});
 	});
+	
 	$('#fabrics-tab').removeClass('selected');
 	$('#colors-tab').addClass('selected');
+
 });
 
 ///////////////EVENT HANDLERS///////////////
