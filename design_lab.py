@@ -34,11 +34,11 @@ instaConfig = {
 
 api = client.InstagramAPI(**instaConfig)
 
-@app.after_request
-def after_request(response):
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response.headers['Pragma'] = 'no-cache'
-    return response
+# @app.after_request
+# def after_request(response):
+#     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+#     response.headers['Pragma'] = 'no-cache'
+#     return response
 
 @app.route('/')
 def index():

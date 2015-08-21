@@ -1,7 +1,7 @@
 /*Design Lab Landing Page*/
 
 /* The body has an image that spans the entire size of the page.
-   Everything is centered and in white. */
+   Everything is centered and in grey. */
 /*
 body{
     background: #333 url("/static/background.jpg");
@@ -24,6 +24,7 @@ body {
     background: rgba(255, 255, 255, 0.9);
     font-family: 'Abel', sans-serif;
 }
+
 .panel-transparent {
     background: none;
     text-align: center;
@@ -48,7 +49,8 @@ body {
 h1.editorial{
     font-family: 'Abel', sans-serif;
     color: #525252;
-    font-size: 36px;
+    font-size: 38px;
+    font-weight: 450;
     line-height: 1;
     display: block;
     letter-spacing: 0;
@@ -62,30 +64,30 @@ h1.editorial{
 h2.editorial{
     font-family: 'Abel', sans-serif;
     color: #525252;
-     font-size: 1em;  
+     font-size: 24px;  
      display: block;
      text-transform: uppercase;
 }
 
-.btn-editorial {
+a.btn-editorial {
     font-family: 'Abel', sans-serif;
     color: #525252;
     cursor: pointer;
     display: inline-block;
     text-align: center;
-    font-size: 12px;
-    font-weight: 300;
+    font-size: 18px;
+    font-weight: 250;
     letter-spacing: 2px;
+    text-decoration: none;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    line-height: 43px;
+    line-height: 48px;
     height: 44px;
-    padding: 0 30px;
-    /*background: transparent;*/
+    padding: 0 40px;
     background: #fff; /* fallback color for old browsers */
-    background: rgba(255, 255, 255, 0.3);
-    border: 1.5px solid currentColor;
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid currentColor;
     text-transform: uppercase;
 
 }
@@ -93,13 +95,19 @@ h2.editorial{
 /* The footer always appears at the bottom of the browser window. */
 
 footer {
+    padding-left: 20px;
     font-family: 'Abel', sans-serif;
     position: fixed;
     bottom: 0;
-    width: 100%;  /* required because fixed position */
+    width: 100%;
+    vertical-align: baseline;  /* required because fixed position */
+}
+.social{
+    padding-right: 10px;
 }
 
 #copy{
+    padding-left: 20px;
     font-family: 'Abel', sans-serif;
     text-align: right;
 }

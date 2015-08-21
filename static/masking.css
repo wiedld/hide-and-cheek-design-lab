@@ -25,6 +25,9 @@ h1{
 }
 .footer{
     width: 100%;
+    text-align: center;
+    height:80px;
+    padding-bottom: 0;
 }
 
 .links{
@@ -123,7 +126,7 @@ h1{
     text-align: center;
     color: #474747;
     font-size: 12px;
-    font-weight: 400;
+    font-weight: 450;
     letter-spacing: 2px;
     text-transform: uppercase;
     -moz-box-sizing: border-box;
@@ -133,7 +136,7 @@ h1{
     height: 44px;
     padding: 0 30px;
     background: transparent;
-    border: 2px solid currentColor;
+    border: 1.5px solid currentColor;
 
 }
 
@@ -177,6 +180,9 @@ h1{
 .size{
     font-family: 'Arapey', serif;
 }
-
+.social{
+   vertical-align: top;
+   padding-bottom: 0;
+}
 
 
