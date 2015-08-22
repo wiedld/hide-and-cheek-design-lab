@@ -105,15 +105,15 @@ $(document).ready( function(){
 
 			console.log(current_design.color_hex);
 			if (current_design.color_id != null && current_design.color_hex != null){
-				$("input[name='color']").attr('checked', 'current_design.color_id');
+				// $("input[name='color']").attr('checked', 'current_design.color_id');
 				fillSvg(current_design.color_hex);
 			};
-			if (current_design.stitching_style != null){
-				$("input[name='stitch']").attr('checked', 'current_design.stitching_style');
-			};
-			if (current_design.embroidery_place != null){
-				$("input[name='emb-place']").attr('checked', 'current_design.embroidery_place');
-			};
+			// if (current_design.stitching_style != null){
+			// 	$("input[name='stitch']").attr('checked', 'current_design.stitching_style');
+			// };
+			// if (current_design.embroidery_place != null){
+			// 	$("input[name='emb-place']").attr('checked', 'current_design.embroidery_place');
+			// };
 		});
 	});
 	

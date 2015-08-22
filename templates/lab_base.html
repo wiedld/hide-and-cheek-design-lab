@@ -6,7 +6,7 @@
     <link href='http://fonts.googleapis.com/css?family=Arapey:400,400italic|Abel' rel='stylesheet' type='text/css'>
 </head>
 
-<body>
+<body onunload="">
 
 <div class="header">
     <!-- <div class="container"> -->
@@ -33,11 +33,17 @@
 <div class="container">
 
   <!-- Show flashed messages -->
-  {% with messages = get_flashed_messages() %}
+  <!-- {% with messages = get_flashed_messages() %}
       {% for message in messages %}
           <div class="alert alert-warning">{{ message }}</div>
       {% endfor %}
-  {% endwith %}
+  {% endwith %} -->
+
+  <ul>
+  {% for message in get_flashed_messages()%}
+    <li>{{message}}</li>
+  {% endfor %}
+  </ul>
 
     <div class="tabs">
 

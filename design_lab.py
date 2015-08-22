@@ -36,7 +36,7 @@ api = client.InstagramAPI(**instaConfig)
 
 # @app.after_request
 # def after_request(response):
-#     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+#     response.headers['Cache-Control'] = 'no-store'
 #     response.headers['Pragma'] = 'no-cache'
 #     return response
 
@@ -150,6 +150,15 @@ def my_design():
 	print "\n\n\n"
 
 	return render_template("myDesignLab.html")
+
+
+@app.route('/added', methods=['GET', 'POST'])
+def added():
+	"""Adds the current session to the shopping cart."""
+
+	status = "design added to cart!"
+	return json.dumps({'status': status})
+
 
 @app.route('/newDesign')
 def new():

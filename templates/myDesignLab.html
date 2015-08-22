@@ -4,6 +4,7 @@
 <div class="page-header">
 	<h1>my design lab</h1>
 </div>
+  
 
 <div class="row">
 	<div class="col-md-6">
@@ -26,7 +27,11 @@
 			<li id ="stitch" class="list-group-item"> <b>STITCHING STYLE:</b> </li>
 			<li id ="text" class="list-group-item"> <b>TEXT:</b> </li>
 		</ul>
-		<button class="btn-editorial"> add to shopping cart ! </button>
+		<div id="added">
+			
+				<button class="add btn-editorial" id="add"> add to shopping cart!</button>
+		</div>
+		
 	</div>
 
 
@@ -82,6 +87,24 @@ $(document).ready( function(){
 	});
 	$('.tabs').hide();
 });
+
+$(".add").click( function(evt){
+	console.log(evt);
+	
+	$.ajax({
+	    type: "GET",
+	    url: "/added",
+	    success: function(resp) {
+	    	console.log(resp.status);
+		      //display message back to user here
+		    $('#added').html("<div id='flash'></div>");
+		    $('#flash').html("<h3> Sweet! Your design has been added to your shopping cart!</h3>").append("<a href='http://www.hide-cheek.com' class='btn-modal'> go back to main site</a>").hide().fadeIn(1500, function() {
+		    		$('#flash').append("<img id='ok' src='images/check.png' />");
+		  		});
+	    }
+	});
+});
+
 
 </script>
 

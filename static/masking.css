@@ -12,8 +12,8 @@ h1{
     font-family: 'Abel', sans-serif;
     font-weight: bold;
     letter-spacing: 2.5px;
-
 }
+
 .header{
 	width: 100%;
   	/* Set the fixed height of the header here */
@@ -164,6 +164,11 @@ h1{
 .nope {
 	border: 2px solid #FF5050;
 }
+h3{
+    font-family: 'Abel', sans-serif;
+    /*font-weight: bold;*/
+    letter-spacing: 2px;
+}
 
 #slider{
 	/*position: left;*/
@@ -184,5 +189,6 @@ h1{
    vertical-align: top;
    padding-bottom: 0;
 }
+
 
 
