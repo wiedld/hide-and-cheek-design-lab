@@ -26,12 +26,29 @@
         <h4 class="modal-title" id="myModalLabel">Sizing Help</h4>
       </div>
       	<div class="modal-body">
-      		<form class="form-group" action='/suggestions' method="post">
-	      		<p> Tell us about your body shape and measurements and we'll make sure your pants fit just right. </p>
-	      		<textarea rows="10" cols="50" name="size-suggestions" id="size-suggestions" placeholder="Sizing suggestions...."></textarea>
-	      		<br>
-	      		<input type="submit" class="btn-editorial submit" value="Save my suggestions">
-      		</form>
+      		<table class="table table-striped" style="width:100%; height: 200px; float:left; padding:10px 10px;">
+	            <thead>
+	                    <th class="title">
+	                    	<td>Relative Sizes</td>
+	                    	<td>Waist</td>
+	                    	<td>Hips</td>
+	                    </th>
+	            </thead>
+	            <tbody>
+	            	{%for size in sizes%}
+	                	<tr><td style="font-style:italic;">{{size.size}}</td><td>{{size.size_description}}</td><td>Waist</td><td>Hips</td></tr>
+	                {%endfor%}
+	            </tbody>
+        	</table>
+        	<div id="suggestions-form">
+	      		<form class="form-group" name="suggestions" action=''>
+		      		<p> Tell us about your body shape and measurements and we'll make sure your pants fit just right. </p>
+		      		<textarea rows="5" cols="90" name="size-suggestions" id="size-suggestions" placeholder="Sizing suggestions...."></textarea>
+		      		<label class="error" for="size-suggestions" id="suggestions_error">Add your suggestions before submitting</label>
+		      		<br>
+		      		<input type="submit" name="submit" class="btn-editorial" id="submit-suggestions" value="Save my suggestions">
+	      		</form>
+      		</div>
       		<div class="modal-footer">
         		<button type="button" class="btn-modal" data-dismiss="modal">Close</button>
       		</div>
@@ -40,55 +57,79 @@
 </div>
 </div>
 <!-- Main content starts here -->
-
-
 <!-- Form starts here -->
 <form action='/step2' method="post" id="step1-form">	
 	<div class="row">
-		<div class="col-md-1">
-		</div>
-		<div class="col-md-3 form-group">
-			<div class="well">
-				<p class="section"> Style </p>
-				<ul class="list-group styles">
-					{% for style in styles %}
-					<li class="list-group-item"> <input type="radio" name="style" class="style-button" value="{{style.style_id}}" data-validate="required"> {{style.style_name}}</li>
-					{% endfor %}
-				</ul>
-				<!-- Button to launch style guide modal window -->
-				<button class="btn-modal" type="button" data-toggle="modal" data-target="#styleGuide" id="style-guide"> Style Guide </button> 
+		<div class="col-xs-6 col-md-3 col-md-offset-1 panel-group" id="accordion"role="tablist" aria-multiselectable="true">
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingOne">
+					<h4 class="panel-title">
+						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="section"> Style 
+						</a> 
+					</h4>
+				</div>
+				<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+					<div class="panel-body size-panel"> 
+						<ul class="list-group styles">
+							{% for style in styles %}
+							<li class="list-group-item"> <input type="radio" name="style" class="style-button" value="{{style.style_id}}" data-validate="required"> {{style.style_name}}</li>
+							{% endfor %}
+						</ul>
+						<!-- Button to launch style guide modal window -->
+						<button class="btn-modal" type="button" data-toggle="modal" data-target="#styleGuide" id="style-guide"> Style Guide </button> 
+					</div>
+				</div>
 			</div>
-
-			<div class="well">
-				<p class="section">Size </p>
-				<select class="size"name="size"> 	
-					{% for size in sizes %}
-					<option class="size" value="{{size.size_code}}">{{size.size}}</option>
-					{% endfor %}
-				</select>
-				<br>
-				<br>
-				<!-- Button to launch sizing help window -->
-				<button class="btn-modal" type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> I don't know my size</button>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingTwo">
+					<h4 class="panel-title">
+						<a class="collapsed section" role="button" data-toggle="collapse" data-parent="#accordion"
+						href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> Size 
+						</a>
+					</h4>
+				</div>
+				<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+					<div class="panel-body">
+						<select class="size"name="size"> 	
+							{% for size in sizes %}
+							<option class="size" value="{{size.size_code}}">{{size.size}}</option>
+							{% endfor %}
+						</select>	
+						<br>
+						<br>
+						<!-- Button to launch sizing help window -->
+						<button class="btn-modal" type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> I don't know my size</button>
+						<p id="submitted-suggestions"></p>
+					</div>
+				</div>	
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingThree">
+					<h4 class="panel-title">
+						<a class="collapsed section" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Waist Height
+						</a>
+					</h4>
+				</div>
+				<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+					<div class="panel-body" id="slider">
+						<p class="label">High-Waist</p>
+						<input class="bar" name="waist" id="waist" orient="vertical" type="range" min="1" max="2" step="1" value="{{session['current_design']['waist_id']}}">
+						<p class="label">Low-waist</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	
-
-		<div class="col-md-4 col-md-offset-1" id="design-div">
 		<!-- this is the base image -->
-		<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}" alt="blank model"></object> 
+		<div class=" col-xs-6 col-md-4 col-md-offset-1" id="design-div">
+			<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}" alt="blank model"></object> 
 		</div>
-
-		<div class="col-md-2">
-			<div class="well" id="slider">
-				<p class="section" >Waist height </p>
-				<br>
-				<p class="label">High-Waist</p><input class="bar" name="waist" id="waist" orient="vertical" type="range" min="1" max="2" step="1" value="{{session['current_design']['waist_id']}}"> <p class="label">Low-waist</p>
-			</div>
-	
-			<div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-md-2 col-md-offset-8">
+			<div class="submit">
+				<input class="btn-editorial" type="submit" href="/step2" value ="Next step please!">
 				<input type="hidden" name="style-svg" id="style-svg">
-				<input class="btn-editorial submit" type="submit" href="/step2" value ="Next step please!">
 			</div>
 		</div>
 	</div>
@@ -107,14 +148,52 @@ var svg_path;
 
 
 ///////DEFINE FUNCTIONS////////
-var change_svg = function (style_data, index) {
+$("#submit-suggestions").click( submitSuggestions);
+
+
+function submitSuggestions(evt) {
+	evt.preventDefault();
+	var suggestions = $("input#size-suggestions").val();
+	if (suggestions == "") { 
+		$("label#suggestions_error").show();
+    	$("input#size-suggestions").focus();
+    } else {
+    	var suggestionInputs = {'suggestions': suggestions};
+    	$.post('/suggestions', suggestionInputs, function() {
+			$('#suggestions-form').html("<div id='message'></div>");
+	        $('#message').html("<p>Suggestions submitted</p>").hide().fadeIn(1500, function() {
+	        	$('#submitted-suggestions').html(suggestions); //this doesnt work yet
+    		});
+    	});
+	};
+};
+
+
+// EXAMPLES FROM JOEL
+// function do(evt) {
+// 	evt.preventDefault();
+// 	alert("hi");
+// 	// return false;
+// }
+// document.getElementById('myButton').setEventHandler('click', do);
+//    is the same as
+// $("#myButton").click(do);
+
+
+
+
+function change_svg (style_data, index) {
 	svg_path = style_data[index].style_svg;
-	console.log("This is the svg_path:")
-	console.log(svg_path);
-	$('#design-object').attr('data', '/static/svg/'+svg_path); //changes the src of the img 
 	$('#style-svg').attr('value', svg_path);
-	console.log($('#style-svg').val()); //svg path can be added to session
 	$('.styles').removeClass('nope');
+	$('#design-object').remove();
+	var newObject = document.createElement('object');
+	newObject.setAttribute('data', '/static/svg/'+svg_path);
+	newObject.id = 'design-object';
+	newObject.className = 'doll';
+	newObject.addEventListener('load', loadStyleHandler);
+	$('#design-div').append(newObject);
+	console.log(newObject);
 };
 
 var change_radio = function(style_data, index){
@@ -158,40 +237,24 @@ $(document).ready(function(){
 				style_data = data.styles;
 				index = -1;
 				setUpPage();
-				change_waist();
-	});
-
+				
+				});
 	$('#styles-tab').addClass('selected');
-
+	$('.error').hide();
+	var waist = $('#waist').val();
+		if (waist != 2){
+			change_waist();
+		};
 });
 		
 
 		///////EVENT HANDLERS////////
 
-	// // click the image to change the style 
-	console.log(index);
-	var obj = document.getElementById("design-object");
-	console.log(obj);
-	obj.addEventListener('load', function(){
-		var obj = document.getElementById("design-object");
-		var objData = obj.contentDocument;
-
-		var el = objData.getElementById("doll");
-		console.log(el);
-		el.addEventListener("click", function(evt){
-
-			console.log("clicked!");
-			console.log(evt);
-			index++;
-			if (index === style_data.length) {
-				index = 0;
-			}
-			console.log(index);
-			change_svg(style_data, index);
-			change_radio(style_data, index);
-			$('input[name=waist').val('2');
-			});
-	});
+// // click the image to change the style 
+console.log(index);
+var obj = document.getElementById("design-object");
+console.log(obj);
+obj.addEventListener('load', loadStyleHandler);
 
 var setUpPage = function(){
 	console.log("Page is set up now!");
@@ -204,7 +267,7 @@ var setUpPage = function(){
 			index = $(this).val() - 1;
 			console.log("INDEX");
 			console.log(index);
-			$('input[name=waist').val('2');
+			$("input[name='waist']").val('2');
 			change_svg(style_data, index);
 		});	
 	});
@@ -229,10 +292,30 @@ var setUpPage = function(){
 		
 };
 
+function clickStyleHandler(evt){
+	console.log(evt);
+	index++;
+	if (index === style_data.length) {
+		index = 0;
+	}
+	console.log(index);
+	change_svg(style_data, index);
+	change_radio(style_data, index);
+	$('input[name=waist').val('2');
+}
 
+function loadStyleHandler(evt){
 
+	var obj = document.getElementById("design-object");
+	var objData = obj.contentDocument;
+
+	var el = objData.getElementById("doll");
+	console.log(el);
+	el.addEventListener("click", clickStyleHandler);
+}
 
 
 </script>
+
 
 {% endblock %}

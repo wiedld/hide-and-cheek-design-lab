@@ -20,17 +20,14 @@
 
 
 	<div class="row">
-		<div class="col-md-1">
-			<a class="btn-modal" href="javascript:history.back()"> &lt; Step 1 </a>
-		</div>
 		<form action='/step3' id="fabric-form" method="post">
-		<div class="col-md-3">
+		<div class="col-xs-6 col-md-4 col-md-offset-1">
 			<div class="well">
 				<p class="section"> Fabrics</p>
 				<ul class="list-group fabrics">
 					{% for fabric in fabrics %}
 					<li class="list-group-item" id="{{fabric.fabric_id}}">
-						<input type="radio" name="fabric" class="fabric-button" data-extra-text="{{fabric.fabric_description}}" value="{{fabric.fabric_id}}"> {{fabric.fabric_name}}
+						<input type="radio" name="fabric" class="fabric-button" data-extra-text="{{fabric.fabric_description}}" data-image="{{fabric.fabric_thumbnail}}" value="{{fabric.fabric_id}}"> {{fabric.fabric_name}}
 					</li>
 					{% endfor %} 
 				</ul>
@@ -39,13 +36,19 @@
 			
 			
 		</div>
-		<div class="col-md-4 col-md-offset-1">
+		<div class="col-xs-6 col-md-4 col-md-offset-1">
 			<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object> 
 		</div>
-		<div class="col-md-1">
-<!-- 		<div class="col-md-3 col-md-offset-2"> -->
-				<input type="submit" class ="btn-editorial" href="/step3" value="Next step please!"/>
+	</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-1">
+			<a class="btn-modal" href="javascript:history.back()"> &lt; Step 1 </a>
+		</div>
+		<div class="col-xs-12 col-md-2 col-md-offset-6">
+			<div class="submit">
+				<input type="submit" class="btn-editorial" href="/step3" value="Next step please!"/>
 			</div>
+		</div>
 
 	</div>
 	
@@ -54,6 +57,7 @@
 
 
 <script src="https://code.jquery.com/jquery.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.js"></script>
 
 <script> // Javascript and JQuery!!!! 
 //Might move this to another doc later. 
@@ -82,11 +86,6 @@ $(document).ready( function(){
 				highWaist.setAttribute('visibility', 'visible');
 				lowWaist.setAttribute('visibility', 'hidden');
 			};
-
-			// if (current_design.fabric_id != null){
-			// 	$("input[name='fabric']").attr('checked', 'current_design.fabric_id');
-			// 	console.log($("input[name='fabric']"));
-			// };
 		});
 	});
 	console.log("ready!");
@@ -102,8 +101,11 @@ $('.fabric-button').on('change', function (evt){
 	$('.fabrics').removeClass('nope');
 
 	var descriptionText = $(this).data('extra-text');
-	$('#fabric-details').append('<p id="description" >' + descriptionText + '<p/>');
-});
+	var descriptionImg = $(this).data('image');
+	$('#fabric-details').append('<img id="fabric-image"/><span id="description" > ' + descriptionText + '</span>');
+	$('#fabric-image').attr('src', '/static/images/' + descriptionImg);
+	console.log('#fabric-image');
+}); 
 
 //validates the form 
 $('#fabric-form').on('submit', function(evt){
@@ -114,7 +116,6 @@ $('#fabric-form').on('submit', function(evt){
 	if(fabricSelected == 0) {
 	   //Is not Valid
 	   evt.preventDefault();
-	   // alert("Please select your fabric!");
 	   $('.fabrics').addClass('nope');
 	   console.log(evt);
 	}

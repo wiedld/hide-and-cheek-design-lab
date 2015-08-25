@@ -92,13 +92,13 @@ def styles():
 def suggestions():
 	"""Adds custom sizing suggestions to session"""
 
-	session['current_design']['suggestions']= request.form.get('size-suggestions')
+	session['current_design']['suggestions']= request.form.get('suggestions')
 
 	print "\n\n\n"
 	print session['current_design']['suggestions'] 
 	print "\n\n\n"
 
-	return redirect('/step1')
+	return json.dumps({ })
 
 
 @app.route('/step2', methods=["GET", "POST"])
