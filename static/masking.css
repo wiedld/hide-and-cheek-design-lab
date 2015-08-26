@@ -1,13 +1,18 @@
 .builder{
     width:70%;
     opacity: 1;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.90);
     margin-left: 15%;
     margin-right: 15%;
     margin-bottom: 80px;
-    padding-top: 50px;
+    margin-top: 50px;
 }
-
+.build{
+    padding-top: 40px;
+}
+.page-header{
+    margin:0px 0px 0px 0px;
+}
 html {
   position: relative;
   min-height: 100%;
@@ -51,7 +56,12 @@ h1{
 }
 
 .links{
+    margin-right: 10px;
 	color:#525252;
+    font-family: 'Abel', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 2.5px;
 }
 .tabs{
     text-align: center;
@@ -75,7 +85,6 @@ h1{
     letter-spacing: 2px;
     text-decoration: none!important;
     margin: 0px;
-    /*color: #757575;*/
     color: #000000;
     padding:10px 10px 10px 10px;
     background: transparent;
@@ -105,11 +114,16 @@ h1{
 }
 
 .doll{
+    text-align: center;
 	padding-top: 25px;
-	-webkit-align-self:flex-start;
-	align-self:flex-start;
+	-webkit-align-self:center;
+	align-self:center;
     padding-bottom: 20px
 }
+#design-div{
+    text-align:center;
+}
+
 .design{
 	padding-top: 25px;
     padding-bottom: 25px;
@@ -136,8 +150,9 @@ h1{
     font-family: 'Abel', sans-serif;
 	color: #000000;
 	text-align: center;
-    font-size: 14px;
-    font-weight: 450;
+    font-size: 15px;
+    font-weight: 550;
+    font-style: bold;
     letter-spacing: 3px;
     text-transform: uppercase;
 }
@@ -200,8 +215,8 @@ h1{
 .nope {
 	border: 2px solid #FF5050;
 }
-h3{
-    font-family: 'Abel', sans-serif;
+h4{
+    font-family: 'Arapey', serif;
     /*font-weight: bold;*/
     letter-spacing: 2px;
 }
@@ -217,7 +232,9 @@ h3{
 	-webkit-appearance: slider-vertical; 
 	writing-mode: bt-lr;
 }
-
+.font{
+    text-align: right;
+}
 .size{
     font-family: 'Arapey', serif;
 }
@@ -244,4 +261,22 @@ h3{
 }
 #fabric-image{
     width:100%;
+}
+#flash{
+    text-align: center;
+    postion: center;
+}
+#suggestion-div{
+    padding-top: 8px;
+    padding-left: 10px;
+}
+#lookbook-banner{
+    text-align:center;
+    position:center;
+    height:300px;
+    background: url("/static/images/hide&cheek_lookbook.png") no-repeat center;
+            
+}
+.btn.pretty.active{
+    background-color: #F9B597;
 }

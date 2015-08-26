@@ -46,7 +46,7 @@ def index():
 
 	session['current_design'] = {
 		"style_id": None,
-		"style_svg": "model.svg",
+		"style_svg": "naked.svg",
 		"size_code": None,
 		"waist_id": "2",
 		"fabric_id": None,
@@ -98,7 +98,7 @@ def suggestions():
 	print session['current_design']['suggestions'] 
 	print "\n\n\n"
 
-	return json.dumps({ })
+	return jsonify(session['current_design'])
 
 
 @app.route('/step2', methods=["GET", "POST"])
@@ -129,7 +129,7 @@ def step_three():
 
 	colors = Color.query.filter(Color.fabric_id==fab_id, Color.discontinued == False).all()
 	embroidery = Embroidery.query.filter(Embroidery.discontinued == False).all()
-	stitch = Stitching.query.filter(Stitching.discontinued == False).all()
+	stitch = Stitching.query.filter(Stitching.discontinued == False).order_by(Stitching.stitching_id).all()
 
 	return render_template("step3.html", colors=colors, embroidery=embroidery, stitch=stitch)
 

@@ -23,9 +23,20 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Sizing Help</h4>
+        <h4 class="modal-title" id="myModalLabel">Custom Sizing</h4>
       </div>
       	<div class="modal-body">
+      		<div id="suggestions-form">
+	      		<form class="form-group" name="suggestions" action=''>
+		      		<p> Tell us about your body shape and measurements and we'll make sure your pants fit just right. </p>
+		      		<textarea rows="5" cols="90" name="size-suggestions" id="size-suggestions" placeholder="Sizing suggestions...."></textarea>
+		      		<label class="error" for="size-suggestions" id="suggestions_error">Add your suggestions before submitting</label>
+		      		<br>
+		      		<input type="submit" name="submit" class="btn-editorial" id="submit-suggestions" value="Save my suggestions">
+	      		</form>
+      		</div>
+      		<br>
+      		<h4 class="modal-title" id="myModalLabel">Our Size Guide</h4>
       		<table class="table table-striped" style="width:100%; height: 200px; float:left; padding:10px 10px;">
 	            <thead>
 	                    <th class="title">
@@ -40,15 +51,7 @@
 	                {%endfor%}
 	            </tbody>
         	</table>
-        	<div id="suggestions-form">
-	      		<form class="form-group" name="suggestions" action=''>
-		      		<p> Tell us about your body shape and measurements and we'll make sure your pants fit just right. </p>
-		      		<textarea rows="5" cols="90" name="size-suggestions" id="size-suggestions" placeholder="Sizing suggestions...."></textarea>
-		      		<label class="error" for="size-suggestions" id="suggestions_error">Add your suggestions before submitting</label>
-		      		<br>
-		      		<input type="submit" name="submit" class="btn-editorial" id="submit-suggestions" value="Save my suggestions">
-	      		</form>
-      		</div>
+        	
       		<div class="modal-footer">
         		<button type="button" class="btn-modal" data-dismiss="modal">Close</button>
       		</div>
@@ -59,7 +62,7 @@
 <!-- Main content starts here -->
 <!-- Form starts here -->
 <form action='/step2' method="post" id="step1-form">	
-	<div class="row">
+	<div class="row build">
 		<div class="col-xs-6 col-md-3 col-md-offset-1 panel-group" id="accordion"role="tablist" aria-multiselectable="true">
 			<div class="panel panel-default">
 				<div class="panel-heading" role="tab" id="headingOne">
@@ -72,7 +75,7 @@
 					<div class="panel-body size-panel"> 
 						<ul class="list-group styles">
 							{% for style in styles %}
-							<li class="list-group-item"> <input type="radio" name="style" class="style-button" value="{{style.style_id}}" data-validate="required"> {{style.style_name}}</li>
+							<li class="list-group-item"><label class="btn pretty"> <input type="radio" name="style" class="style-button" value="{{style.style_id}}" data-validate="required"> {{style.style_name}} </label> </li>
 							{% endfor %}
 						</ul>
 						<!-- Button to launch style guide modal window -->
@@ -96,10 +99,12 @@
 							{% endfor %}
 						</select>	
 						<br>
+						<div id="suggestion-div">
+						</div>
 						<br>
 						<!-- Button to launch sizing help window -->
-						<button class="btn-modal" type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> I don't know my size</button>
-						<p id="submitted-suggestions"></p>
+						<button class="btn-modal" type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> Custom Sizing</button>
+						
 					</div>
 				</div>	
 			</div>
@@ -121,8 +126,8 @@
 		</div>
 	
 		<!-- this is the base image -->
-		<div class=" col-xs-6 col-md-4 col-md-offset-1" id="design-div">
-			<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}" alt="blank model"></object> 
+		<div class=" col-xs-6 col-md-5 col-md-offset-1" id="design-div">
+			<object class="doll" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="blank model"></object> 
 		</div>
 	</div>
 	<div class="row">
@@ -148,12 +153,10 @@ var svg_path;
 
 
 ///////DEFINE FUNCTIONS////////
-$("#submit-suggestions").click( submitSuggestions);
-
 
 function submitSuggestions(evt) {
 	evt.preventDefault();
-	var suggestions = $("input#size-suggestions").val();
+	var suggestions = $("#size-suggestions").val();
 	if (suggestions == "") { 
 		$("label#suggestions_error").show();
     	$("input#size-suggestions").focus();
@@ -162,25 +165,30 @@ function submitSuggestions(evt) {
     	$.post('/suggestions', suggestionInputs, function() {
 			$('#suggestions-form').html("<div id='message'></div>");
 	        $('#message').html("<p>Suggestions submitted</p>").hide().fadeIn(1500, function() {
-	        	$('#submitted-suggestions').html(suggestions); //this doesnt work yet
+	        	$('#suggestion-div').html('<p class="label"> My Suggestions: </p> <p id="submitted-suggestions"></p>');
+	        	$('#submitted-suggestions').html(suggestions); 
     		});
     	});
 	};
 };
 
+function clickStyleHandler(evt){
+	index++;
+	if (index === style_data.length) {
+		index = 0;
+	}
+	change_svg(style_data, index);
+	change_radio(style_data, index);
+	$('input[name=waist').val('2');
+}
 
-// EXAMPLES FROM JOEL
-// function do(evt) {
-// 	evt.preventDefault();
-// 	alert("hi");
-// 	// return false;
-// }
-// document.getElementById('myButton').setEventHandler('click', do);
-//    is the same as
-// $("#myButton").click(do);
+function loadStyleHandler(evt){
 
-
-
+	var obj = document.getElementById("design-object");
+	var objData = obj.contentDocument;
+	var el = objData.getElementById("doll");
+	el.addEventListener("click", clickStyleHandler);
+}
 
 function change_svg (style_data, index) {
 	svg_path = style_data[index].style_svg;
@@ -193,70 +201,47 @@ function change_svg (style_data, index) {
 	newObject.className = 'doll';
 	newObject.addEventListener('load', loadStyleHandler);
 	$('#design-div').append(newObject);
-	console.log(newObject);
 };
 
-var change_radio = function(style_data, index){
+function change_radio (style_data, index){
 	id = style_data[index].style_id;
-	console.log(id);
 	selector_str = '.style-button[value="'+id+'"]';
-	console.log(selector_str);
 	$(selector_str).prop("checked", true);
 };
 
-var change_waist = function(){
 
-	var waist = $('#waist').val();
-	
-	var obj = document.getElementById("design-object");
-	var objData = obj.contentDocument;
-	var highWaist = objData.getElementById("highWaist");
-	var lowWaist = objData.getElementById("lowWaist");
-	console.log(waist);
+function change_waist (){
 
-
-	if (waist == 1) {
-		highWaist.setAttribute('visibility', 'hidden');
+		var waist = $('#waist').val();
+		debugger;
+		var obj = document.getElementById("design-object");
+		var objData = obj.contentDocument;
+		var highWaist = objData.getElementById("highWaist");
 		console.log(highWaist);
-		lowWaist.setAttribute('visibility', 'visible');
+		var lowWaist = objData.getElementById("lowWaist");
 		console.log(lowWaist);
-	} else {
-		highWaist.setAttribute('visibility', 'visible');
-		console.log(highWaist);
-		lowWaist.setAttribute('visibility', 'hidden');
-		console.log(lowWaist);
-	};
-};
 
-
-$(document).ready(function(){
-    console.log("ready!");
-    ////////GET DATA FROM SERVER////////
-	$.get('/styles.json', function(data){
-				console.log(data.styles);
-				style_data = data.styles;
-				index = -1;
-				setUpPage();
-				
-				});
-	$('#styles-tab').addClass('selected');
-	$('.error').hide();
-	var waist = $('#waist').val();
-		if (waist != 2){
-			change_waist();
+		if (waist == 1) {
+			highWaist.setAttribute('visibility', 'hidden');
+			lowWaist.setAttribute('visibility', 'visible');
+		} else {
+			highWaist.setAttribute('visibility', 'visible');
+			lowWaist.setAttribute('visibility', 'hidden');
 		};
-});
+
+};
 		
+///////EVENT HANDLERS////////
 
-		///////EVENT HANDLERS////////
 
-// // click the image to change the style 
-console.log(index);
+///// submit custom sizing suggestions
+$("#submit-suggestions").click( submitSuggestions);		
+
+// // initial load of event handler: click the image to change the style 
 var obj = document.getElementById("design-object");
-console.log(obj);
 obj.addEventListener('load', loadStyleHandler);
 
-var setUpPage = function(){
+function setUpPage (){
 	console.log("Page is set up now!");
 
 	var styleButtons = $('.style-button'); 
@@ -265,8 +250,6 @@ var setUpPage = function(){
 	$(styleButtons).each( function(idx) {
 		$(this).on('click', function(evt) {
 			index = $(this).val() - 1;
-			console.log("INDEX");
-			console.log(index);
 			$("input[name='waist']").val('2');
 			change_svg(style_data, index);
 		});	
@@ -281,38 +264,45 @@ var setUpPage = function(){
 	// Form validation 
 	$('#step1-form').on('submit', function(evt){
 		var styleSelected = $("input[name='style']:checked").length;
-		console.log(styleSelected);
 		if(styleSelected == 0) {
 		   //Is not Valid
 		   evt.preventDefault();
 		   $('.styles').addClass('nope');
-		   console.log(evt);
 		}
 	});
 		
 };
 
-function clickStyleHandler(evt){
-	console.log(evt);
-	index++;
-	if (index === style_data.length) {
-		index = 0;
-	}
-	console.log(index);
-	change_svg(style_data, index);
-	change_radio(style_data, index);
-	$('input[name=waist').val('2');
-}
 
-function loadStyleHandler(evt){
 
-	var obj = document.getElementById("design-object");
-	var objData = obj.contentDocument;
+///////////////LOADS THE PAGE///////////////
+$(document).ready(function(){
+    ////////GET DATA FROM SERVER////////
+	$.get('/styles.json', function(data){
+				style_data = data.styles;
+				index = -1;
+				setUpPage();
+	});
+	 $.get('/current-design.json', function (current_design) {
+		console.log(current_design);
+		$(window).load(function (){
+			
+			/////this makes sure that the current design from the session renders when the user hits the back button
+			if (current_design.style_id != null && current_design.style_svg != "naked.svg"){
+				$('#design-object').attr('data', '/static/svg/'+ current_design.style_svg);
 
-	var el = objData.getElementById("doll");
-	console.log(el);
-	el.addEventListener("click", clickStyleHandler);
-}
+				var waist = $('#waist').val();
+				if (waist != 2){
+					change_waist();
+				};
+			};
+		});
+		// selects step 1:styles in the top process bar
+		$('#styles-tab').addClass('selected');
+		$('.error').hide();
+	
+	});
+});
 
 
 </script>

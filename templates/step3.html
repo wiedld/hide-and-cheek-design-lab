@@ -4,7 +4,7 @@
 
 
 <form action='/myDesignLab' id="color-form" method="post">
-	<div class="row">
+	<div class="row build">
 		<div class="col-xs-6 col-md-3 col-md-offset-1 panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 			<div class="panel panel-default">
 				<div class="panel-heading" role="tab" id="headingOne">
@@ -18,8 +18,8 @@
 						<ul class="colors list-group">
 							{% for color in colors %}
 							<li class="list-group-item">
-								<input type="radio" name="color" id="{{color.color_id}}" class="color-button" hex="{{color.color_hex}}" value="{{color.color_id}}"> {{color.color_name}}
-								<img id="{{color.color_thumbnail}}" src="./static/images/{{color.color_thumbnail}}"/>
+								<label class="btn pretty"><input type="radio" name="color" id="{{color.color_id}}" class="color-button" hex="{{color.color_hex}}" value="{{color.color_id}}"> {{color.color_name}}
+								<img id="{{color.color_thumbnail}}" src="./static/images/{{color.color_thumbnail}}"/></label>
 							</li>
 							{% endfor %} 
 						</ul>
@@ -45,7 +45,7 @@
 							<ul class="list-group">
 							{% for e in embroidery %}
 								<li class="list-group-item">
-									<input type="radio" name="emb-place" value="{{e.embroidery_location}}"> {{e.embroidery_location}}
+									<label class="btn pretty"><input type="radio" name="emb-place" value="{{e.embroidery_location}}"> {{e.embroidery_location}}</label>
 								</li>
 							{% endfor %}
 							</ul>
@@ -53,7 +53,8 @@
 						<ul class="list-group fonts">
 							{% for s in stitch %}
 								<li class="list-group-item">
-									<input type="radio" name="stitch" value="{{s.stitching_style}}"> {{s.stitching_style}}
+									<label class="btn pretty"><input type="radio" name="stitch" value="{{s.stitching_style}}"> {{s.stitching_style}}<br>
+									<img class="font" id="{{s.stitching_id}}" src="./static/images/{{s.thumbnail}}"/></label>
 								</li>
 							{% endfor %}
 						</ul>
@@ -146,51 +147,51 @@ $(document).ready( function(){
 
 ///////////////EVENT HANDLERS///////////////
 
-	var colorButtons = $('.color-button');
+var colorButtons = $('.color-button');
 
-	// changes the color of the pants on click 
-	$(colorButtons).each( function(){
-		$(this).on('click', function(evt) {
-			$('.colors').removeClass('nope');
-			console.log(evt);
-			hex = $(this).attr('hex');
-			console.log(hex);
-			fillSvg(hex);
-		});
+// changes the color of the pants on click 
+$(colorButtons).each( function(){
+	$(this).on('click', function(evt) {
+		$('.colors').removeClass('nope');
+		console.log(evt);
+		hex = $(this).attr('hex');
+		console.log(hex);
+		fillSvg(hex);
 	});
+});
 
-	// checks limit on characters allowed in embroidery textarea
-		$('#embroidery-text').on('blur', function(evt) {
-			var textCount = $('#embroidery-text').val().length;
-			if(textCount > 50){
-				$('#embroidery-text').addClass('nope');
-			} else{
-				$('#embroidery-text').removeClass('nope');
-			};
+// checks limit on characters allowed in embroidery textarea
+$('#embroidery-text').on('blur', function(evt) {
+	var textCount = $('#embroidery-text').val().length;
+	if(textCount > 50){
+		$('#embroidery-text').addClass('nope');
+	} else{
+		$('#embroidery-text').removeClass('nope');
+	};
 
-		});
+});
 
-	// form validation
-		$('#color-form').on('submit', function(evt){
+// form validation
+$('#color-form').on('submit', function(evt){
 
-		var textCount = $('#embroidery-text').val().length;
-		if(textCount > 50){
-			evt.preventDefault();
-			$('#embroidery-text').addClass('nope');
-		};
-		var colorSelected = $("input[name='color']:checked").length;
-		if(colorSelected == 0) {
+	var textCount = $('#embroidery-text').val().length;
+	if(textCount > 50){
+		evt.preventDefault();
+		$('#embroidery-text').addClass('nope');
+	};
+	var colorSelected = $("input[name='color']:checked").length;
+	if(colorSelected == 0) {
+	   evt.preventDefault();
+	   $('.colors').addClass('nope');
+	};
+	if ($("input[name='emb-place']:checked").length != 0){
+		var fontSelected = $("input[name='stitch']:checked").length;
+		if(fontSelected == 0) {
 		   evt.preventDefault();
-		   $('.colors').addClass('nope');
+		   $('.fonts').addClass('nope');
 		};
-		if ($("input[name='emb-place']:checked").length != 0){
-			var fontSelected = $("input[name='stitch']:checked").length;
-			if(fontSelected == 0) {
-			   evt.preventDefault();
-			   $('.fonts').addClass('nope');
-			};
-		};	
-	});
+	};	
+});
 
 
 

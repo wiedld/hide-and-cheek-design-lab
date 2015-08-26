@@ -95,8 +95,7 @@ $(".add").click( function(evt){
 	    	console.log(resp.status);
 		      //display message back to user here
 		    $('#added').html("<div id='flash'></div>");
-		    $('#flash').html("<h3> Sweet! Your design has been added to the cart.</h3>").append("<a href='http://www.hide-cheek.com' class='btn-modal'> go to main site</a> <a class='btn-modal' href='/newDesign'> create a new design </a>").hide().fadeIn(1500, function() {
-		    		// $('#flash').append("<img id='ok' src='images/check.png' />");
+		    $('#flash').html("<h4> Sweet! Your design has been added to the cart.</h4>").append("<a href='http://www.hide-cheek.com' class='btn-editorial'>CHECK OUT</a><br><h5>or</h5><a class='btn-modal' href='/newDesign'> create new design </a>").hide().fadeIn(1500, function() {
 		  		});
 	    }
 	});
