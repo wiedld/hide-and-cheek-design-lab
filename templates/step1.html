@@ -47,7 +47,7 @@
 	            </thead>
 	            <tbody>
 	            	{%for size in sizes%}
-	                	<tr><td style="font-style:italic;">{{size.size}}</td><td>{{size.size_description}}</td><td>Waist</td><td>Hips</td></tr>
+	                	<tr><td style="font-style:italic;">{{size.size}}</td><td>{{size.size_description[0:3]}}</td><td>{{size.size_description[5:10]}}</td><td>{{size.size_description[12:15]}}</td></tr>
 	                {%endfor%}
 	            </tbody>
         	</table>
@@ -78,6 +78,7 @@
 							<li class="list-group-item"><label class="btn pretty"> <input type="radio" name="style" class="style-button" value="{{style.style_id}}" data-validate="required"> {{style.style_name}} </label> </li>
 							{% endfor %}
 						</ul>
+						<div class="style-error"></div>
 						<!-- Button to launch style guide modal window -->
 						<button class="btn-modal" type="button" data-toggle="modal" data-target="#styleGuide" id="style-guide"> Style Guide </button> 
 					</div>
@@ -194,6 +195,7 @@ function change_svg (style_data, index) {
 	svg_path = style_data[index].style_svg;
 	$('#style-svg').attr('value', svg_path);
 	$('.styles').removeClass('nope');
+	$('#style-error').remove();
 	$('#design-object').remove();
 	var newObject = document.createElement('object');
 	newObject.setAttribute('data', '/static/svg/'+svg_path);
@@ -268,6 +270,8 @@ function setUpPage (){
 		   //Is not Valid
 		   evt.preventDefault();
 		   $('.styles').addClass('nope');
+		   $('.style-error').append("<p id='style-error'>please select a style!</p>");
+
 		}
 	});
 		

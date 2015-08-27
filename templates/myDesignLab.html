@@ -7,25 +7,28 @@
   
 
 
-<div class="row">
-	<div class="col-xs-6 col-md-5 col-md-offset-1 design">
+<div class="row build">
+	<div class="col-xs-6 col-md-5 design">
 		<object class="design" id="design-object" data="/static/svg/{{session['current_design']['style_svg']}}?no-cache={{time()}}" alt="current design model"></object>
 		
 	</div>
-	<div class="col-xs-6 col-md-4">
+	<div class="col-xs-5 col-md-5 col-lg-4">
 		<div class="well">
 		<ul class="list-group">
-			<li id="style" class="list-group-item"> <b>STYLE: </b>  </li>
-			<li id= "size" class="list-group-item"> <b>SIZE:</b> </li>
-			<li id ="waist" class="list-group-item"> <b>WAIST:</b> </li>
-			<li id ="fabric" class="list-group-item"> <b>FABRIC:</b> </li>
-			<li id ="color" class="list-group-item"> <b>COLOR:</b> </li>
-			<li id ="placement" class="list-group-item"> <b>PLACEMENT:</b> </li>
-			<li id ="stitch" class="list-group-item"> <b>STITCHING STYLE:</b> </li>
-			<li id ="text" class="list-group-item"> <b>TEXT:</b> </li>
+			<li id="style" class="list-group-item"> <b class="summary">STYLE : </b>  </li>
+			<li id= "size" class="list-group-item"> <b class="summary">SIZE : </b> </li>
+			<li id ="waist" class="list-group-item"> <b class="summary">WAIST : </b> </li>
+			<li id ="fabric" class="list-group-item"> <b class="summary">FABRIC : </b> </li>
+			<li id ="color" class="list-group-item"> <b class="summary">COLOR : </b> </li>
+			<li id ="placement" class="list-group-item"> <b class="summary">TAG PLACEMENT : </b> </li>
+			<li id ="stitch" class="list-group-item"> <b class="summary">STITCHING STYLE : </b> </li>
+			<li id ="thread" class="list-group-item"> <b class="summary">THREAD COLOR : </b> </li>
+			<li id ="text" class="list-group-item"> <b class="summary">TAG TEXT : </b> </li>
 		</ul>
 		<div id="added">
-			
+			<!-- <button class="btn-editorial" id="add">
+				<a id="add-shopify" href="https://hide-cheek.myshopify.com/cart/add">add to cart!</a></button> -->
+
 				<button class="add btn-editorial" id="add"> add to cart!</button>
 		</div>
 		</div>
@@ -73,6 +76,7 @@ $(document).ready( function(){
 		$('#color').append(data.selections.color);
 		$('#placement').append(data.selections.placement);
 		$('#stitch').append(data.selections.stitch);
+		$('#thread').append(data.selections.thread);
 		$('#text').append(data.selections.text);
 
 		var suggestions = data.selections.suggestions;
@@ -83,22 +87,50 @@ $(document).ready( function(){
 
 	});
 	$('.tabs').hide();
-});
 
-$(".add").click( function(evt){
-	console.log(evt);
-	
-	$.ajax({
-	    type: "GET",
-	    url: "/added",
-	    success: function(resp) {
-	    	console.log(resp.status);
-		      //display message back to user here
-		    $('#added').html("<div id='flash'></div>");
-		    $('#flash').html("<h4> Sweet! Your design has been added to the cart.</h4>").append("<a href='http://www.hide-cheek.com' class='btn-editorial'>CHECK OUT</a><br><h5>or</h5><a class='btn-modal' href='/newDesign'> create new design </a>").hide().fadeIn(1500, function() {
-		  		});
-	    }
+
+	$(".add").click(function (evt){
+		console.log(evt);
+		
+		$.ajax({
+		    type: "GET",
+		    url: "/added",
+		    success: function(resp) {
+		    	console.log(resp.status);
+			      //display message back to user here
+			    $('#added').html("<div id='flash'></div>");
+			    $('#flash').html("<h4> Sweet! Your design has been added to the cart.</h4>").append("<a href='http://www.hide-cheek.com/cart' class='btn-editorial'>CHECK OUT</a><br><h5>or</h5><a class='btn-modal' href='/newDesign'> create new design </a>").hide().fadeIn(1500, function() {
+			  		});
+		    }
+		});
 	});
+
+	$(".add-shopify").click(function (evt){
+		var f = document.createElement('form');
+		f.style.display = 'none';
+		this.parentNode.appendChild(f);
+		f.method = 'POST';
+		f.action = this.href;
+
+		var v = document.createElement('input');
+		v.setAttribute('type', 'hidden');
+		v.setAttribute('name', 'id');
+		v.setAttribute('value', '6572253123');
+
+		f.appendChild(v);
+
+		var r = document.createElement('input');
+		r.setAttribute('type', 'hidden');
+		r.setAttribute('name', 'return_to');
+		r.setAttribute('value', 'http://your.shopify.url/checkout');
+
+		f.appendChild(r);
+
+
+		f.submit();
+		return false;
+	})
+
 });
 
 

@@ -149,6 +149,27 @@ class StitchingAdmin(sqla.ModelView):
 	form_columns = ['stitching_id', 'stitching_style', 'thumbnail', 'discontinued']
 
 
+
+class Thread(db.Model):
+	"""Thread color options"""
+
+	__tablename__ = "threads"
+
+	thread_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	thread_color = db.Column(db.String(50), nullable=False)
+	thread_hex = db.Column(db.String(10), nullable=False)
+	discontinued = db.Column(db.Boolean, default=False, nullable=False)
+
+	def __repr__(self):
+		"""Quick reference when the object is printed"""
+		return "<Thread Color: thread_id = %s thread_color = %s >" % (self.thread_id, self.thread_color)
+
+class ThreadsAdmin(sqla.ModelView):
+	column_display_pk = True
+	form_columns = ['thread_id', 'thread_color', 'thread_hex', 'discontinued']
+
+
+
 class Design(db.Model):
 	"""User generated designs"""
 	__tablename__ = "designs"

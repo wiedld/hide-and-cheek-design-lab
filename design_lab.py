@@ -1,6 +1,7 @@
 """The Design Lab server!"""
 import os
 import json
+
 from time import time
 
 from jinja2 import StrictUndefined 
@@ -13,8 +14,8 @@ from flask_admin.contrib.sqla import ModelView
 from flask_debugtoolbar import DebugToolbarExtension
 from instagram import client
 
-from model import Style, Size, Waist, Fabric, Color, Embroidery, Stitching, connect_to_db, db, StyleAdmin, SizeAdmin, WaistAdmin, FabricAdmin, ColorAdmin, EmbroideryAdmin, StitchingAdmin
-
+from model import Style, Size, Waist, Fabric, Color, Embroidery, Stitching, Thread, connect_to_db, db, StyleAdmin, SizeAdmin, WaistAdmin, FabricAdmin, ColorAdmin, EmbroideryAdmin, StitchingAdmin, ThreadsAdmin
+import shopify
 
 app = Flask(__name__)
 
@@ -22,7 +23,7 @@ app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ommmnamasteshantishantishanti" 
 
-# app.jinja_env.undefined = StrictUndefined #remove this when deploying/ working in admin section!!!!!!!!!!!!!!!
+
 app.jinja_env.globals.update(time=time)
 
 #configure the Instagram API
@@ -34,11 +35,11 @@ instaConfig = {
 
 api = client.InstagramAPI(**instaConfig)
 
-# @app.after_request
-# def after_request(response):
-#     response.headers['Cache-Control'] = 'no-store'
-#     response.headers['Pragma'] = 'no-cache'
-#     return response
+API_KEY = os.environ.get('SHOPIFY_API_KEY')
+PASSWORD = os.environ.get('SHOPIFY_PASSWORD')
+shop_url = "https://%s:%s@hide-cheek.myshopify.com/admin" % (API_KEY, PASSWORD)
+shopify.ShopifyResource.set_site(shop_url)
+
 
 @app.route('/')
 def index():
@@ -46,7 +47,7 @@ def index():
 
 	session['current_design'] = {
 		"style_id": None,
-		"style_svg": "naked.svg",
+		"style_svg": "newnaked.svg",
 		"size_code": None,
 		"waist_id": "2",
 		"fabric_id": None,
@@ -55,6 +56,7 @@ def index():
 		"embroidery_text": None,
 		"embroidery_place":None,
 		"stitching_style": None,
+		"thread_color": None,
 		"suggestions": None
 		}
 	return render_template("landing_page.html")
@@ -65,7 +67,7 @@ def step_one():
 	"""Form to choose style, size, cut, waist"""
 
 	styles = Style.query.filter(Style.discontinued == False).order_by(Style.style_id).all()
-	sizes = Size.query.filter(Size.discontinued == False).all()
+	sizes = Size.query.filter(Size.discontinued == False).order_by(Size.size_description).all()
 	waists = Waist.query.filter(Waist.discontinued == False).order_by(Waist.waist_id).all()
 	
 	
@@ -130,8 +132,9 @@ def step_three():
 	colors = Color.query.filter(Color.fabric_id==fab_id, Color.discontinued == False).all()
 	embroidery = Embroidery.query.filter(Embroidery.discontinued == False).all()
 	stitch = Stitching.query.filter(Stitching.discontinued == False).order_by(Stitching.stitching_id).all()
+	thread = Thread.query.filter(Thread.discontinued == False).order_by(Thread.thread_id).all()
 
-	return render_template("step3.html", colors=colors, embroidery=embroidery, stitch=stitch)
+	return render_template("step3.html", colors=colors, embroidery=embroidery, stitch=stitch, thread=thread)
 
 
 
@@ -144,6 +147,7 @@ def my_design():
 	session['current_design']['embroidery_text'] = request.form.get('embroidery')
 	session['current_design']['embroidery_place'] = request.form.get('emb-place')
 	session['current_design']['stitching_style'] = request.form.get('stitch')
+	session['current_design']['thread_color'] = request.form.get('thread')
 
 	print "\n\n\n"
 	print session['current_design']  
@@ -165,7 +169,7 @@ def new():
 
 	session['current_design'] = {
 		"style_id": None,
-		"style_svg": "model.svg",
+		"style_svg": "newnaked.svg",
 		"size_code": None,
 		"waist_id": "2",
 		"fabric_id": None,
@@ -174,6 +178,7 @@ def new():
 		"embroidery_text": None,
 		"embroidery_place": None,
 		"stitching_style": None,
+		"thread_color": None,
 		"suggestions": None
 		}
 
@@ -202,6 +207,8 @@ def selections():
 
 	stitch_sesh = session['current_design']['stitching_style']
 
+	thread_sesh = session['current_design']['thread_color']
+
 	text_sesh = session['current_design']['embroidery_text']
 
 	return jsonify({"selections": {"style": style[0], 
@@ -211,6 +218,7 @@ def selections():
 								   "color":color[0],
 								   "placement": place_sesh,
 								   "stitch": stitch_sesh,
+								   "thread":thread_sesh,
 								   "text": text_sesh,
 								   "suggestions": session['current_design']['suggestions']
 								   }
@@ -264,6 +272,7 @@ if __name__ == "__main__":
     admin.add_view(ColorAdmin(Color, db.session))
     admin.add_view(EmbroideryAdmin(Embroidery, db.session))
     admin.add_view(StitchingAdmin(Stitching, db.session))
+    admin.add_view(ThreadsAdmin(Thread, db.session))
 
 
     # Use the DebugToolbar

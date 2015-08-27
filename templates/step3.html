@@ -59,6 +59,16 @@
 							{% endfor %}
 						</ul>
 
+						<label for="field-thread">Thread Color:</label>
+						<ul class="list-group threads">
+							{% for t in thread %}
+								<li class="list-group-item">
+									<label class="btn pretty thread" style="color:{{t.thread_hex}}"><input type="radio" name="thread" value="{{t.thread_color}}"> {{t.thread_color}}
+									</label>
+								</li>
+							{% endfor %}
+						</ul>
+
 					</div>
 				</div>
 			</div>
