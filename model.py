@@ -8,7 +8,7 @@ from flask_admin.contrib.sqla import ModelView
 db = SQLAlchemy()
 
 ######################################
-#Model Definitions: Style/Size/Cut/Waist/Fabric/Color/Design/Order
+#Model Definitions: Style/Size/Cut/Waist/Fabric/Color/Stitch/Thread/Design/Order/Admins
 
 class Style(db.Model):
 	"""Style options"""

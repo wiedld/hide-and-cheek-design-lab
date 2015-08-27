@@ -23,6 +23,7 @@
 							</li>
 							{% endfor %} 
 						</ul>
+						<div class="color-error"></div>
 					</div>
 				</div>
 			</div>
@@ -39,35 +40,39 @@
 							<label>Custom Tag : <i>max 50 chars.</i></label>
 							<br>
 							<textarea rows="3" cols="25" name="embroidery" id="embroidery-text" placeholder="Add a personal message!"></textarea>
+							<div class="text-error"></div>
 						</div>
 						<br>
 						<label for="field-embroidery">Placement:</label><br>
-							<ul class="list-group">
+							<ul class="list-group place">
 							{% for e in embroidery %}
 								<li class="list-group-item">
-									<label class="btn pretty"><input type="radio" name="emb-place" value="{{e.embroidery_location}}"> {{e.embroidery_location}}</label>
+									<label class="btn pretty"><input class="emb-place"type="radio" name="emb-place" value="{{e.embroidery_location}}"> {{e.embroidery_location}}</label>
 								</li>
 							{% endfor %}
 							</ul>
+							<div class="place-error"></div>
 						<label for="field-stitch">Font:</label>
 						<ul class="list-group fonts">
 							{% for s in stitch %}
 								<li class="list-group-item">
-									<label class="btn pretty"><input type="radio" name="stitch" value="{{s.stitching_style}}"> {{s.stitching_style}}<br>
+									<label class="btn pretty"><input class="stitch" type="radio" name="stitch" value="{{s.stitching_style}}"> {{s.stitching_style}}<br>
 									<img class="font" id="{{s.stitching_id}}" src="./static/images/{{s.thumbnail}}"/></label>
 								</li>
 							{% endfor %}
 						</ul>
+						<div class="font-error"></div>
 
 						<label for="field-thread">Thread Color:</label>
 						<ul class="list-group threads">
 							{% for t in thread %}
 								<li class="list-group-item">
-									<label class="btn pretty thread" style="color:{{t.thread_hex}}"><input type="radio" name="thread" value="{{t.thread_color}}"> {{t.thread_color}}
+									<label class="btn pretty thread" style="color:{{t.thread_hex}}"><input class="threads" type="radio" name="thread" value="{{t.thread_color}}"> {{t.thread_color}}
 									</label>
 								</li>
 							{% endfor %}
 						</ul>
+						<div class="thread-error"></div>
 
 					</div>
 				</div>
@@ -96,11 +101,11 @@
 </form>
 
 
-<!-- <script src="https://code.jquery.com/jquery.js"></script> -->
 <script type="text/javascript" src="static/js/jquery-2.1.4.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/step3.js"></script>
 
-<script> // Javascript and JQuery!!!! 
+<!-- <script> // Javascript and JQuery!!!! 
 
 ///////DEFINE VARIABLES/////
 var hex;
@@ -216,6 +221,6 @@ $('#color-form').on('submit', function(evt){
 
 
 
-</script>
+</script>-->
 
-{% endblock %}
+{% endblock %} 

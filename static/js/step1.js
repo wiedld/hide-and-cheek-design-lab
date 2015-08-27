@@ -1,3 +1,4 @@
+// Javascript for step1.html
 
 ////////DEFINE VARIABLES/////
 var index;
