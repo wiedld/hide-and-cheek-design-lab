@@ -1,0 +1,27 @@
+.home{
+	padding-top: 50px;
+	text-align:right;
+	font-family: 'Arapey', serif;
+}
+.footer{
+    width: 100%;
+    text-align: center;
+    height:80px;
+    padding: 10px;
+}
+#copy{
+    padding-left: 20px;
+    font-family: 'Abel', sans-serif;
+    text-align: right;
+}
+
+.title{
+	font-weight: 440px;
+	font-style: italic;
+	font-size: 2em;
+
+}
+.metric{
+	font-weight: 340px;
+	font-style: italic;
+}

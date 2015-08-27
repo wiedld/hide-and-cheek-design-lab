@@ -96,7 +96,8 @@
 </form>
 
 
-<script src="https://code.jquery.com/jquery.js"></script>
+<!-- <script src="https://code.jquery.com/jquery.js"></script> -->
+<script type="text/javascript" src="static/js/jquery-2.1.4.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.js"></script>
 
 <script> // Javascript and JQuery!!!! 
@@ -189,16 +190,24 @@ $('#color-form').on('submit', function(evt){
 		evt.preventDefault();
 		$('#embroidery-text').addClass('nope');
 	};
+
 	var colorSelected = $("input[name='color']:checked").length;
 	if(colorSelected == 0) {
 	   evt.preventDefault();
 	   $('.colors').addClass('nope');
 	};
+// FIX ME 
 	if ($("input[name='emb-place']:checked").length != 0){
+		evt.preventDefault();
 		var fontSelected = $("input[name='stitch']:checked").length;
 		if(fontSelected == 0) {
 		   evt.preventDefault();
 		   $('.fonts').addClass('nope');
+		};
+		var threadSelected = $("input[name='thread']:checked").length;
+		if(threadSelected == 0) {
+		   evt.preventDefault();
+		   $('.threads').addClass('nope');
 		};
 	};	
 });
