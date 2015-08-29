@@ -118,3 +118,12 @@ footer {
     font-family: 'Abel', sans-serif;
     text-align: right;
 }
+
+#georgia{
+    color: #000000;
+}
+
+#georgia:hover{
+    color:#00FFCC;
+    font-style: bold;
+}

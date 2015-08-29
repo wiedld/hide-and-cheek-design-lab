@@ -68,6 +68,7 @@ function change_radio (style_data, index){
 function change_waist (){
 
 		var waist = $('#waist').val();
+		console.log(waist);
 		debugger;
 		var obj = document.getElementById("design-object");
 		var objData = obj.contentDocument;
@@ -101,6 +102,7 @@ function setUpPage (){
 
 	var styleButtons = $('.style-button'); 
 
+
 	// click the button to change the style
 	$(styleButtons).each( function(idx) {
 		$(this).on('click', function(evt) {
@@ -109,9 +111,10 @@ function setUpPage (){
 			change_svg(style_data, index);
 		});	
 	});
-			 
-	// change the slider bar to select waist style
-	$('#waist').click( function(evt){
+			
+	 
+	// // change the button to select waist style
+	$('#waist').change( function(evt){
 		console.log(evt);
 		change_waist();
 	});
@@ -134,6 +137,7 @@ function setUpPage (){
 
 ///////////////LOADS THE PAGE///////////////
 $(document).ready(function(){
+
     ////////GET DATA FROM SERVER////////
 	$.get('/styles.json', function(data){
 				style_data = data.styles;
@@ -147,11 +151,14 @@ $(document).ready(function(){
 			/////this makes sure that the current design from the session renders when the user hits the back button
 			if (current_design.style_id != null && current_design.style_svg != "naked.svg"){
 				$('#design-object').attr('data', '/static/svg/'+ current_design.style_svg);
-
-				var waist = $('#waist').val();
-				if (waist != 2){
-					change_waist();
 				};
+			console.log(current_design.waist_id);
+			// load the waist selection from previous page, if different from default
+			$('#waist').attr('value', current_design.waist_id);
+			var waist = $('#waist').val();
+			console.log(waist);
+			if (waist != 2){
+				change_waist();
 			};
 		});
 		// selects step 1:styles in the top process bar

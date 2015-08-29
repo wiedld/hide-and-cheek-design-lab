@@ -1,7 +1,7 @@
 .builder{
     width:70%;
     opacity: 1;
-    background: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.85);
     margin-left: 15%;
     margin-right: 15%;
     margin-bottom: 80px;
@@ -35,6 +35,15 @@ h1{
     font-family: 'Abel', sans-serif;
     font-weight: bold;
     letter-spacing: 2.5px;
+}
+
+#georgia{
+    color: #000000;
+}
+
+#georgia:hover{
+    color:#00FFCC;
+    font-style: bold;
 }
 a:hover{
     color:black;
@@ -245,12 +254,27 @@ h4{
 	margin:7px auto;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
-	border-radius: 10px;
+    border-radius: 10px;
 }
 #slider .bar{
 	-webkit-appearance: slider-vertical; 
 	writing-mode: bt-lr;
 }
+input[type=range]::-webkit-slider-runnable-track {
+  width: 8.4px;
+  height: 100%;
+  cursor: pointer;
+  background: #FCDACB;
+  border: 1px solid #010101;
+  border-radius: 16.4px;
+}
+input[type=range]::-webkit-slider-thumb {
+  height: 36px;
+  width: 16px;
+  background: #FCDACB;
+  cursor: pointer;
+}
+
 .font{
     text-align: right;
 }
