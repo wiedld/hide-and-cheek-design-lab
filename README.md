@@ -1,6 +1,6 @@
 Design Lab
 ========
-
+![alt tag](https://raw.github.com/GstarGface/hide-and-cheek-design-lab/master/static/images/screenshot.png)
 <h3>Built by <a href="https://www.linkedin.com/in/georgiaglassie">Georgia Glassie</a></h3>
 <h3><strong>The Project</strong></h3>
 <h5>the Design Lab is an application developed as an independent project during my Hackbright Fellowship. </h5> 
