@@ -1,7 +1,7 @@
 /*Design Lab Landing Page*/
 
 /* The body has an image that spans the entire size of the page.
-   Everything is centered and in grey. */
+   Everything is centered and text is grey. */
 /*
 */
 
@@ -56,8 +56,9 @@ body {
 h1.editorial{
     font-family: 'Abel', sans-serif;
     color: #525252;
-    font-size: 38px;
-    font-weight: 450;
+    font-size: 40px;
+    font-style: bold;
+    font-weight: 400;
     line-height: 1;
     display: block;
     letter-spacing: 0;
@@ -67,6 +68,7 @@ h1.editorial{
     -webkit-margin-end: 0px;
 
 }
+
 
 h2.editorial{
     font-family: 'Abel', sans-serif;
@@ -83,7 +85,7 @@ a.btn-editorial {
     display: inline-block;
     text-align: center;
     font-size: 18px;
-    font-weight: 250;
+    font-weight: 400px;
     letter-spacing: 2px;
     text-decoration: none;
     -moz-box-sizing: border-box;
@@ -97,6 +99,11 @@ a.btn-editorial {
     border: 2px solid currentColor;
     text-transform: uppercase;
 
+}
+.btn-editorial:hover{
+    text-decoration: none;
+    color:#000000;
+    background: rgba(255, 255, 255, 1);
 }
 
 /* The footer always appears at the bottom of the browser window. */
@@ -115,6 +122,7 @@ footer {
 
 #copy{
     padding-left: 20px;
+    font-size: 18px;
     font-family: 'Abel', sans-serif;
     text-align: right;
 }

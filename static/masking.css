@@ -5,12 +5,13 @@
     margin-left: 15%;
     margin-right: 15%;
     margin-bottom: 80px;
-    margin-top: 50px;
+    margin-top: 10px;
 }
 .build{
     padding-top: 30px;
 }
 .page-header{
+    padding-top: 0;
     margin:0px 0px 0px 0px;
 }
 html {
@@ -19,8 +20,8 @@ html {
 }
 body{
     width:100%;
-	/*margin-bottom:60px;*/
     font-family: 'Arapey', serif;
+    font-size: 14px;
     -webkit-font-smoothing: antialiased;
 
     background: url("/static/images/hide&cheek_background.svg") no-repeat center center fixed; 
@@ -55,7 +56,7 @@ a:hover{
 .header{
 	width: 100%;
   	/* Set the fixed height of the header here */
-  	border-top: 3px solid #F9B597;
+  	border-top: 5px solid #F9B597;
   	height: 80px;
   	background-color: #FFFFFF;
   	padding-bottom: 20px;
@@ -66,7 +67,10 @@ a:hover{
     height:80px;
     padding-bottom: 0;
 }
-
+.navlinks{
+    margin-left: 20px;
+    margin-right: 30px;
+}
 .links{
     margin-right: 10px;
 	color:#525252;
@@ -74,6 +78,9 @@ a:hover{
     font-weight: bold;
     font-size: 17px;
     letter-spacing: 2.5px;
+}
+.links:hover{
+    color: #F9B597;
 }
 .tabs{
     text-align: center;
@@ -99,7 +106,7 @@ a:hover{
     color: #000000;
     padding:10px 10px 10px 10px;
     background: transparent;
-    border-right:2px solid #F9B597;
+    border-right: 3px solid #F9B597;
 }
 #main-tabs li.last{
 	border-right:0;
@@ -151,7 +158,7 @@ a:hover{
 }
 .label{
 	color: #000000;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 400;
     letter-spacing: 1.5px;
     text-transform: uppercase;
@@ -172,22 +179,22 @@ a:hover{
     width:100%;
     min-width: 200px ;
     position: center;
+
     font-family: 'Abel', sans-serif;
     cursor: pointer;
     display: inline-block;
     text-align: center;
-    /*color: #474747;*/
     color: #000000;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 550;
     letter-spacing: 2px;
     text-transform: uppercase;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    line-height: 43px;
-    height: 44px;
-    padding: 0 30px;
+    line-height: 46px;
+    height: 48px;
+    padding: 0 30px 0 30px;
     background: transparent;
     border: 2px solid currentColor;
     transition: all 0.3s ease 0s;
@@ -195,7 +202,6 @@ a:hover{
 
 .btn-editorial:hover{
     background-color: #FCDACB;
-    /*box-shadow: inset 0 0 0 1.5px #f5f5f5;*/
     font-weight: 650px;
 }
 
@@ -207,20 +213,20 @@ a:hover{
 .btn-modal {
     position: center;
     font-family: 'Abel', sans-serif;
-    /*color: #5C5C5C;*/
     min-width: 50%;
+    max-width:75%;
     color: #000000;
     cursor: pointer;
     display: inline-block;
     text-align: center;
-    font-size: 11px;
-    font-weight: 450;
+    font-size: 12px;
+    font-weight: 400;
     letter-spacing: 1.5px;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    line-height: 28px;
-    height: 30px;
+    line-height: 30px;
+    height: 33px;
     background: transparent;
     border: 1.5px solid currentColor;
     text-transform: uppercase;
@@ -248,32 +254,130 @@ h4{
     /*font-weight: bold;*/
     letter-spacing: 2px;
 }
+label{
+    font-size: 16px;
+}
+.btn{
+    font-size: 16px;
 
-#slider{
-	/*position: left;*/
-	margin:7px auto;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-    border-radius: 10px;
 }
-#slider .bar{
-	-webkit-appearance: slider-vertical; 
-	writing-mode: bt-lr;
+.btn.focus, .btn:focus, .btn::hover{
+    color: #F9B597;
+
 }
-input[type=range]::-webkit-slider-runnable-track {
-  width: 8.4px;
-  height: 100%;
-  cursor: pointer;
-  background: #FCDACB;
-  border: 1px solid #010101;
-  border-radius: 16.4px;
+#low{
+      display: block;
+    float:left;
 }
+#high{
+    display: block;
+    float:right;
+}
+
+/*css for waist slider*/
+
+input[type=range] {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 55%; 
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 0 auto;/* Specific width is required for Firefox. */
+}
+
 input[type=range]::-webkit-slider-thumb {
-  height: 36px;
-  width: 16px;
+  -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+  background: transparent; /* Hides the slider so custom styles can be added */
+  border-color: transparent;
+  color: transparent;
+}
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid #999;
+  height: 20px;
+  width: 20px;
+  border-radius: 0 50% 50% 50%;
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  background: #FCDACB;
+  cursor: pointer;
+  margin-top: -7px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb {
+  border: 1px solid #999;
+  height: 20px;
+  width: 20px;
+  border-radius: 0 50% 50% 50%;
+  -webkit-transform: rotate(45deg);
   background: #FCDACB;
   cursor: pointer;
 }
+
+/* All the same stuff for IE */
+input[type=range]::-ms-thumb {
+  border: 1px solid #999;
+  height: 20px;
+  width: 20px;
+  border-radius: 0 50% 50% 50%;
+  -webkit-transform: rotate(45deg);
+  background: #FCDACB;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  background: #AAA;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  background: #AAA;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 3px;
+  cursor: pointer;
+  background: #AAA;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+/*input[type=range]::-ms-fill-lower {
+  background: #2a6495;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #3071a9;
+}
+input[type=range]::-ms-fill-upper {
+  background: #3071a9;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #367ebd;
+}*/
+
 
 .font{
     text-align: right;
@@ -303,6 +407,7 @@ input[type=range]::-webkit-slider-thumb {
 
 #description{
     display:inline-block;
+    font-size: 16px;
     opacity: 1;
     background: rgba(255, 255, 255, 0.7);
     margin:7px;
@@ -335,4 +440,8 @@ input[type=range]::-webkit-slider-thumb {
 }
 .summary{
     letter-spacing: 1px;
+}
+#added{
+    text-align: center;
+
 }

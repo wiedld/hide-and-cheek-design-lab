@@ -25,15 +25,22 @@
 			<li id ="thread" class="list-group-item"> <b class="summary">THREAD COLOR : </b> </li>
 			<li id ="text" class="list-group-item"> <b class="summary">TAG TEXT : </b> </li>
 		</ul>
+		<div id='flash'></div>
 		<div id="added">
-			<!-- <button class="btn-editorial" id="add">
-				<a id="add-shopify" href="https://hide-cheek.myshopify.com/cart/add">add to cart!</a></button> -->
-
-				<button class="add btn-editorial" id="add"> add to cart!</button>
-		</div>
+			<div class="add" data-embed_type="product" data-shop="hide-cheek.myshopify.com" data-product_name="Custom Yoga Pants  #hncbyme" data-product_handle="hncbyme-design-lab" data-has_image="false" data-display_size="compact" data-redirect_to="cart" data-buy_button_text="ADD TO CART ! " data-button_background_color="f9b597" data-button_text_color="ffffff"></div>
+			<script type="text/javascript">
+				document.getElementById('ShopifyEmbedScript') || document.write('<script type="text/javascript" src="https://widgets.shopifyapps.com/assets/widgets/embed/client.js" id="ShopifyEmbedScript"><\/script>');
+			</script>
+			<noscript><a href="https://hide-cheek.myshopify.com/cart/6572253123:1" target="_blank">Buy Custom Yoga Pants  #hncbyme</a></noscript>
 		</div>
 	</div>
 </div>
+</div>
+
+<div data-checkout_button_text="Checkout" data-cart_button_text="Cart" data-button_text_color="ffffff" data-button_background_color="7ae6f0" data-background_color="ffffff" data-text_color="000000" data-accent_color="767676" data-cart_title="Cart" data-sticky="true" data-embed_type="cart" data-shop="hide-cheek.myshopify.com"></div>
+<script type="text/javascript">
+document.getElementById('ShopifyEmbedScript') || document.write('<script type="text/javascript" src="https://widgets.shopifyapps.com/assets/widgets/embed/client.js" id="ShopifyEmbedScript"><\/script>');
+</script>
 
 <script type="text/javascript" src="static/js/jquery-2.1.4.min.js"></script>
 <script src="static/js/bootstrap.min.js"></script>
@@ -90,7 +97,7 @@ $(document).ready( function(){
 	$('.tabs').hide();
 
 
-	$(".add").click(function (evt){
+	$("#added").click(function (evt){
 		console.log(evt);
 		
 		$.ajax({
@@ -99,12 +106,14 @@ $(document).ready( function(){
 		    success: function(resp) {
 		    	console.log(resp.status);
 			      //display message back to user here
-			    $('#added').html("<div id='flash'></div>");
-			    $('#flash').html("<h4> Sweet! Your design has been added to the cart.</h4>").append("<a href='http://www.hide-cheek.com/cart' class='btn-editorial'>CHECK OUT</a><br><h5>or</h5><a class='btn-modal' href='/newDesign'> create new design </a>").hide().fadeIn(1500, function() {
+			    $('#flash').html("<h4> Sweet! Your design has been added to the cart.</h4>").append("<a class='btn-editorial' href='/newDesign'> create new design </a>").hide().fadeIn(1500, function() {
 			  		});
 		    }
 		});
 	});
+
+
+
 
 	$(".add-shopify").click(function (evt){
 		var f = document.createElement('form');

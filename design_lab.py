@@ -231,7 +231,7 @@ def lookbook():
 
 
 
-	our_recent_media, next = api.user_recent_media(user_id="1558910306", count=10)
+	our_recent_media, next = api.user_recent_media(user_id="1558910306", count=60)
 	for media in our_recent_media:
 		print media
 
