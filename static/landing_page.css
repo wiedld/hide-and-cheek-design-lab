@@ -11,7 +11,6 @@ html{
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;
-
 }
 
 body {
@@ -85,7 +84,7 @@ a.btn-editorial {
     display: inline-block;
     text-align: center;
     font-size: 18px;
-    font-weight: 400px;
+    font-weight: 400;
     letter-spacing: 2px;
     text-decoration: none;
     -moz-box-sizing: border-box;
@@ -101,6 +100,8 @@ a.btn-editorial {
 
 }
 .btn-editorial:hover{
+    cursor: pointer;
+    font-weight:600;
     text-decoration: none;
     color:#000000;
     background: rgba(255, 255, 255, 1);

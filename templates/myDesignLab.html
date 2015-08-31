@@ -46,7 +46,6 @@ document.getElementById('ShopifyEmbedScript') || document.write('<script type="t
 <script src="static/js/bootstrap.min.js"></script>
 <script>
 $(document).ready( function(){
-    console.log("ready!");
     ////////GET DATA FROM SERVER////////
 	// loads selections via JSON
 	$.get('/current-design.json', function (current_design) {
@@ -112,34 +111,6 @@ $(document).ready( function(){
 		});
 	});
 
-
-
-
-	$(".add-shopify").click(function (evt){
-		var f = document.createElement('form');
-		f.style.display = 'none';
-		this.parentNode.appendChild(f);
-		f.method = 'POST';
-		f.action = this.href;
-
-		var v = document.createElement('input');
-		v.setAttribute('type', 'hidden');
-		v.setAttribute('name', 'id');
-		v.setAttribute('value', '6572253123');
-
-		f.appendChild(v);
-
-		var r = document.createElement('input');
-		r.setAttribute('type', 'hidden');
-		r.setAttribute('name', 'return_to');
-		r.setAttribute('value', 'https://hide-cheek.myshopify.com/checkout');
-
-		f.appendChild(r);
-
-
-		f.submit();
-		return false;
-	})
 
 });
 

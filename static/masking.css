@@ -48,6 +48,8 @@ h1{
 }
 a:hover{
     color:black;
+    cursor: pointer;
+    font-weight:600;
     text-decoration: none;
 }
 .navbar-brand{
@@ -150,11 +152,11 @@ a:hover{
 }
 .section{
     font-family: 'Abel', sans-serif;
-	text-align: center;
-    font-size: 15px;
-    font-weight: 600;
+	/*text-align: center;*/
+    font-size: 18px;
+    font-weight: 500;
     letter-spacing: 2px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
 }
 .label{
 	color: #000000;
@@ -202,12 +204,12 @@ a:hover{
 
 .btn-editorial:hover{
     background-color: #FCDACB;
-    font-weight: 650px;
+    font-weight: 650;
 }
 
 .btn-editorial.ready{
     background-color: #F9B597;
-    font-weight: 650px;
+    font-weight: 650;
 }
 
 .btn-modal {
@@ -236,6 +238,7 @@ a:hover{
 
 .btn-modal:hover{
     background-color: #FCDACB;
+    font-weight: 500;
 }
 
 .submit{
