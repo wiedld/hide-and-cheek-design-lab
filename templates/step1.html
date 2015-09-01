@@ -94,7 +94,9 @@
 				</div>
 				<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 					<div class="panel-body">
-						<select class="size"name="size"> 	
+						<div class="sizes">
+						<select class="size" name="size"> 
+							<option class="size" value="">Select your size</option>	
 							{% for size in sizes %}
 							<option class="size" value="{{size.size_code}}">{{size.size}}</option>
 							{% endfor %}
@@ -105,7 +107,8 @@
 						<br>
 						<!-- Button to launch sizing help window -->
 						<button class="btn-modal" type="button" data-toggle="modal" data-target="#sizeGuide" id="size-guide"> Custom Sizing</button>
-						
+					</div>
+					<div class="size-error"></div>
 					</div>
 				</div>	
 			</div>
@@ -147,7 +150,6 @@
 
 <script type="text/javascript" src="static/js/jquery-2.1.4.min.js"></script>
 <script src="static/js/bootstrap.min.js"></script>
-<!-- <script src="static/js/bootstrap-switch.min.js"></script> -->
 <script type="text/javascript" src="static/js/Step1.js"></script>
 
 <!--<script> 

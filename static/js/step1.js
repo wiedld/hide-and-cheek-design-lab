@@ -69,7 +69,6 @@ function change_waist (){
 
 		var waist = $('#waist').val();
 		console.log(waist);
-		debugger;
 		var obj = document.getElementById("design-object");
 		var objData = obj.contentDocument;
 		var highWaist = objData.getElementById("highWaist");
@@ -113,27 +112,41 @@ function setUpPage (){
 	});
 			
 	 
-	// // change the button to select waist style
-	$('#waist').change( function(evt){
+	// // slide the cool slidey guy to select waist style
+	$('#waist').mousemove( function(evt){
 		console.log(evt);
 		change_waist();
 	});
 
+	$('.size').on('change', function (evt){
+		$('.sizes').removeClass('nope');
+		$('.form-error').remove();
+	});
+
 	// Form validation 
 	$('#step1-form').on('submit', function(evt){
+
 		var styleSelected = $("input[name='style']:checked").length;
 		if(styleSelected == 0) {
 		   //Is not Valid
 		   evt.preventDefault();
 		   $('.styles').addClass('nope');
 		   $('.style-error').append("<p class='form-error'>please select a style!</p>");
+		};
 
+		var sizeSelected = $(".size").val();
+		console.log("this is the size");
+		console.log(sizeSelected);
+
+		if (sizeSelected === ""){
+			//Is not Valid
+		   evt.preventDefault();
+		   $('.sizes').addClass('nope');
+		   $('.size-error').append("<p class='form-error'>please select your size!</p>");
 		}
 	});
-		
+
 };
-
-
 
 ///////////////LOADS THE PAGE///////////////
 $(document).ready(function(){

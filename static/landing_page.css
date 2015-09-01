@@ -135,4 +135,5 @@ footer {
 #georgia:hover{
     color:#00FFCC;
     font-style: bold;
+    text-decoration: none;
 }

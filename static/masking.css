@@ -388,6 +388,10 @@ input[type=range]:focus::-ms-fill-upper {
 .size{
     font-family: 'Arapey', serif;
 }
+.sizes{
+    margin:5px;
+    padding:5px;
+}
 .social{
    vertical-align: top;
    padding-bottom: 0;
