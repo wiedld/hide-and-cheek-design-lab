@@ -132,6 +132,7 @@ function setUpPage (){
 		   evt.preventDefault();
 		   $('.styles').addClass('nope');
 		   $('.style-error').append("<p class='form-error'>please select a style!</p>");
+		   $('#collapseOne').collapse('show');
 		};
 
 		var sizeSelected = $(".size").val();
@@ -143,6 +144,8 @@ function setUpPage (){
 		   evt.preventDefault();
 		   $('.sizes').addClass('nope');
 		   $('.size-error').append("<p class='form-error'>please select your size!</p>");
+		   $('#collapseTwo').collapse('show');
+		   $('#collapseOne').collapse('hide');
 		}
 	});
 

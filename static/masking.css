@@ -364,23 +364,6 @@ input[type=range]::-ms-track {
   border-radius: 1.3px;
   border: 0.2px solid #010101;
 }
-/*input[type=range]::-ms-fill-lower {
-  background: #2a6495;
-  border: 0.2px solid #010101;
-  border-radius: 2.6px;
-}
-input[type=range]:focus::-ms-fill-lower {
-  background: #3071a9;
-}
-input[type=range]::-ms-fill-upper {
-  background: #3071a9;
-  border: 0.2px solid #010101;
-  border-radius: 2.6px;
-}
-input[type=range]:focus::-ms-fill-upper {
-  background: #367ebd;
-}*/
-
 
 .font{
     text-align: right;
@@ -390,7 +373,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .sizes{
     margin:5px;
-    padding:5px;
+    padding:10px;
 }
 .social{
    vertical-align: top;
@@ -451,4 +434,7 @@ input[type=range]:focus::-ms-fill-upper {
 #added{
     text-align: center;
 
+}
+.optional{
+  font-size: 12px;
 }

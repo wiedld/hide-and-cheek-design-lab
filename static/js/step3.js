@@ -109,6 +109,7 @@ $('#color-form').on('submit', function(evt){
 	   evt.preventDefault();
 	   $('.colors').addClass('nope');
 	   $('.color-error').append("<p id='color-error' class='form-error'>please select a color!</p>");
+	   $("#collapseOne").collapse('show');
 	};
 	//personalization is not required, but all fields must be selected 
 	var customTag = $("input[name='emb-place']:checked").length;
